@@ -1,0 +1,8 @@
+main: cosmetics.Cosmetics
+name: JustCosmetics
+version: 1.0
+author: greenteacups
+api-version: 1.13
+
+commands:
+  cosmetic:
