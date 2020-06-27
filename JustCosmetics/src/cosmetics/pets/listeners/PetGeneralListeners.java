@@ -39,10 +39,10 @@ public class PetGeneralListeners implements Listener {
     // Set Pets invunerable bc setinvun on spawn no work?
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity().getCustomName().contains("'s Pet") 
+        if (event.getEntity().getCustomName() != null && event.getEntity().getCustomName().contains("'s Pet") 
                 && event.getEntity().getCustomName().contains(ChatColor.GOLD + "" + ChatColor.BOLD)) {
             
-            if (event.getCause() == DamageCause.FIRE_TICK) {
+            if (event.getEntity() != null && event.getCause() == DamageCause.FIRE_TICK) {
                 if(event.getEntity() instanceof Zombie) {
                     event.getEntity().setFireTicks(0);;
                 }

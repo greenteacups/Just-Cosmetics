@@ -18,11 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 public class CosmeticGui implements Listener {
     public Inventory inv;
     
-    public String Skull(Player player) {
-        String playername = player.getName();
-        return playername;
-    }
-    
+    // Get player skull
     @SuppressWarnings("deprecation")
     public ItemStack getPlayerHead(String player) {
     
@@ -38,17 +34,22 @@ public class CosmeticGui implements Listener {
         SkullMeta meta = (SkullMeta) playerskull.getItemMeta();
         meta.setOwner(player);
         
+        meta.setDisplayName(ChatColor.GOLD + "" + player);
+        meta.setLore(Arrays.asList("", ChatColor.DARK_PURPLE + "Points:" + ChatColor.WHITE + " 185610",
+                ChatColor.GREEN + "Slime:" + ChatColor.WHITE + " 1300"));
+        
         playerskull.setItemMeta(meta);
         
         return playerskull;
     }
     
-    public void ExampleGui() {
+    public void ExampleGui(Player player) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 45, ChatColor.GOLD + ""  
+        inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
                 + ChatColor.BOLD + "Cosmetics");
-        //inv.getViewers().get(0).sendMessage("Hi");
-        //inv.setItem(40, getPlayerHead(inv.getViewers().get(0).getName()));
+
+        inv.setItem(31, getPlayerHead(player.getName())); // Add player skull to inventory
+        
         // Put the items into the inventory
         initializeItems();
     }
@@ -60,8 +61,7 @@ public class CosmeticGui implements Listener {
         inv.setItem(14, createGuiItem(Material.STICKY_PISTON, ChatColor.GOLD + "Gadgets"));
         inv.setItem(16, createGuiItem(Material.FIREWORK_ROCKET, ChatColor.GOLD + "Particles"));
         
-        //inv.setItem(40, createGuiItem(getPlayerHead(inv.getViewers().get(0).getName()).getType(), "Remove Pet"));
-        inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
+        //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));
     }

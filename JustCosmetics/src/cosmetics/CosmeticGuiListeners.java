@@ -5,12 +5,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import cosmetics.disguises.DisguiseGui;
 import cosmetics.pets.PetGui;
 
 public class CosmeticGuiListeners implements Listener {
 
     public CosmeticGui maingui = Cosmetics.maingui;
     public PetGui petgui = Cosmetics.petgui;
+    public DisguiseGui disguisegui = Cosmetics.disguisegui;
     private Cosmetics plugin;
 
     public CosmeticGuiListeners(Cosmetics b) {
@@ -35,6 +37,12 @@ public class CosmeticGuiListeners implements Listener {
         if (event.getSlot() == 10) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(petgui.inv);
+            });
+        }
+        
+        if (event.getSlot() == 12) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.openInventory(disguisegui.inv);
             });
         }
         
