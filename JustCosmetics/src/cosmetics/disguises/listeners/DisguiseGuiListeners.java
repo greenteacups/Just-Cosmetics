@@ -1,5 +1,6 @@
 package cosmetics.disguises.listeners;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -29,6 +30,8 @@ public class DisguiseGuiListeners implements Listener {
         plugin = b;
     }
     
+    static HashMap<Player, Entity> currentDisguise = new HashMap<>();
+    
     //////
     //Clicking Inside the main Main Gui
     @EventHandler()
@@ -55,6 +58,8 @@ public class DisguiseGuiListeners implements Listener {
         //Go to Sheep Gui
         if (event.getSlot() == 10) {
             
+
+            
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
             
             CowDisguise disguise = new CowDisguise(player.getLocation(), player);
@@ -62,7 +67,13 @@ public class DisguiseGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Disguise"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(disguise);
-            player.hidePlayer(plugin, player);;
+            
+            if (currentDisguise.containsKey(player)) {
+            }
+            else {
+                currentDisguise.put(player, disguise.getBukkitEntity());
+            }
+            //player.hidePlayer(plugin, player);;
         }
         
         // Return to cosmetic window

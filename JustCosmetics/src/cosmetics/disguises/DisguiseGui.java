@@ -24,12 +24,12 @@ public class DisguiseGui implements Listener {
 
     // You can call this whenever you want to put the items in
     public void initializeItems() {
-        inv.setItem(10, createGuiItem(Material.CARROT, ChatColor.GOLD + "Llama", "Spawn Llama!"));
+        inv.setItem(10, createGuiItem(Material.COW_SPAWN_EGG, ChatColor.GOLD + "Cow", "Equip Cow Disguise!"));
 
         
         inv.setItem(39, createGuiItem(Material.ARROW, "Back"));
         inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Disguise"));
-        inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
+        //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));
     }

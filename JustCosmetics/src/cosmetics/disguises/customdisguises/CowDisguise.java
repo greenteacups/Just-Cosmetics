@@ -18,7 +18,7 @@ public class CowDisguise extends EntityCow {
         this.setCustomNameVisible(true);
         this.setInvulnerable(true);
         //this.setHealth(1);
-        //this.setNoAI(true);
+        this.setNoAI(true);
         this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.0D);
         this.setNoGravity(true);
     }
