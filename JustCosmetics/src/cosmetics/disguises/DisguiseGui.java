@@ -25,6 +25,7 @@ public class DisguiseGui implements Listener {
     // You can call this whenever you want to put the items in
     public void initializeItems() {
         inv.setItem(10, createGuiItem(Material.COW_SPAWN_EGG, ChatColor.GOLD + "Cow", "Equip Cow Disguise!"));
+        inv.setItem(11, createGuiItem(Material.SLIME_SPAWN_EGG, ChatColor.GOLD + "Slime", "Equip Slime Disguise!"));
 
         
         inv.setItem(39, createGuiItem(Material.ARROW, "Back"));

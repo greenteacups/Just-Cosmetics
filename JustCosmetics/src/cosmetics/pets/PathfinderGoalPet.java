@@ -2,12 +2,12 @@ package cosmetics.pets;
 
 import java.util.EnumSet;
 
-import net.minecraft.server.v1_15_R1.EntityCreature;
-import net.minecraft.server.v1_15_R1.EntityInsentient;
-import net.minecraft.server.v1_15_R1.EntityLiving;
-import net.minecraft.server.v1_15_R1.PathfinderGoal;
-import net.minecraft.server.v1_15_R1.RandomPositionGenerator;
-import net.minecraft.server.v1_15_R1.Vec3D;
+import net.minecraft.server.v1_16_R1.EntityCreature;
+import net.minecraft.server.v1_16_R1.EntityInsentient;
+import net.minecraft.server.v1_16_R1.EntityLiving;
+import net.minecraft.server.v1_16_R1.PathfinderGoal;
+import net.minecraft.server.v1_16_R1.RandomPositionGenerator;
+import net.minecraft.server.v1_16_R1.Vec3D;
 
 public class PathfinderGoalPet extends PathfinderGoal{
 

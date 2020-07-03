@@ -3,7 +3,7 @@ package cosmetics.pets.listeners;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,9 +37,9 @@ import cosmetics.pets.custompets.TurtlePet;
 import cosmetics.pets.custompets.WitchPet;
 import cosmetics.pets.custompets.WolfPet;
 import cosmetics.pets.custompets.ZombiePet;
-import net.minecraft.server.v1_15_R1.ChatComponentText;
-import net.minecraft.server.v1_15_R1.EnumColor;
-import net.minecraft.server.v1_15_R1.WorldServer;
+import net.minecraft.server.v1_16_R1.ChatComponentText;
+import net.minecraft.server.v1_16_R1.EnumColor;
+import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class PetGuiListeners implements Listener {
 

@@ -1,12 +1,11 @@
 package cosmetics.disguises.customdisguises;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_15_R1.EntityCow;
-import net.minecraft.server.v1_15_R1.EntityTypes;
-import net.minecraft.server.v1_15_R1.GenericAttributes;
+import net.minecraft.server.v1_16_R1.EntityCow;
+import net.minecraft.server.v1_16_R1.EntityTypes;
 
 public class CowDisguise extends EntityCow {
 
@@ -17,10 +16,7 @@ public class CowDisguise extends EntityCow {
         
         this.setCustomNameVisible(true);
         this.setInvulnerable(true);
-        //this.setHealth(1);
         this.setNoAI(true);
-        this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.0D);
-        this.setNoGravity(true);
     }
     
 }

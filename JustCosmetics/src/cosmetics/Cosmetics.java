@@ -1,5 +1,6 @@
 package cosmetics;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -9,6 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
+import cosmetics.gadgets.GadgetGui;
+import cosmetics.gadgets.listeners.GadgetGeneralListeners;
+import cosmetics.gadgets.listeners.GadgetGuiListeners;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
@@ -26,7 +30,11 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static BabySheepColourGUI babycolourgui = new BabySheepColourGUI();
     
     public static DisguiseGui disguisegui = new DisguiseGui();
+    
+    public static GadgetGui gadgetgui = new GadgetGui();
 
+    public static TestRunnable test = new TestRunnable();
+    
     @Override
     public void onEnable() {
         
@@ -34,7 +42,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
         petgui2.ExampleGui(); //Adds main pet gui P2/2
         colourgui.ExampleGui(); //Adds Adult sheep colour select gui
         babycolourgui.ExampleGui(); //Add Baby sheep colour select gui
+        
         disguisegui.ExampleGui();
+        
+        gadgetgui.ExampleGui();
         
         this.getServer().getPluginManager().registerEvents(new CosmeticGuiListeners(this), this); //Main Cosmetic menu listeners
         this.getServer().getPluginManager().registerEvents(new PetGeneralListeners(this), this); //General Pet listeners
@@ -42,6 +53,17 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         this.getServer().getPluginManager().registerEvents(new DisguiseGuiListeners(this), this); //Disguise GUI Listeners
         this.getServer().getPluginManager().registerEvents(new DisguiseGeneralListeners(), this); //General Disguise Listeners
+        
+        this.getServer().getPluginManager().registerEvents(new GadgetGuiListeners(this), this); //General Disguise Listeners
+        this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(), this); //General Disguise Listeners
+        
+        getServer().getScheduler().runTaskTimer(this, () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                test.TestRun(p);
+                test.EntityWiggle(p);
+            }
+        }, 1, 1);
+        
     }
 
     @Override

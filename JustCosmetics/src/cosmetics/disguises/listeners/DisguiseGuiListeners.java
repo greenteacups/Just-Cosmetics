@@ -1,10 +1,9 @@
 package cosmetics.disguises.listeners;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,8 +16,9 @@ import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.customdisguises.CowDisguise;
-import net.minecraft.server.v1_15_R1.ChatComponentText;
-import net.minecraft.server.v1_15_R1.WorldServer;
+import cosmetics.disguises.customdisguises.SlimeDisguise;
+import net.minecraft.server.v1_16_R1.ChatComponentText;
+import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class DisguiseGuiListeners implements Listener {
 
@@ -47,19 +47,13 @@ public class DisguiseGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         // Remove Existing Disguise
-        List<Entity> en = player.getNearbyEntities(30, 30, 30);
-        for (int i = 0; i < en.size(); i++) {
-            if (en.get(i).getCustomName() != null 
-                    && en.get(i).getCustomName().contains(player.getName() + "'s Disguise")) {
-                en.get(i).remove();
-            }
+        if (currentDisguise.containsKey(player)) {
+            currentDisguise.get(player).remove();
+            currentDisguise.remove(player);
         }
         
-        //Go to Sheep Gui
+        //Add Cow Disguise
         if (event.getSlot() == 10) {
-            
-
-            
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
             
             CowDisguise disguise = new CowDisguise(player.getLocation(), player);
@@ -68,12 +62,20 @@ public class DisguiseGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(disguise);
             
-            if (currentDisguise.containsKey(player)) {
-            }
-            else {
-                currentDisguise.put(player, disguise.getBukkitEntity());
-            }
-            //player.hidePlayer(plugin, player);;
+            currentDisguise.put(player, disguise.getBukkitEntity());
+        }
+        
+        //Add Slime Disguise
+        if (event.getSlot() == 11) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
+            
+            SlimeDisguise disguise = new SlimeDisguise(player.getLocation(), player);
+            disguise.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
+                    + ChatColor.BOLD + player.getName() + "'s Disguise"));
+            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+            world.addEntity(disguise);
+            
+            currentDisguise.put(player, disguise.getBukkitEntity());
         }
         
         // Return to cosmetic window
@@ -86,12 +88,12 @@ public class DisguiseGuiListeners implements Listener {
         // Remove Disguise Option
         if (event.getSlot() == 40) {
             player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            for (int i = 0; i < en.size(); i++) {
-                if (en.get(i).getCustomName() != null 
-                        && en.get(i).getCustomName().contains(player.getName() + "'s Disguise")) {
-                    en.get(i).remove();
-                }
+            
+            if (currentDisguise.containsKey(player)) {
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
             }
+
         }
         
         player.closeInventory();
