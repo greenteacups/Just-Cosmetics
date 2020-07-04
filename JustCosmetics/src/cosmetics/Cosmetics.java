@@ -1,8 +1,12 @@
 package cosmetics;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +15,7 @@ import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
 import cosmetics.gadgets.GadgetGui;
+import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
 import cosmetics.pets.BabySheepColourGUI;
@@ -34,6 +39,11 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static GadgetGui gadgetgui = new GadgetGui();
 
     public static TestRunnable test = new TestRunnable();
+    public static GadgetRunnables shellspin = new GadgetRunnables();
+    
+    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
+    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
+    public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
     
     @Override
     public void onEnable() {
@@ -55,12 +65,12 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(new DisguiseGeneralListeners(), this); //General Disguise Listeners
         
         this.getServer().getPluginManager().registerEvents(new GadgetGuiListeners(this), this); //General Disguise Listeners
-        this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(), this); //General Disguise Listeners
+        this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(this), this); //General Disguise Listeners
         
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
-                test.TestRun(p);
-                test.EntityWiggle(p);
+                //test.TestRun(p);
+                shellspin.ShellSpinning(p);
             }
         }, 1, 1);
         
@@ -68,6 +78,33 @@ public class Cosmetics extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
+        
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            
+            // Remove player Disguises
+            if (currentDisguise.containsKey(player)) {
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            // Remove Turtle Gadget
+            if (shellMap.containsKey(player)) {
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            // Remove Parrot Gadget
+            if (parrotMap.containsKey(player)) {
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+        }
+        
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

@@ -15,6 +15,8 @@ import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.items.JumpStick;
+import cosmetics.gadgets.items.ParrotSpawn;
+import cosmetics.gadgets.items.ShellShooter;
 import cosmetics.gadgets.items.TurtleSpawn;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
@@ -29,6 +31,7 @@ public class GadgetGuiListeners implements Listener {
     }
     
     public static HashMap<Player, List<Entity>> shellMap = new HashMap<>();
+    public static HashMap<Player, List<Entity>> parrotMap = new HashMap<>();
     
     //////
     //Clicking Inside the main Main Gui
@@ -71,7 +74,37 @@ public class GadgetGuiListeners implements Listener {
             shellList.add(shell2.getBukkitEntity());
             shellList.add(shell3.getBukkitEntity());
             
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             shellMap.put(player, shellList);
+            }, 1);
+            
+            ShellShooter shellshooter = new ShellShooter();
+            player.getInventory().setItem(8, shellshooter.getItem());
+        }
+        
+        //Add Dazed Gadget
+        if (event.getSlot() == 12) {
+            
+            List<Entity> parrotList = new ArrayList<>();
+            
+            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+            
+            ParrotSpawn parrot1 = new ParrotSpawn(player.getLocation().add(0, 1.7, -0.8), player);
+            ParrotSpawn parrot2 = new ParrotSpawn(player.getLocation().add(0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
+            ParrotSpawn parrot3 = new ParrotSpawn(player.getLocation().add(-0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
+            
+            world.addEntity(parrot1);
+            world.addEntity(parrot2);
+            world.addEntity(parrot3);
+            
+            parrotList.add(parrot1.getBukkitEntity());
+            parrotList.add(parrot2.getBukkitEntity());
+            parrotList.add(parrot3.getBukkitEntity());
+            
+            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            parrotMap.put(player, parrotList);
+            }, 1);
+            
         }
          
         // Return to cosmetic window
@@ -81,13 +114,48 @@ public class GadgetGuiListeners implements Listener {
             });
         }
         
-        // Remove Disguise Option
+        // Remove Gadget Option
         if (event.getSlot() == 40) {
-
+            
+            player.getInventory().setItem(8, null);
+            
+            // Remove Turtles
+            if (shellMap.containsKey(player)) {
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            // Remove Parrot Gadget
+            if (parrotMap.containsKey(player)) {
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
         }
         
         player.closeInventory();
     }
     
+    
 
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
 }
+
+
+
+
+

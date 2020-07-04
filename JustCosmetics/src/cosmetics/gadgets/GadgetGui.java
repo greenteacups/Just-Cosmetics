@@ -26,6 +26,7 @@ public class GadgetGui implements Listener {
     public void initializeItems() {
         inv.setItem(10, createGuiItem(Material.STICK, ChatColor.GOLD + "Jump Stick", "Equip to Jump!"));
         inv.setItem(11, createGuiItem(Material.TURTLE_HELMET, ChatColor.GOLD + "Green Shells", "Destroy your Enemies!"));
+        inv.setItem(12, createGuiItem(Material.NETHER_STAR, ChatColor.GOLD + "Dazed", "I think you've been hit on the head?"));
 
         
         inv.setItem(39, createGuiItem(Material.ARROW, "Back"));

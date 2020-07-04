@@ -30,7 +30,7 @@ public class DisguiseGuiListeners implements Listener {
         plugin = b;
     }
     
-    static HashMap<Player, Entity> currentDisguise = new HashMap<>();
+    public static HashMap<Player, Entity> currentDisguise = new HashMap<>();
     
     //////
     //Clicking Inside the main Main Gui
