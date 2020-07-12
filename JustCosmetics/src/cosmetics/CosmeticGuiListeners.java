@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.gadgets.GadgetGui;
+import cosmetics.particles.ParticleTypeGui;
 import cosmetics.pets.PetGui;
 
 public class CosmeticGuiListeners implements Listener {
@@ -15,6 +16,7 @@ public class CosmeticGuiListeners implements Listener {
     public PetGui petgui = Cosmetics.petgui;
     public DisguiseGui disguisegui = Cosmetics.disguisegui;
     public GadgetGui gadgetgui = Cosmetics.gadgetgui;
+    public ParticleTypeGui particletypegui = Cosmetics.particletypegui;
     private Cosmetics plugin;
 
     public CosmeticGuiListeners(Cosmetics b) {
@@ -35,7 +37,6 @@ public class CosmeticGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        //Go to Sheep Gui
         if (event.getSlot() == 10) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(petgui.inv);
@@ -53,6 +54,13 @@ public class CosmeticGuiListeners implements Listener {
                 player.openInventory(gadgetgui.inv);
             });
         }
+        
+        if (event.getSlot() == 16) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.openInventory(particletypegui.inv);
+            });
+        }
+        
         
         player.closeInventory();
     }

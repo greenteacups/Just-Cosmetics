@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
@@ -18,6 +19,11 @@ import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
+import cosmetics.particles.ParticlePatternGui;
+import cosmetics.particles.ParticleRunnable;
+import cosmetics.particles.ParticleTypeGui;
+import cosmetics.particles.ParticleTypeGui2;
+import cosmetics.particles.listeners.ParticleGuiListeners;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
@@ -37,13 +43,21 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static DisguiseGui disguisegui = new DisguiseGui();
     
     public static GadgetGui gadgetgui = new GadgetGui();
+    
+    public static ParticleTypeGui particletypegui = new ParticleTypeGui();
+    public static ParticleTypeGui2 particletypegui2 = new ParticleTypeGui2();
+    public static ParticlePatternGui particlepatterngui = new ParticlePatternGui();
 
     public static TestRunnable test = new TestRunnable();
     public static GadgetRunnables shellspin = new GadgetRunnables();
+    public static ParticleRunnable PlayerRunnable = new ParticleRunnable();
     
     public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
     public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
+    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
+    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
+    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
     @Override
     public void onEnable() {
@@ -57,6 +71,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         gadgetgui.ExampleGui();
         
+        particletypegui.ExampleGui();
+        particletypegui2.ExampleGui();
+        particlepatterngui.ExampleGui();
+        
         this.getServer().getPluginManager().registerEvents(new CosmeticGuiListeners(this), this); //Main Cosmetic menu listeners
         this.getServer().getPluginManager().registerEvents(new PetGeneralListeners(this), this); //General Pet listeners
         this.getServer().getPluginManager().registerEvents(new PetGuiListeners(this), this); //Pet GUI Listeners
@@ -67,12 +85,21 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(new GadgetGuiListeners(this), this); //General Disguise Listeners
         this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(this), this); //General Disguise Listeners
         
+        this.getServer().getPluginManager().registerEvents(new ParticleGuiListeners(this), this); //Particle GUI Listeners
+        
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 //test.TestRun(p);
-                shellspin.ShellSpinning(p);
+                ParticleRunnable.RunParticle(p);
+                shellspin.SpinRunnable(p);
             }
         }, 1, 1);
+        
+        getServer().getScheduler().runTaskTimer(this, () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                ParticleRunnable.RunParticleSlow(p);
+            }
+        }, 1, 40);
         
     }
 
@@ -81,8 +108,15 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         for (Player player : Bukkit.getOnlinePlayers()) {
             
+            // Remove player Pet
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+            
             // Remove player Disguises
             if (currentDisguise.containsKey(player)) {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
                 currentDisguise.get(player).remove();
                 currentDisguise.remove(player);
             }
@@ -101,6 +135,13 @@ public class Cosmetics extends JavaPlugin implements Listener {
                     parrotMap.get(player).get(i).remove();
                 }
                 parrotMap.remove(player);
+            }
+            
+            // Remove AirStrike Gadget
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
             }
             
         }

@@ -17,9 +17,16 @@ public class TestRunnable {
     
     public void TestRun(Player player) {
         
+        double thetanew = System.currentTimeMillis()/100.0 + Math.PI * 2 / 3;
+        
+//        player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
+//                player.getLocation().getX(), player.getLocation().add(0, 2, 0).getY(),
+//                player.getLocation().getZ(), 0);
+        
         player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
-                player.getLocation().getX(), player.getLocation().add(0, 2, 0).getY(),
-                player.getLocation().getZ(), 0);
+                player.getLocation().add(0.5*Math.cos(thetanew), 0, 0).getX(),
+                player.getLocation().add(0, 2, 0).getY(),
+                player.getLocation().add(0, 0, 0.5*Math.sin(thetanew)).getZ(), 0);
         
         return;
     }

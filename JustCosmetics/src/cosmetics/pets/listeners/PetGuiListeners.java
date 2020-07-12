@@ -1,5 +1,6 @@
 package cosmetics.pets.listeners;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -9,9 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
+import cosmetics.disguises.listeners.DisguiseGuiListeners;
+import cosmetics.gadgets.GadgetRunnables;
+import cosmetics.gadgets.listeners.GadgetGuiListeners;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
@@ -54,6 +59,15 @@ public class PetGuiListeners implements Listener {
         plugin = b;
     }
     
+    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
+    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
+    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
+    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
+    public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
+    
+    public static HashMap<Player, Entity> currentPet = new HashMap<>();
+    
+    
     //////
     //Clicking Inside the main Pet Selector GUI Page 1/1
     @EventHandler()
@@ -68,12 +82,39 @@ public class PetGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        // Remove Existing Pet
-        List<Entity> en = player.getNearbyEntities(30, 30, 30);
-        for (int i = 0; i < en.size(); i++) {
-            if (en.get(i).getCustomName() != null 
-                    && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                en.get(i).remove();
+        // Remove Active Cosmetics when selecting new pet
+        if (event.getSlot() < 35) {
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+
+            if (currentDisguise.containsKey(player)) {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            if (shellMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            if (parrotMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
             }
         }
 
@@ -84,6 +125,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Llama
@@ -94,6 +137,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Pig
@@ -103,6 +148,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Pig
@@ -113,6 +160,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Chicken
@@ -122,6 +171,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Chicken
@@ -132,6 +183,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Go to Sheep Gui
@@ -155,6 +208,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Cow
@@ -165,6 +220,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Mooshroom
@@ -174,6 +231,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Fox
@@ -183,6 +242,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Fox
@@ -193,6 +254,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Panda
@@ -202,6 +265,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Panda
@@ -212,6 +277,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Wolf
@@ -221,6 +288,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Wolf
@@ -231,6 +300,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Polar Bear
@@ -240,6 +311,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Polar Bear
@@ -250,6 +323,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setAge(-99999999);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Rabbit
@@ -259,6 +334,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Ocelot
@@ -268,15 +345,16 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            for (int i = 0; i < en.size(); i++) {
-                if (en.get(i).getCustomName() != null 
-                        && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                    en.get(i).remove();
-                }
+            // Remove Existing Disguise
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
             }
         }
         
@@ -311,12 +389,39 @@ public class PetGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        // Remove Existing Pet
-        List<Entity> en = player.getNearbyEntities(30, 30, 30);
-        for (int i = 0; i < en.size(); i++) {
-            if (en.get(i).getCustomName() != null 
-                    && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                en.get(i).remove();
+        // Remove Active Cosmetics when selecting new pet
+        if (event.getSlot() < 35) {
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+            
+            if (currentDisguise.containsKey(player)) {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            if (shellMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            if (parrotMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
             }
         }
         
@@ -327,6 +432,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Bee
@@ -336,6 +443,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Horse
@@ -345,6 +454,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Blaze
@@ -354,6 +465,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Witch
@@ -363,6 +476,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Husk
@@ -372,6 +487,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Husk
@@ -382,6 +499,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setBaby(true);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Zombie
@@ -391,6 +510,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Baby Zombie
@@ -401,6 +522,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setBaby(true);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Snowman
@@ -410,6 +533,8 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Iron Golem
@@ -419,15 +544,16 @@ public class PetGuiListeners implements Listener {
                     + ChatColor.BOLD + player.getName() + "'s Pet"));
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
     
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            for (int i = 0; i < en.size(); i++) {
-                if (en.get(i).getCustomName() != null 
-                        && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                    en.get(i).remove();
-                }
+            // Remove Existing Disguise
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
             }
         }
         
@@ -455,12 +581,39 @@ public class PetGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        // Remove Existing Pet
-        List<Entity> en = player.getNearbyEntities(30, 30, 30);
-        for (int i = 0; i < en.size(); i++) {
-            if (en.get(i).getCustomName() != null 
-                    && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                en.get(i).remove();
+        // Remove Active Cosmetics when selecting new pet
+        if (event.getSlot() < 35) {
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+            
+            if (currentDisguise.containsKey(player)) {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            if (shellMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            if (parrotMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
             }
         }
         
@@ -472,6 +625,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.RED);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Orange Sheep
@@ -482,6 +637,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.ORANGE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Yellow Sheep
@@ -492,6 +649,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.YELLOW);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Green Sheep
@@ -502,6 +661,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.GREEN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Lime Sheep
@@ -512,6 +673,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.LIME);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Blue Sheep
@@ -522,6 +685,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.BLUE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Cyan Sheep
@@ -532,6 +697,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.CYAN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Light Blue Sheep
@@ -542,6 +709,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.LIGHT_BLUE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Purple Sheep
@@ -552,6 +721,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.PURPLE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Magenta Sheep
@@ -562,6 +733,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.MAGENTA);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Pink Sheep
@@ -572,6 +745,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.PINK);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Brown Sheep
@@ -582,6 +757,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.BROWN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Black Sheep
@@ -592,6 +769,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.BLACK);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Gray Sheep
@@ -602,6 +781,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.GRAY);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Light Gray Sheep
@@ -612,6 +793,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.LIGHT_GRAY);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add White Sheep
@@ -622,6 +805,8 @@ public class PetGuiListeners implements Listener {
             WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
             world.addEntity(pet);
             pet.setColor(EnumColor.WHITE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Back Arrow
@@ -633,11 +818,10 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            for (int i = 0; i < en.size(); i++) {
-                if (en.get(i).getCustomName() != null 
-                        && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                    en.get(i).remove();
-                }
+            // Remove Existing Disguise
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
             }
         }
         
@@ -658,12 +842,39 @@ public class PetGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        // Remove Existing Pet
-        List<Entity> en = player.getNearbyEntities(30, 30, 30);
-        for (int i = 0; i < en.size(); i++) {
-            if (en.get(i).getCustomName() != null 
-                    && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                en.get(i).remove();
+        // Remove Active Cosmetics when selecting new pet
+        if (event.getSlot() < 35) {
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+            
+            if (currentDisguise.containsKey(player)) {
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            if (shellMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            if (parrotMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
             }
         }
         
@@ -676,6 +887,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.RED);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Orange Baby Sheep
@@ -687,6 +900,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.ORANGE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Yellow Baby Sheep
@@ -698,6 +913,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.YELLOW);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Green Baby Sheep
@@ -709,6 +926,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.GREEN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Lime Baby Sheep
@@ -720,6 +939,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.LIME);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Blue Baby Sheep
@@ -731,6 +952,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.BLUE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Cyan Baby Sheep
@@ -742,6 +965,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.CYAN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Light Blue Baby Sheep
@@ -753,6 +978,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.LIGHT_BLUE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Purple Baby Sheep
@@ -764,6 +991,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.PURPLE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Magenta Baby Sheep
@@ -775,6 +1004,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.MAGENTA);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Pink Baby Sheep
@@ -786,6 +1017,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.PINK);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Brown Baby Sheep
@@ -797,6 +1030,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.BROWN);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Black Baby Sheep
@@ -808,6 +1043,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.BLACK);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Gray Baby Sheep
@@ -819,6 +1056,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.GRAY);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add Light Gray Baby Sheep
@@ -830,6 +1069,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.LIGHT_GRAY);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Add White Baby Sheep
@@ -841,6 +1082,8 @@ public class PetGuiListeners implements Listener {
             world.addEntity(pet);
             pet.setAge(-99999999);
             pet.setColor(EnumColor.WHITE);
+            
+            currentPet.put(player, pet.getBukkitEntity());
         }
         
         //Back Arrow
@@ -852,11 +1095,10 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            for (int i = 0; i < en.size(); i++) {
-                if (en.get(i).getCustomName() != null 
-                        && en.get(i).getCustomName().contains(player.getName() + "'s Pet")) {
-                    en.get(i).remove();
-                }
+            // Remove Existing Disguise
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
             }
         }
         

@@ -1,6 +1,7 @@
 package cosmetics.disguises.listeners;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
@@ -17,6 +18,9 @@ import cosmetics.Cosmetics;
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.customdisguises.CowDisguise;
 import cosmetics.disguises.customdisguises.SlimeDisguise;
+import cosmetics.gadgets.GadgetRunnables;
+import cosmetics.gadgets.listeners.GadgetGuiListeners;
+import cosmetics.pets.listeners.PetGuiListeners;
 import net.minecraft.server.v1_16_R1.ChatComponentText;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
@@ -29,6 +33,12 @@ public class DisguiseGuiListeners implements Listener {
     public DisguiseGuiListeners(Cosmetics b) {
         plugin = b;
     }
+    
+    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
+    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
+    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
+    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
+    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
     public static HashMap<Player, Entity> currentDisguise = new HashMap<>();
     
@@ -46,10 +56,39 @@ public class DisguiseGuiListeners implements Listener {
         
         Player player = (Player) event.getWhoClicked();
         
-        // Remove Existing Disguise
-        if (currentDisguise.containsKey(player)) {
-            currentDisguise.get(player).remove();
-            currentDisguise.remove(player);
+        // Remove Active Cosmetics when selecting new Disguise
+        if (event.getSlot() < 35) {
+            if (currentDisguise.containsKey(player)) {
+                currentDisguise.get(player).remove();
+                currentDisguise.remove(player);
+            }
+            
+            if (currentPet.containsKey(player)) {
+                currentPet.get(player).remove();
+                currentPet.remove(player);
+            }
+            
+            if (shellMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    shellMap.get(player).get(i).remove();
+                }
+                shellMap.remove(player);
+            }
+            
+            if (parrotMap.containsKey(player)) {
+                player.getInventory().setItem(8, null);
+                for (int i = 0; i <= 2; i++) {
+                    parrotMap.get(player).get(i).remove();
+                }
+                parrotMap.remove(player);
+            }
+            
+            if (airstrike.containsKey(player)) {
+                airturtlelist.get(player).remove();
+                airturtlelist.remove(player);
+                airstrike.remove(player);
+            }
         }
         
         //Add Cow Disguise
