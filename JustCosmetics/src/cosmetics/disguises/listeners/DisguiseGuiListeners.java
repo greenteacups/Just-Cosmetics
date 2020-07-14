@@ -15,6 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
+import cosmetics.RemoveEffects;
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.customdisguises.CowDisguise;
 import cosmetics.disguises.customdisguises.SlimeDisguise;
@@ -33,6 +34,8 @@ public class DisguiseGuiListeners implements Listener {
     public DisguiseGuiListeners(Cosmetics b) {
         plugin = b;
     }
+    
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
     public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
@@ -58,37 +61,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Disguise
         if (event.getSlot() < 35) {
-            if (currentDisguise.containsKey(player)) {
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-            
-            if (shellMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            if (parrotMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         //Add Cow Disguise
@@ -126,13 +99,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Disguise Option
         if (event.getSlot() == 40) {
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            
-            if (currentDisguise.containsKey(player)) {
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-
+            RemoveEffects.ClearEffects(player);
         }
         
         player.closeInventory();

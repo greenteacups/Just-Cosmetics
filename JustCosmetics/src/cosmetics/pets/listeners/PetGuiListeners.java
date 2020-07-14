@@ -1,7 +1,6 @@
 package cosmetics.pets.listeners;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
@@ -10,13 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
-import cosmetics.disguises.listeners.DisguiseGuiListeners;
-import cosmetics.gadgets.GadgetRunnables;
-import cosmetics.gadgets.listeners.GadgetGuiListeners;
+import cosmetics.RemoveEffects;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
@@ -59,11 +55,7 @@ public class PetGuiListeners implements Listener {
         plugin = b;
     }
     
-    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
-    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
-    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
-    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
-    public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();
     
@@ -84,38 +76,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-
-            if (currentDisguise.containsKey(player)) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            if (shellMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            if (parrotMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
 
         //Add Llama
@@ -351,11 +312,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            // Remove Existing Disguise
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         // Return to cosmetic window
@@ -391,38 +348,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-            
-            if (currentDisguise.containsKey(player)) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            if (shellMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            if (parrotMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         //Add Turtle
@@ -550,11 +476,7 @@ public class PetGuiListeners implements Listener {
     
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            // Remove Existing Disguise
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         // Pet Gui Page 2
@@ -583,38 +505,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-            
-            if (currentDisguise.containsKey(player)) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            if (shellMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            if (parrotMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         //Add Red Sheep
@@ -818,11 +709,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            // Remove Existing Disguise
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         player.closeInventory();
@@ -844,38 +731,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-            
-            if (currentDisguise.containsKey(player)) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            if (shellMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            if (parrotMap.containsKey(player)) {
-                player.getInventory().setItem(8, null);
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         //Add Red Baby Sheep
@@ -1095,11 +951,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            // Remove Existing Disguise
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         player.closeInventory();

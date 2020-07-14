@@ -1,5 +1,6 @@
 package cosmetics.gadgets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class GadgetRunnables {
     
     public static HashMap<Player, Long> airstrike = GadgetGeneralListeners.airstrike;
     public static HashMap<Player, Entity> airturtlelist = new HashMap<>();
+    public static List<Entity> tntList = new ArrayList<>();
     
     //Shell Spinning
     public void SpinRunnable(Player player) {
@@ -61,7 +63,7 @@ public class GadgetRunnables {
      
      //Air Strike
      if (airstrike.containsKey(player)) {
-         
+
          if (System.currentTimeMillis()/50 - airstrike.get(player) == 1) {
              player.sendMessage(ChatColor.DARK_GREEN + "Air Strike Confirmed");
          }
@@ -116,8 +118,8 @@ public class GadgetRunnables {
  
          if (System.currentTimeMillis()/50 - airstrike.get(player) == 190) {
              Entity tnt = player.getWorld().spawn(airturtlelist.get(player).getLocation().subtract(0, 1, 0), TNTPrimed.class);
-             ((TNTPrimed)tnt).setFuseTicks(40);
-             
+             ((TNTPrimed)tnt).setFuseTicks(50);
+             tntList.add(tnt);
          }
          
          if (System.currentTimeMillis()/50 - airstrike.get(player) > 250) {

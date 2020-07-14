@@ -13,12 +13,15 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffectType;
+
+import cosmetics.RemoveEffects;
 
 
 public class DisguiseGeneralListeners implements Listener {
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
+    
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     @EventHandler
     public void onMovetest(PlayerMoveEvent event) {
@@ -63,13 +66,7 @@ public class DisguiseGeneralListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        
-        player.removePotionEffect(PotionEffectType.INVISIBILITY);
-        
-        if (currentDisguise.containsKey(player)) {
-            currentDisguise.get(player).remove();
-            currentDisguise.remove(player);
-        }
+        RemoveEffects.ClearEffects(player);
     }
     
 

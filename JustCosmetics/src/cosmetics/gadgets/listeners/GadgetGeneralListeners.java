@@ -10,7 +10,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +19,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import cosmetics.Cosmetics;
+import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.TurtleSpawn;
 import net.minecraft.server.v1_16_R1.WorldServer;
@@ -32,6 +32,8 @@ public class GadgetGeneralListeners implements Listener {
         plugin = b;
     }
     
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    
     public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
     public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
     
@@ -39,6 +41,7 @@ public class GadgetGeneralListeners implements Listener {
     
     public static HashMap<Player, Long> airstrike = new HashMap<>();
     public static HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
+    public List<Entity> tntList = GadgetRunnables.tntList;
 
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
@@ -143,48 +146,23 @@ public class GadgetGeneralListeners implements Listener {
     @EventHandler
     public void airstrikeTntExplode(EntityExplodeEvent event) {
         if (event.getEntity() != null) {
-            if (airturtlelist.isEmpty() == false) {
-                if (event.getEntityType().equals(EntityType.PRIMED_TNT)) {
-                    
-                    event.getEntity().getWorld().spawnParticle(Particle.EXPLOSION_HUGE,
-                            event.getEntity().getLocation().getX(), event.getEntity().getLocation().getY(),
-                            event.getEntity().getLocation().getZ(), 0);
-                    
-                    event.setCancelled(true);
-                }
+            if (tntList.contains(event.getEntity())) {
+                event.getEntity().getWorld().spawnParticle(Particle.EXPLOSION_HUGE,
+                        event.getEntity().getLocation().getX(), event.getEntity().getLocation().getY(),
+                        event.getEntity().getLocation().getZ(), 0);
+                
+                event.setCancelled(true);
+                
+                tntList.remove(event.getEntity());
             }
         }
-
-
     }
         
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
-        // Remove Turtle Gadget
-        if (shellMap.containsKey(player)) {
-            for (int i = 0; i <= 2; i++) {
-                shellMap.get(player).get(i).remove();
-            }
-            shellMap.remove(player);
-        }
-        
-        // Remove Parrot Gadget
-        if (parrotMap.containsKey(player)) {
-            for (int i = 0; i <= 2; i++) {
-                parrotMap.get(player).get(i).remove();
-            }
-            parrotMap.remove(player);
-        }
-        
-        // Remove AirStrike Gadget
-        if (airstrike.containsKey(player)) {
-            airturtlelist.get(player).remove();
-            airturtlelist.remove(player);
-            airstrike.remove(player);
-        }
+        RemoveEffects.ClearEffects(player);
     }
     
 

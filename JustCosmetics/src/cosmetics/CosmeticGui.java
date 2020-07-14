@@ -16,11 +16,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 
 public class CosmeticGui implements Listener {
+//    private Cosmetics plugin;
     public Inventory inv;
     
     // Get player skull
     @SuppressWarnings("deprecation")
-    public ItemStack getPlayerHead(String player) {
+    public ItemStack getPlayerHead(Player player) {
     
         boolean isNewVersion = Arrays.stream(Material.values())
                 .map(Material::name).collect(Collectors.toList()).contains("PLAYER_HEAD");
@@ -32,10 +33,11 @@ public class CosmeticGui implements Listener {
             playerskull.setDurability((short) 3);
         
         SkullMeta meta = (SkullMeta) playerskull.getItemMeta();
-        meta.setOwner(player);
+        meta.setOwner(player.getName());
         
-        meta.setDisplayName(ChatColor.GOLD + "" + player);
-        meta.setLore(Arrays.asList("", ChatColor.DARK_PURPLE + "Points:" + ChatColor.WHITE + " 185610",
+        meta.setDisplayName(ChatColor.GOLD + "" + player.getName());
+//        int slime = plugin.data.getSlime(player.getUniqueId());
+        meta.setLore(Arrays.asList("", ChatColor.DARK_PURPLE + "Points:" + ChatColor.WHITE + " 10",
                 ChatColor.GREEN + "Slime:" + ChatColor.WHITE + " 1300"));
         
         playerskull.setItemMeta(meta);
@@ -48,7 +50,7 @@ public class CosmeticGui implements Listener {
         inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
                 + ChatColor.BOLD + "Cosmetics");
 
-        inv.setItem(31, getPlayerHead(player.getName())); // Add player skull to inventory
+        inv.setItem(31, getPlayerHead(player)); // Add player skull to inventory
         
         // Put the items into the inventory
         initializeItems();

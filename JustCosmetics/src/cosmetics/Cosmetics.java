@@ -1,16 +1,14 @@
 package cosmetics;
 
-import java.util.HashMap;
-import java.util.List;
+import java.sql.SQLException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
@@ -30,10 +28,18 @@ import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
 import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
+import cosmetics.sql.MySQL;
+import cosmetics.sql.SQLGetter;
+import cosmetics.sql.SQLListeners;
 
 public class Cosmetics extends JavaPlugin implements Listener {
     
+    public MySQL SQL;
+    public SQLGetter data;
+    
     public static CosmeticGui maingui = new CosmeticGui();
+    
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     public static PetGui petgui = new PetGui();
     public static PetGui2 petgui2 = new PetGui2();
@@ -52,15 +58,26 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static GadgetRunnables shellspin = new GadgetRunnables();
     public static ParticleRunnable PlayerRunnable = new ParticleRunnable();
     
-    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
-    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
-    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
-    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
-    public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
-    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
-    
     @Override
     public void onEnable() {
+        
+        this.SQL = new MySQL();
+        this.data = new SQLGetter(this);
+        
+        try {
+            SQL.connect();
+        } catch (ClassNotFoundException | SQLException e) {
+            //e.printStackTrace();
+            // ^ Login info is incorrect or not using a database
+            Bukkit.getLogger().info("Database not connected");
+        }
+        
+        if (SQL.isConnected()) {
+            Bukkit.getLogger().info("Database is connected!");
+            data.createTable();
+            this.getServer().getPluginManager().registerEvents(this, this);
+        }
+    
         
         petgui.ExampleGui(); //Adds main pet gui P1/2
         petgui2.ExampleGui(); //Adds main pet gui P2/2
@@ -74,6 +91,8 @@ public class Cosmetics extends JavaPlugin implements Listener {
         particletypegui.ExampleGui();
         particletypegui2.ExampleGui();
         particlepatterngui.ExampleGui();
+        
+        this.getServer().getPluginManager().registerEvents(new SQLListeners(this), this); //Enable SQL Listeners
         
         this.getServer().getPluginManager().registerEvents(new CosmeticGuiListeners(this), this); //Main Cosmetic menu listeners
         this.getServer().getPluginManager().registerEvents(new PetGeneralListeners(this), this); //General Pet listeners
@@ -106,44 +125,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         
+        SQL.disconnect();
+        
         for (Player player : Bukkit.getOnlinePlayers()) {
-            
-            // Remove player Pet
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
-            
-            // Remove player Disguises
-            if (currentDisguise.containsKey(player)) {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            // Remove Turtle Gadget
-            if (shellMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            // Remove Parrot Gadget
-            if (parrotMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            // Remove AirStrike Gadget
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
-            
+            RemoveEffects.ClearEffects(player);
         }
         
     }
@@ -160,6 +145,29 @@ public class Cosmetics extends JavaPlugin implements Listener {
             
             // open the GUI
             player.openInventory(maingui.inv);
+            return true;
+        }
+        
+        if (label.equalsIgnoreCase("slime")) {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage("Console cannot run this command!");
+                return true;
+            }
+            Player player = (Player) sender;
+
+            if (args.length == 0) {
+                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + data.getSlime(player.getUniqueId()) 
+                    + ChatColor.GOLD + " slime");
+                return true;
+            }
+            
+            if (args[0].equalsIgnoreCase("add")) {
+                data.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
+                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + data.getSlime(player.getUniqueId()) 
+                + ChatColor.GOLD + " slime");
+                return true;
+            }
+            
             return true;
         }
         return false;

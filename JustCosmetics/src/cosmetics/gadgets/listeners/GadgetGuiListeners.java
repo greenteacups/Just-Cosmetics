@@ -13,7 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
-import cosmetics.disguises.listeners.DisguiseGuiListeners;
+import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.AirStrike;
@@ -21,7 +21,6 @@ import cosmetics.gadgets.items.JumpStick;
 import cosmetics.gadgets.items.ParrotSpawn;
 import cosmetics.gadgets.items.ShellShooter;
 import cosmetics.gadgets.items.TurtleSpawn;
-import cosmetics.pets.listeners.PetGuiListeners;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class GadgetGuiListeners implements Listener {
@@ -34,8 +33,7 @@ public class GadgetGuiListeners implements Listener {
         plugin = b;
     }
     
-    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
-    public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
+    public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     public static HashMap<Player, List<Entity>> shellMap = new HashMap<>();
     public static HashMap<Player, List<Entity>> parrotMap = new HashMap<>();
@@ -58,42 +56,7 @@ public class GadgetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Gadget
         if (event.getSlot() < 35) {
-            player.getInventory().setItem(8, null);
-            
-            // Remove Turtles
-            if (shellMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            // Remove Parrot Gadget
-            if (parrotMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
-            
-            // Remove AirStrike Gadget
-            if (airstrike.containsKey(player)) {
-                airturtlelist.get(player).remove();
-                airturtlelist.remove(player);
-                airstrike.remove(player);
-            }
-            
-            // Remove Disguise
-            if (currentDisguise.containsKey(player)) {
-                currentDisguise.get(player).remove();
-                currentDisguise.remove(player);
-            }
-            
-            //Remove Pet
-            if (currentPet.containsKey(player)) {
-                currentPet.get(player).remove();
-                currentPet.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         //Add Jump Stick Gadget
@@ -173,24 +136,7 @@ public class GadgetGuiListeners implements Listener {
         
         // Remove Gadget Option
         if (event.getSlot() == 40) {
-            
-            player.getInventory().setItem(8, null);
-            
-            // Remove Turtles
-            if (shellMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    shellMap.get(player).get(i).remove();
-                }
-                shellMap.remove(player);
-            }
-            
-            // Remove Parrot Gadget
-            if (parrotMap.containsKey(player)) {
-                for (int i = 0; i <= 2; i++) {
-                    parrotMap.get(player).get(i).remove();
-                }
-                parrotMap.remove(player);
-            }
+            RemoveEffects.ClearEffects(player);
         }
         
         player.closeInventory();
