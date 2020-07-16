@@ -3,13 +3,19 @@ package cosmetics.gadgets.listeners;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +23,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
@@ -118,6 +125,45 @@ public class GadgetGeneralListeners implements Listener {
                         airstrike.put(player, System.currentTimeMillis()/50);
                     }
                     
+                }
+
+            }   
+        }
+        
+        // Firework Gadget
+        if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
+            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Firework Gadget")) {
+                if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                    Random random = new Random();
+                    
+                    Color[] fwcolor = new Color[] {Color.AQUA,
+                                                    Color.BLUE,
+                                                    Color.FUCHSIA,
+                                                    Color.GREEN,
+                                                    Color.LIME,
+                                                    Color.MAROON,
+                                                    Color.ORANGE,
+                                                    Color.PURPLE,
+                                                    Color.RED,
+                                                    Color.TEAL,
+                                                    Color.YELLOW};
+                    
+                    Type[] fwtype = new Type[] {Type.BALL,
+                                                Type.BALL_LARGE,
+                                                Type.BURST,
+                                                Type.CREEPER,
+                                                Type.STAR}; 
+                    
+
+                    Firework fw = (Firework) player.getLocation().getWorld().spawnEntity(player.getLocation(), EntityType.FIREWORK);
+                    FireworkMeta fwm = fw.getFireworkMeta();
+                    
+                    fwm.setPower(2);
+                    fwm.addEffect(FireworkEffect.builder().withColor(fwcolor[random.nextInt(fwcolor.length)])
+                            .flicker(true).with(fwtype[random.nextInt(fwtype.length)]).build());
+                    
+                    fw.setFireworkMeta(fwm);
+                    //fw.detonate();
                 }
 
             }   

@@ -13,15 +13,20 @@ import cosmetics.pets.PetGui;
 public class CosmeticGuiListeners implements Listener {
 
     public CosmeticGui maingui = Cosmetics.maingui;
+    
     public PetGui petgui = Cosmetics.petgui;
+    
     public DisguiseGui disguisegui = Cosmetics.disguisegui;
+    
     public GadgetGui gadgetgui = Cosmetics.gadgetgui;
+    
     public ParticleTypeGui particletypegui = Cosmetics.particletypegui;
+    
     private Cosmetics plugin;
-
     public CosmeticGuiListeners(Cosmetics b) {
         plugin = b;
     }
+    
     
     //////
     //Clicking Inside the main Main Gui
@@ -38,24 +43,28 @@ public class CosmeticGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
+            petgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(petgui.inv);
             });
         }
         
         if (event.getSlot() == 12) {
+            disguisegui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(disguisegui.inv);
             });
         }
         
         if (event.getSlot() == 14) {
+            gadgetgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(gadgetgui.inv);
             });
         }
         
         if (event.getSlot() == 16) {
+            particletypegui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(particletypegui.inv);
             });

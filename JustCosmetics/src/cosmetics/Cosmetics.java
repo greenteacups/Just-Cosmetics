@@ -1,6 +1,7 @@
 package cosmetics;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,30 +30,37 @@ import cosmetics.pets.SheepColourGUI;
 import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
-import cosmetics.sql.SQLGetter;
+import cosmetics.sql.SQLGetterCosmetics;
+import cosmetics.sql.SQLGetterSlime;
 import cosmetics.sql.SQLListeners;
 
 public class Cosmetics extends JavaPlugin implements Listener {
     
     public MySQL SQL;
-    public SQLGetter data;
+    public SQLGetterSlime dataSlime;
+    public SQLGetterCosmetics dataCosmetics;
     
     public static CosmeticGui maingui = new CosmeticGui();
     
     public static RemoveEffects RemoveEffects = new RemoveEffects();
     
-    public static PetGui petgui = new PetGui();
-    public static PetGui2 petgui2 = new PetGui2();
-    public static SheepColourGUI colourgui = new SheepColourGUI();
-    public static BabySheepColourGUI babycolourgui = new BabySheepColourGUI();
+    public static PurchaseGui purchasegui = new PurchaseGui();
+    public static PurchaseConstructor PurchaseConstructor;
+    public static HashMap<Player, String> purchaseItem = new HashMap<>();
+    public static HashMap<Player, Integer> purchasePrice = new HashMap<>();
     
-    public static DisguiseGui disguisegui = new DisguiseGui();
+    public static PetGui petgui;
+    public static PetGui2 petgui2;
+    public static SheepColourGUI colourgui;
+    public static BabySheepColourGUI babycolourgui;
     
-    public static GadgetGui gadgetgui = new GadgetGui();
+    public static DisguiseGui disguisegui;
     
-    public static ParticleTypeGui particletypegui = new ParticleTypeGui();
-    public static ParticleTypeGui2 particletypegui2 = new ParticleTypeGui2();
-    public static ParticlePatternGui particlepatterngui = new ParticlePatternGui();
+    public static GadgetGui gadgetgui;
+    
+    public static ParticleTypeGui particletypegui;
+    public static ParticleTypeGui2 particletypegui2;
+    public static ParticlePatternGui particlepatterngui;
 
     public static TestRunnable test = new TestRunnable();
     public static GadgetRunnables shellspin = new GadgetRunnables();
@@ -62,7 +70,8 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public void onEnable() {
         
         this.SQL = new MySQL();
-        this.data = new SQLGetter(this);
+        this.dataSlime = new SQLGetterSlime(this);
+        this.dataCosmetics = new SQLGetterCosmetics(this);
         
         try {
             SQL.connect();
@@ -74,23 +83,25 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         if (SQL.isConnected()) {
             Bukkit.getLogger().info("Database is connected!");
-            data.createTable();
+            dataSlime.createTable();
+            dataCosmetics.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
     
+        PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
         
-        petgui.ExampleGui(); //Adds main pet gui P1/2
-        petgui2.ExampleGui(); //Adds main pet gui P2/2
-        colourgui.ExampleGui(); //Adds Adult sheep colour select gui
-        babycolourgui.ExampleGui(); //Add Baby sheep colour select gui
+        petgui = new PetGui(this); //Adds main pet gui P1/2
+        petgui2 = new PetGui2(this); //Adds main pet gui P2/2
+        colourgui = new SheepColourGUI(this); //Adds Adult sheep colour select gui
+        babycolourgui = new BabySheepColourGUI(this); //Add Baby sheep colour select gui
         
-        disguisegui.ExampleGui();
+        disguisegui = new DisguiseGui(this);
         
-        gadgetgui.ExampleGui();
+        gadgetgui = new GadgetGui(this);
         
-        particletypegui.ExampleGui();
-        particletypegui2.ExampleGui();
-        particlepatterngui.ExampleGui();
+        particletypegui = new ParticleTypeGui(this);
+        particletypegui2 = new ParticleTypeGui2(this);
+        particlepatterngui = new ParticlePatternGui(this);
         
         this.getServer().getPluginManager().registerEvents(new SQLListeners(this), this); //Enable SQL Listeners
         
@@ -105,6 +116,8 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(this), this); //General Disguise Listeners
         
         this.getServer().getPluginManager().registerEvents(new ParticleGuiListeners(this), this); //Particle GUI Listeners
+        
+        this.getServer().getPluginManager().registerEvents(new PurchaseGuiListeners(this), this); //Purchase Gui Listeners
         
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -156,20 +169,21 @@ public class Cosmetics extends JavaPlugin implements Listener {
             Player player = (Player) sender;
 
             if (args.length == 0) {
-                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + data.getSlime(player.getUniqueId()) 
-                    + ChatColor.GOLD + " slime");
+                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
+                    + ChatColor.GOLD + " Slime");
                 return true;
             }
             
             if (args[0].equalsIgnoreCase("add")) {
-                data.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
-                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + data.getSlime(player.getUniqueId()) 
-                + ChatColor.GOLD + " slime");
+                dataSlime.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
+                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
+                + ChatColor.GOLD + " Slime");
                 return true;
             }
             
             return true;
         }
+
         return false;
     }
     

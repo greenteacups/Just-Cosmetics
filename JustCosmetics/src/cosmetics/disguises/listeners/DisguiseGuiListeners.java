@@ -1,11 +1,11 @@
 package cosmetics.disguises.listeners;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,20 +15,21 @@ import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
+import cosmetics.PurchaseConstructor;
+import cosmetics.PurchaseGui;
 import cosmetics.RemoveEffects;
 import cosmetics.disguises.DisguiseGui;
-import cosmetics.disguises.customdisguises.CowDisguise;
-import cosmetics.disguises.customdisguises.SlimeDisguise;
-import cosmetics.gadgets.GadgetRunnables;
-import cosmetics.gadgets.listeners.GadgetGuiListeners;
-import cosmetics.pets.listeners.PetGuiListeners;
-import net.minecraft.server.v1_16_R1.ChatComponentText;
-import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class DisguiseGuiListeners implements Listener {
 
     public CosmeticGui maingui = Cosmetics.maingui;
     public DisguiseGui disguisegui = Cosmetics.disguisegui;
+    
+    public PurchaseGui purchasegui = Cosmetics.purchasegui;
+    public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
+    public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
+    public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
+    
     private Cosmetics plugin;
 
     public DisguiseGuiListeners(Cosmetics b) {
@@ -37,18 +38,37 @@ public class DisguiseGuiListeners implements Listener {
     
     public static RemoveEffects RemoveEffects = new RemoveEffects();
     
-    public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
-    public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
-    public HashMap<Player, Long> airstrike = GadgetRunnables.airstrike;
-    public HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
-    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
-    
     public static HashMap<Player, Entity> currentDisguise = new HashMap<>();
+    
+    //Disguise Constructor
+    public void DisguiseConstructor(Player player, EntityType entity) {
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
+        
+        LivingEntity ent = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entity);
+        ent.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Disguise");
+        ent.setCustomNameVisible(true);
+        ent.setAI(false);
+        
+        currentDisguise.put(player, ent);
+    }
+    
+    //Disguise Equipper
+    public void DisguiseEquip(Player player, EntityType entity, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            DisguiseConstructor(player, entity);
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
+    
     
     //////
     //Clicking Inside the main Main Gui
     @EventHandler()
-    public void onPetGuiClick(InventoryClickEvent event) {
+    public void onDisguiseGuiClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(disguisegui.inv))
             return;
         if (event.getCurrentItem() == null) return;
@@ -66,28 +86,22 @@ public class DisguiseGuiListeners implements Listener {
         
         //Add Cow Disguise
         if (event.getSlot() == 10) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
-            
-            CowDisguise disguise = new CowDisguise(player.getLocation(), player);
-            disguise.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                    + ChatColor.BOLD + player.getName() + "'s Disguise"));
-            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-            world.addEntity(disguise);
-            
-            currentDisguise.put(player, disguise.getBukkitEntity());
+            DisguiseEquip(player, EntityType.COW, 100, "Cow Disguise");
         }
         
         //Add Slime Disguise
         if (event.getSlot() == 11) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999999, 1, true, true));
-            
-            SlimeDisguise disguise = new SlimeDisguise(player.getLocation(), player);
-            disguise.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                    + ChatColor.BOLD + player.getName() + "'s Disguise"));
-            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-            world.addEntity(disguise);
-            
-            currentDisguise.put(player, disguise.getBukkitEntity());
+            DisguiseEquip(player, EntityType.SLIME, 100, "Slime Disguise");
+        }
+        
+        //Add Pig Disguise
+        if (event.getSlot() == 12) {
+            DisguiseEquip(player, EntityType.PIG, 100, "Pig Disguise");
+        }
+        
+        //Add Chicken Disguise
+        if (event.getSlot() == 13) {
+            DisguiseEquip(player, EntityType.CHICKEN, 100, "Chicken Disguise");
         }
         
         // Return to cosmetic window

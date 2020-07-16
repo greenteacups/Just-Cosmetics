@@ -23,8 +23,27 @@ public class RemoveEffects {
             PetGuiListeners.currentPet.remove(player);
         }
         
+        if (player.getInventory().getItem(8) != null && 
+                player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Jump Stick")) {
+            player.getInventory().clear(8);
+        }
+        
+        if (player.getInventory().getItem(8) != null && 
+                player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Green Shell Gun")) {
+            player.getInventory().clear(8);
+        }
+        
+        if (player.getInventory().getItem(8) != null && 
+                player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Air Strike")) {
+            player.getInventory().clear(8);
+        }
+        
+        if (player.getInventory().getItem(8) != null && 
+                player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Firework Gadget")) {
+            player.getInventory().clear(8);
+        }
+        
         if (GadgetGuiListeners.shellMap.containsKey(player)) {
-            player.getInventory().setItem(8, null);
             for (int i = 0; i <= 2; i++) {
                 GadgetGuiListeners.shellMap.get(player).get(i).remove();
             }
@@ -32,7 +51,6 @@ public class RemoveEffects {
         }
         
         if (GadgetGuiListeners.parrotMap.containsKey(player)) {
-            player.getInventory().setItem(8, null);
             for (int i = 0; i <= 2; i++) {
                 GadgetGuiListeners.parrotMap.get(player).get(i).remove();
             }

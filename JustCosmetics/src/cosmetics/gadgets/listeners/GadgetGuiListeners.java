@@ -13,10 +13,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
+import cosmetics.PurchaseConstructor;
+import cosmetics.PurchaseGui;
 import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.AirStrike;
+import cosmetics.gadgets.items.FireworkSpawn;
 import cosmetics.gadgets.items.JumpStick;
 import cosmetics.gadgets.items.ParrotSpawn;
 import cosmetics.gadgets.items.ShellShooter;
@@ -27,8 +30,13 @@ public class GadgetGuiListeners implements Listener {
 
     public CosmeticGui maingui = Cosmetics.maingui;
     public GadgetGui gadgetgui = Cosmetics.gadgetgui;
+    
+    public PurchaseGui purchasegui = Cosmetics.purchasegui;
+    public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
+    public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
+    public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
+    
     private Cosmetics plugin;
-
     public GadgetGuiListeners(Cosmetics b) {
         plugin = b;
     }
@@ -43,7 +51,7 @@ public class GadgetGuiListeners implements Listener {
     //////
     //Clicking Inside the main Main Gui
     @EventHandler()
-    public void onPetGuiClick(InventoryClickEvent event) {
+    public void onGadgetGuiClick(InventoryClickEvent event) {
         if (!event.getInventory().equals(gadgetgui.inv))
             return;
         if (event.getCurrentItem() == null) return;
@@ -61,70 +69,116 @@ public class GadgetGuiListeners implements Listener {
         
         //Add Jump Stick Gadget
         if (event.getSlot() == 10) {
-            
-            JumpStick jumpstick = new JumpStick();
-            
-            player.getInventory().setItem(8, jumpstick.getItem());
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Jump Stick")) {
+                if (player.getInventory().getItem(8) == null) {
+                    JumpStick jumpstick = new JumpStick();
+                    player.getInventory().setItem(8, jumpstick.getItem());
+                }
+            }
+            else {
+                purchaseItem.put(player, "Jump Stick"); //Input Name
+                purchasePrice.put(player, 100); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
         }
         
         //Add Shell Gadget
         if (event.getSlot() == 11) {
-            
-            List<Entity> shellList = new ArrayList<>();
-            
-            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-            
-            TurtleSpawn shell1 = new TurtleSpawn(player.getLocation().add(0, 0, -2), player);
-            TurtleSpawn shell2 = new TurtleSpawn(player.getLocation().add(2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
-            TurtleSpawn shell3 = new TurtleSpawn(player.getLocation().add(-2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
-            
-            world.addEntity(shell1);
-            world.addEntity(shell2);
-            world.addEntity(shell3);
-            
-            shellList.add(shell1.getBukkitEntity());
-            shellList.add(shell2.getBukkitEntity());
-            shellList.add(shell3.getBukkitEntity());
-            
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            shellMap.put(player, shellList);
-            }, 1);
-            
-            ShellShooter shellshooter = new ShellShooter();
-            player.getInventory().setItem(8, shellshooter.getItem());
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Green Shells")) {
+                List<Entity> shellList = new ArrayList<>();
+                
+                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+                
+                TurtleSpawn shell1 = new TurtleSpawn(player.getLocation().add(0, 0, -2), player);
+                TurtleSpawn shell2 = new TurtleSpawn(player.getLocation().add(2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
+                TurtleSpawn shell3 = new TurtleSpawn(player.getLocation().add(-2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
+                
+                world.addEntity(shell1);
+                world.addEntity(shell2);
+                world.addEntity(shell3);
+                
+                shellList.add(shell1.getBukkitEntity());
+                shellList.add(shell2.getBukkitEntity());
+                shellList.add(shell3.getBukkitEntity());
+                
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                shellMap.put(player, shellList);
+                }, 1);
+                
+                if (player.getInventory().getItem(8) == null) {
+                    ShellShooter shellshooter = new ShellShooter();
+                    player.getInventory().setItem(8, shellshooter.getItem());
+                }
+
+            }
+            else {
+                purchaseItem.put(player, "Green Shells"); //Input Name
+                purchasePrice.put(player, 500); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
         }
         
         //Add Dazed Gadget
         if (event.getSlot() == 12) {
-            
-            List<Entity> parrotList = new ArrayList<>();
-            
-            WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-            
-            ParrotSpawn parrot1 = new ParrotSpawn(player.getLocation().add(0, 1.7, -0.8), player);
-            ParrotSpawn parrot2 = new ParrotSpawn(player.getLocation().add(0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
-            ParrotSpawn parrot3 = new ParrotSpawn(player.getLocation().add(-0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
-            
-            world.addEntity(parrot1);
-            world.addEntity(parrot2);
-            world.addEntity(parrot3);
-            
-            parrotList.add(parrot1.getBukkitEntity());
-            parrotList.add(parrot2.getBukkitEntity());
-            parrotList.add(parrot3.getBukkitEntity());
-            
-            plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            parrotMap.put(player, parrotList);
-            }, 1);
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Dazed")) {
+                List<Entity> parrotList = new ArrayList<>();
+                
+                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+                
+                ParrotSpawn parrot1 = new ParrotSpawn(player.getLocation().add(0, 1.7, -0.8), player);
+                ParrotSpawn parrot2 = new ParrotSpawn(player.getLocation().add(0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
+                ParrotSpawn parrot3 = new ParrotSpawn(player.getLocation().add(-0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
+                
+                world.addEntity(parrot1);
+                world.addEntity(parrot2);
+                world.addEntity(parrot3);
+                
+                parrotList.add(parrot1.getBukkitEntity());
+                parrotList.add(parrot2.getBukkitEntity());
+                parrotList.add(parrot3.getBukkitEntity());
+                
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                parrotMap.put(player, parrotList);
+                }, 1);
+            }
+            else {
+                purchaseItem.put(player, "Dazed"); //Input Name
+                purchasePrice.put(player, 200); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
             
         }
         
         //Add Air Strike Gadget
         if (event.getSlot() == 13) {
-            
-            AirStrike airstrike = new AirStrike();
-            
-            player.getInventory().setItem(8, airstrike.getItem());
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Air Strike")) {
+                
+                if (player.getInventory().getItem(8) == null) {
+                    AirStrike airstrike = new AirStrike();     
+                    player.getInventory().setItem(8, airstrike.getItem());
+                }
+            }
+            else {
+                purchaseItem.put(player, "Air Strike"); //Input Name
+                purchasePrice.put(player, 500); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
+        }
+        
+        //Add Firework Gadget
+        if (event.getSlot() == 14) {
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Firework Gadget")) {
+                
+                if (player.getInventory().getItem(8) == null) {
+                    FireworkSpawn fireworkSpawn = new FireworkSpawn();     
+                    player.getInventory().setItem(8, fireworkSpawn.getItem());
+                }
+            }
+            else {
+                purchaseItem.put(player, "Firework Gadget"); //Input Name
+                purchasePrice.put(player, 200); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
         }
          
         // Return to cosmetic window
