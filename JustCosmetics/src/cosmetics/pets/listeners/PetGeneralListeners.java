@@ -29,8 +29,8 @@ public class PetGeneralListeners implements Listener {
     public PetGui2 petgui2 = Cosmetics.petgui2;
     public SheepColourGUI colorgui = Cosmetics.colourgui;
     public BabySheepColourGUI babycolorgui = Cosmetics.babycolourgui;
-    private Cosmetics plugin;
     
+    private Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
         plugin = b;
     }
@@ -97,7 +97,7 @@ public class PetGeneralListeners implements Listener {
         }
     }
     
-    // Stop dragging of items out of gui
+    // Stop dragging of items out of pet guis
     @EventHandler
     public void InvClick(InventoryClickEvent event) {
         if(event.getInventory() == petgui.inv) {

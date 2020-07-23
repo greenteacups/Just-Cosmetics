@@ -1,5 +1,6 @@
 package cosmetics;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -70,6 +71,9 @@ public class CosmeticGuiListeners implements Listener {
             });
         }
         
+        if (event.getSlot() == 31) {
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
+        }
         
         player.closeInventory();
     }

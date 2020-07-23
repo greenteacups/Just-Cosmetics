@@ -33,8 +33,7 @@ public class PetGui2 implements Listener {
 
     public void ExampleGui(Player player) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
-                + ChatColor.BOLD + "Pet Selector");
+        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Pet Selector (2/2)");
 
         // Put the items into the inventory
         initializeItems(player);
@@ -43,7 +42,7 @@ public class PetGui2 implements Listener {
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
         GuiConstructor(player, Material.SCUTE, 10, 100, "Turtle Pet", "Shelly");
-        GuiConstructor(player, Material.HONEYCOMB, 11, 100, "Bee Pet", "Bzzzzzz");
+        GuiConstructor(player, Material.GUNPOWDER, 11, 100, "Creeper Pet", "Psssssss");
         GuiConstructor(player, Material.HAY_BLOCK, 12, 100, "Horse Pet", "Kinda like a Donkey");
         GuiConstructor(player, Material.BLAZE_ROD, 13, 100, "Blaze Pet", "Fire Monster");
         GuiConstructor(player, Material.EXPERIENCE_BOTTLE, 14, 100, "Witch Pet", "Potionless");

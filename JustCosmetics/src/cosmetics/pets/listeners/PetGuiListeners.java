@@ -19,10 +19,10 @@ import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
-import cosmetics.pets.custompets.BeePet;
 import cosmetics.pets.custompets.BlazePet;
 import cosmetics.pets.custompets.ChickenPet;
 import cosmetics.pets.custompets.CowPet;
+import cosmetics.pets.custompets.CreeperPet;
 import cosmetics.pets.custompets.FoxPet;
 import cosmetics.pets.custompets.HorsePet;
 import cosmetics.pets.custompets.HuskPet;
@@ -512,10 +512,10 @@ public class PetGuiListeners implements Listener {
             }
         }
         
-        //Add Bee
+        //Add Creeper
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Bee Pet")) {
-                BeePet pet = new BeePet(player.getLocation(), player);
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Creeper Pet")) {
+                CreeperPet pet = new CreeperPet(player.getLocation(), player);
                 pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
                         + ChatColor.BOLD + player.getName() + "'s Pet"));
                 WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
@@ -524,7 +524,7 @@ public class PetGuiListeners implements Listener {
                 currentPet.put(player, pet.getBukkitEntity());
             }
             else {
-                purchaseItem.put(player, "Bee Pet"); //Input Name
+                purchaseItem.put(player, "Creeper Pet"); //Input Name
                 purchasePrice.put(player, 100); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }

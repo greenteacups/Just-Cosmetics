@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cosmetics.disguises.DisguiseGui;
+import cosmetics.disguises.DisguiseGui2;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
 import cosmetics.gadgets.GadgetGui;
@@ -22,6 +23,7 @@ import cosmetics.particles.ParticlePatternGui;
 import cosmetics.particles.ParticleRunnable;
 import cosmetics.particles.ParticleTypeGui;
 import cosmetics.particles.ParticleTypeGui2;
+import cosmetics.particles.listeners.ParticleGeneralListeners;
 import cosmetics.particles.listeners.ParticleGuiListeners;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
@@ -31,16 +33,21 @@ import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
 import cosmetics.sql.SQLGetterCosmetics;
+import cosmetics.sql.SQLGetterParticles;
 import cosmetics.sql.SQLGetterSlime;
 import cosmetics.sql.SQLListeners;
+import cosmetics.trails.TrailsConstructor;
+import cosmetics.trails.TrailsGui;
+import cosmetics.trails.TrailsGuiListeners;
 
 public class Cosmetics extends JavaPlugin implements Listener {
     
     public MySQL SQL;
     public SQLGetterSlime dataSlime;
     public SQLGetterCosmetics dataCosmetics;
+    public SQLGetterParticles dataParticles;
     
-    public static CosmeticGui maingui = new CosmeticGui();
+    public static CosmeticGui maingui;
     
     public static RemoveEffects RemoveEffects = new RemoveEffects();
     
@@ -55,8 +62,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static BabySheepColourGUI babycolourgui;
     
     public static DisguiseGui disguisegui;
+    public static DisguiseGui2 disguisegui2;
     
     public static GadgetGui gadgetgui;
+    public static TrailsGui trailsgui;
     
     public static ParticleTypeGui particletypegui;
     public static ParticleTypeGui2 particletypegui2;
@@ -72,6 +81,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.SQL = new MySQL();
         this.dataSlime = new SQLGetterSlime(this);
         this.dataCosmetics = new SQLGetterCosmetics(this);
+        this.dataParticles = new SQLGetterParticles(this);
         
         try {
             SQL.connect();
@@ -85,10 +95,13 @@ public class Cosmetics extends JavaPlugin implements Listener {
             Bukkit.getLogger().info("Database is connected!");
             dataSlime.createTable();
             dataCosmetics.createTable();
+            dataParticles.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
     
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
+        
+        maingui = new CosmeticGui(this);
         
         petgui = new PetGui(this); //Adds main pet gui P1/2
         petgui2 = new PetGui2(this); //Adds main pet gui P2/2
@@ -96,8 +109,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
         babycolourgui = new BabySheepColourGUI(this); //Add Baby sheep colour select gui
         
         disguisegui = new DisguiseGui(this);
+        disguisegui2 = new DisguiseGui2(this);
         
         gadgetgui = new GadgetGui(this);
+        trailsgui = new TrailsGui(this);
         
         particletypegui = new ParticleTypeGui(this);
         particletypegui2 = new ParticleTypeGui2(this);
@@ -110,14 +125,18 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.getServer().getPluginManager().registerEvents(new PetGuiListeners(this), this); //Pet GUI Listeners
         
         this.getServer().getPluginManager().registerEvents(new DisguiseGuiListeners(this), this); //Disguise GUI Listeners
-        this.getServer().getPluginManager().registerEvents(new DisguiseGeneralListeners(), this); //General Disguise Listeners
+        this.getServer().getPluginManager().registerEvents(new DisguiseGeneralListeners(this), this); //General Disguise Listeners
         
         this.getServer().getPluginManager().registerEvents(new GadgetGuiListeners(this), this); //General Disguise Listeners
         this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(this), this); //General Disguise Listeners
         
         this.getServer().getPluginManager().registerEvents(new ParticleGuiListeners(this), this); //Particle GUI Listeners
+        this.getServer().getPluginManager().registerEvents(new ParticleGeneralListeners(this), this); //Particle General Listeners
         
         this.getServer().getPluginManager().registerEvents(new PurchaseGuiListeners(this), this); //Purchase Gui Listeners
+        
+        this.getServer().getPluginManager().registerEvents(new TrailsGuiListeners(this), this); //
+        this.getServer().getPluginManager().registerEvents(new TrailsConstructor(), this); //
         
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
@@ -174,10 +193,39 @@ public class Cosmetics extends JavaPlugin implements Listener {
                 return true;
             }
             
+            if (args[0].equalsIgnoreCase("balance")) {
+                try { 
+                    if (args.length == 1) {
+                        player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
+                        + ChatColor.GOLD + " Slime");
+                    }
+                    
+                    if (args.length == 2) {
+                        player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[1]).getDisplayName() + " has " 
+                        + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[1]).getUniqueId()) 
+                        + ChatColor.GOLD + " Slime"); 
+                    } 
+                } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime balance <player>"); }
+                
+                return true;
+            }
+            
             if (args[0].equalsIgnoreCase("add")) {
-                dataSlime.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
-                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
-                + ChatColor.GOLD + " Slime");
+                try { 
+                    if (args.length == 2) {
+                        dataSlime.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
+                        player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
+                        + ChatColor.GOLD + " Slime"); 
+                    }
+                    
+                    if (args.length == 3) {
+                        dataSlime.addSlime(Bukkit.getPlayer(args[2]).getUniqueId(), Integer.parseInt(args[1]));
+                        player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[2]).getDisplayName() + " has " 
+                        + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[2]).getUniqueId()) 
+                        + ChatColor.GOLD + " Slime"); 
+                    } 
+                } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime add <amount> <player>"); }
+                
                 return true;
             }
             

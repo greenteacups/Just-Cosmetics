@@ -15,8 +15,10 @@ public class ParticleRunnable  {
     public static void RunParticle(Player player) {
         
         if (currentParticleType.containsKey(player) && currentParticlePattern.containsKey(player)) {
+            //player.sendMessage("" + currentParticlePattern.get(player).equals("Dot"));
             
-            if (currentParticlePattern.get(player) == "Dot") {
+            if (currentParticlePattern.get(player).equals("Dot")) {
+               // player.sendMessage("wiggle");
                 
                 player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                         player.getLocation().getX(),
@@ -24,7 +26,7 @@ public class ParticleRunnable  {
                         player.getLocation().getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Halo") {
+            if (currentParticlePattern.get(player).equals("Halo")) {
                 
                 double thetanew = System.currentTimeMillis()/100.0 + Math.PI * 2 / 3;
                 
@@ -34,7 +36,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, 0.5*Math.sin(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Rings") {
+            if (currentParticlePattern.get(player).equals("Rings")) {
                 
                 double thetanew = System.currentTimeMillis()/200.0 + Math.PI * 2 / 3;
                 
@@ -49,7 +51,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, 1.0*Math.cos(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Sphere") {
+            if (currentParticlePattern.get(player).equals("Sphere")) {
                 
                 for (double j = 0; j <= 1; j = j + 0.33) {
                     for (int i = 0; i < 360; i = i + 30) {
@@ -66,7 +68,7 @@ public class ParticleRunnable  {
                 }
             }
             
-            if (currentParticlePattern.get(player) == "Prism") {
+            if (currentParticlePattern.get(player).equals("Prism")) {
                 
                 for (double j = -0.2; j <= 1.0; j = j + 0.2) {
                     for (int i = 0; i < 360; i = i + 30) {
@@ -83,7 +85,7 @@ public class ParticleRunnable  {
                 }
             }
             
-            if (currentParticlePattern.get(player) == "Swirl Helix") {
+            if (currentParticlePattern.get(player).equals("Swirl Helix")) {
                 
                 double thetanew = System.currentTimeMillis()/250.0 + Math.PI * 2 / 3;
                 
@@ -98,7 +100,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, -Math.sin(thetanew/2 )*Math.sin(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Cube") {
+            if (currentParticlePattern.get(player).equals("Cube")) {
                 
                 int arr[] = {-1, 1};
                 
@@ -129,7 +131,7 @@ public class ParticleRunnable  {
                 }
             }
             
-            if (currentParticlePattern.get(player) == "Chains") {
+            if (currentParticlePattern.get(player).equals("Chains")) {
                 
                 for (double i = 0; i <= 0.8; i = i + 0.1) {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
@@ -154,7 +156,7 @@ public class ParticleRunnable  {
                 } 
             }
             
-            if (currentParticlePattern.get(player) == "Stars") { //Made by accident*
+            if (currentParticlePattern.get(player).equals("Stars")) { //Made by accident*
                 double thetanew = System.currentTimeMillis()/100.0 + Math.PI * 2 / 3;
                 
                 double pos =  Math.floorMod(System.currentTimeMillis(), 11);
@@ -165,7 +167,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, pos*Math.sin(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Hourglass") {
+            if (currentParticlePattern.get(player).equals("Hourglass")) {
                 
                 double thetanew = System.currentTimeMillis()/250.0 + Math.PI * 2 / 3;
                 
@@ -176,7 +178,7 @@ public class ParticleRunnable  {
             
             }
             
-            if (currentParticlePattern.get(player) == "Double Helix") {
+            if (currentParticlePattern.get(player).equals("Double Helix")) {
                 
                 double thetanew = System.currentTimeMillis()/400.0 + Math.PI * 2 / 3;
                 
@@ -191,7 +193,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, -Math.sin(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "QuadraHelix") {
+            if (currentParticlePattern.get(player).equals("QuadraHelix")) {
                 
                 double thetanew = System.currentTimeMillis()/1000.0 + Math.PI * 2 / 3;
                 double y = Math.abs(Math.cos(thetanew/2))*-1;
@@ -217,7 +219,7 @@ public class ParticleRunnable  {
                         player.getLocation().add(0, 0, -0.7*Math.sin(thetanew/2)*Math.cos(thetanew)).getZ(), 0);
             }
             
-            if (currentParticlePattern.get(player) == "Egg") {
+            if (currentParticlePattern.get(player).equals("Egg")) {
                 
                 for (int i = 0; i <= 360; i = i + 15) {
                     
@@ -243,7 +245,7 @@ public class ParticleRunnable  {
                 }
             }
                 
-            if (currentParticlePattern.get(player) == "Big Ring") {
+            if (currentParticlePattern.get(player).equals("Big Ring")) {
                 
                 for (int i = 0; i <= 360; i = i + 5) {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
@@ -319,7 +321,7 @@ public class ParticleRunnable  {
                 
             }
             
-            if (currentParticlePattern.get(player) == "Normal") {
+            if (currentParticlePattern.get(player).equals("Normal")) {
                 
                 if (Math.random() < 0.3) {
                     for (int i = 0; i <= 1; i++) {
@@ -331,7 +333,7 @@ public class ParticleRunnable  {
                 }  
             }
             
-            if (currentParticlePattern.get(player) == "Beams") {
+            if (currentParticlePattern.get(player).equals("Beams")) {
                 
                 double thetanew = System.currentTimeMillis()/200.0 + Math.PI * 2 / 3;
                 
@@ -343,7 +345,7 @@ public class ParticleRunnable  {
                 }
             }
             
-            if (currentParticlePattern.get(player) == "Cage") {
+            if (currentParticlePattern.get(player).equals("Cage")) {
                 
                 for (int i = 0; i <= 360; i = i + 40) {
                     for (double j = 0; j <= 2.2; j = j + 0.2) {
@@ -377,31 +379,31 @@ public class ParticleRunnable  {
                 }
             }
             
-            if (currentParticlePattern.get(player) == "Test") {
-                for (int i = 0; i <= 180; i = i + 30) {
-                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))*Math.sin(Math.toRadians(player.getLocation().getYaw()))-1, 0, 0).getX(),
-                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
-                            player.getLocation().add(0, 0, 0.9*Math.sin(Math.toRadians(i))*Math.cos(Math.toRadians(player.getLocation().getYaw()))-1).getZ(), 0);
-                    
-                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))+1, 0, 0).getX(),
-                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
-                            player.getLocation().add(0, 0, 0).getZ(), 0);
-                }
-                
-                for (double i = 2; i <= 4.0; i = i + 0.2) {
-                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                            player.getLocation().add(i-2, 0, 0).getX(),
-                            player.getLocation().add(0, i, 0).getY(),
-                            player.getLocation().add(0, 0, 0).getZ(), 0);
-                    
-                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                            player.getLocation().add(-i+2, 0, 0).getX(),
-                            player.getLocation().add(0, i, 0).getY(),
-                            player.getLocation().add(0, 0, 0).getZ(), 0);
-                }
-            }
+//            if (currentParticlePattern.get(player).equals("Test")) {
+//                for (int i = 0; i <= 180; i = i + 30) {
+//                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+//                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))*Math.sin(Math.toRadians(player.getLocation().getYaw()))-1, 0, 0).getX(),
+//                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
+//                            player.getLocation().add(0, 0, 0.9*Math.sin(Math.toRadians(i))*Math.cos(Math.toRadians(player.getLocation().getYaw()))-1).getZ(), 0);
+//                    
+//                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+//                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))+1, 0, 0).getX(),
+//                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
+//                            player.getLocation().add(0, 0, 0).getZ(), 0);
+//                }
+//                
+//                for (double i = 2; i <= 4.0; i = i + 0.2) {
+//                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+//                            player.getLocation().add(i-2, 0, 0).getX(),
+//                            player.getLocation().add(0, i, 0).getY(),
+//                            player.getLocation().add(0, 0, 0).getZ(), 0);
+//                    
+//                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+//                            player.getLocation().add(-i+2, 0, 0).getX(),
+//                            player.getLocation().add(0, i, 0).getY(),
+//                            player.getLocation().add(0, 0, 0).getZ(), 0);
+//                }
+//            }
 
 
             
@@ -412,7 +414,7 @@ public class ParticleRunnable  {
     public static void RunParticleSlow(Player player) {
         
         if (currentParticleType.containsKey(player) && currentParticlePattern.containsKey(player)) {
-            if (currentParticlePattern.get(player) == "Burst") {
+            if (currentParticlePattern.get(player).equals("Burst")) {
                 
                 double x = (Math.random()-0.5)*2;
                 double z = (Math.random()-0.5)*2;
@@ -428,7 +430,7 @@ public class ParticleRunnable  {
             }
             
             
-            if (currentParticlePattern.get(player) == "Smiley") {
+            if (currentParticlePattern.get(player).equals("Smiley")) {
                 
                 for (int i = 0; i < 360; i = i + 30) {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
@@ -456,33 +458,35 @@ public class ParticleRunnable  {
 
             
             }
+            
+            if (currentParticlePattern.get(player).equals("Heart")) {;
+                for (int i = 0; i <= 180; i = i + 30) {
+                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))-1, 0, 0).getX(),
+                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
+                            player.getLocation().add(0, 0, 0).getZ(), 0);
+                    
+                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+                            player.getLocation().add(0.9*Math.cos(Math.toRadians(i))+1, 0, 0).getX(),
+                            player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
+                            player.getLocation().add(0, 0, 0).getZ(), 0);
+                }
+                
+                for (double i = 2; i <= 4.0; i = i + 0.2) {
+                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+                            player.getLocation().add(i-2, 0, 0).getX(),
+                            player.getLocation().add(0, i, 0).getY(),
+                            player.getLocation().add(0, 0, 0).getZ(), 0);
+                    
+                    player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
+                            player.getLocation().add(-i+2, 0, 0).getX(),
+                            player.getLocation().add(0, i, 0).getY(),
+                            player.getLocation().add(0, 0, 0).getZ(), 0);
+                }
+            }
         }
         
-        if (currentParticlePattern.get(player) == "Heart") {
-            for (int i = 0; i <= 180; i = i + 30) {
-                player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                        player.getLocation().add(0.9*Math.cos(Math.toRadians(i))-1, 0, 0).getX(),
-                        player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
-                        player.getLocation().add(0, 0, 0).getZ(), 0);
-                
-                player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                        player.getLocation().add(0.9*Math.cos(Math.toRadians(i))+1, 0, 0).getX(),
-                        player.getLocation().add(0, 0.9*Math.sin(Math.toRadians(i)) + 4.1, 0).getY(),
-                        player.getLocation().add(0, 0, 0).getZ(), 0);
-            }
-            
-            for (double i = 2; i <= 4.0; i = i + 0.2) {
-                player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                        player.getLocation().add(i-2, 0, 0).getX(),
-                        player.getLocation().add(0, i, 0).getY(),
-                        player.getLocation().add(0, 0, 0).getZ(), 0);
-                
-                player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
-                        player.getLocation().add(-i+2, 0, 0).getX(),
-                        player.getLocation().add(0, i, 0).getY(),
-                        player.getLocation().add(0, 0, 0).getZ(), 0);
-            }
-        }
+
         
         return; 
     }

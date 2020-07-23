@@ -22,19 +22,49 @@ public class ParticleGuiListeners implements Listener {
     public ParticleTypeGui particletypegui = Cosmetics.particletypegui;
     public ParticleTypeGui2 particletypegui2 = Cosmetics.particletypegui2;
     public ParticlePatternGui particlepatterngui = Cosmetics.particlepatterngui;
-    private Cosmetics plugin;
     
     public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
 
+    private Cosmetics plugin;
     public ParticleGuiListeners(Cosmetics b) {
         plugin = b;
     }
     
     public static HashMap<Player, Particle> currentParticleType = new HashMap<>();
     public static HashMap<Player, String> currentParticlePattern = new HashMap<>();
+    
+    //Particle Type Equipper Gui
+    public void ParticleEquip1(Player player, Particle particle, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            currentParticleType.put(player, particle);
+            
+            particlepatterngui.ExampleGui(player);
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.openInventory(particlepatterngui.inv);
+            });
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
+    
+    //Particle Pattern Equipper Gui
+    public void PatternEquip(Player player, String pattern, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            currentParticlePattern.put(player, pattern);
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
+    
     
     //////
     //Clicking Inside the Particle Type Gui
@@ -51,339 +81,87 @@ public class ParticleGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Composter Particle")) {
-                currentParticleType.put(player, Particle.COMPOSTER);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Composter Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.COMPOSTER, 20, "Composter Particle");
         }
         
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Angry Villager Particle")) {
-                currentParticleType.put(player, Particle.VILLAGER_ANGRY);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Angry Villager Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.VILLAGER_ANGRY, 20, "Angry Villager Particle");
         }
         
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Ash Particle")) {
-                currentParticleType.put(player, Particle.ASH);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Ash Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.ASH, 20, "Ash Particle");
         }
         
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Water Bubble Particle")) {
-                currentParticleType.put(player, Particle.WATER_BUBBLE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Water Bubble Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.WATER_BUBBLE, 20, "Water Bubble Particle");
         }
         
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Big Water Bubble Particle")) {
-                currentParticleType.put(player, Particle.BUBBLE_POP);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Big Water Bubble Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.BUBBLE_POP, 20, "Big Water Bubble Particle");
         }
         
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Smoulder Particle")) {
-                currentParticleType.put(player, Particle.SMOKE_NORMAL);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Smoulder Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SMOKE_NORMAL, 20, "Smoulder Particle");
         }
         
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Smoke Particle")) {
-                currentParticleType.put(player, Particle.SMOKE_LARGE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Smoke Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SMOKE_LARGE, 20, "Smoke Particle");
         }
         
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Campfire Smoke Particle")) {
-                currentParticleType.put(player, Particle.CAMPFIRE_COSY_SMOKE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Campfire Smoke Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.CAMPFIRE_COSY_SMOKE, 20, "Campfire Smoke Particle");
         }
         
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cloud Particle")) {
-                currentParticleType.put(player, Particle.CLOUD);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Cloud Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.CLOUD, 20, "Cloud Particle");
         }
         
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Crimson Spore Particle")) {
-                currentParticleType.put(player, Particle.CRIMSON_SPORE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Crimson Spore Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.CRIMSON_SPORE, 20, "Crimson Spore Particle");
         }
         
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Warped Spore Particle")) {
-                currentParticleType.put(player, Particle.WARPED_SPORE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Warped Spore Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.WARPED_SPORE, 20, "Warped Spore Particle");
         }
         
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Critical Hit Particle")) {
-                currentParticleType.put(player, Particle.CRIT);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Critical Hit Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.CRIT, 20, "Critical Hit Particle");
         }
         
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Damage Particle")) {
-                currentParticleType.put(player, Particle.DAMAGE_INDICATOR);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Damage Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.DAMAGE_INDICATOR, 20, "Damage Particle");
         }
         
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Dragon Breath Particle")) {
-                currentParticleType.put(player, Particle.DRAGON_BREATH);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Dragon Breath Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.DRAGON_BREATH, 20, "Dragon Breath Particle");
         }
         
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Honey Drops Particle")) {
-                currentParticleType.put(player, Particle.FALLING_HONEY);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Honey Drops Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.FALLING_HONEY, 20, "Honey Drops Particle");
         }
         
         if (event.getSlot() == 29) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Water Drops Particle")) {
-                currentParticleType.put(player, Particle.DRIP_WATER);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Water Drops Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.DRIP_WATER, 20, "Water Drops Particle");
         }
         
         if (event.getSlot() == 30) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Lava Drops Particle")) {
-                currentParticleType.put(player, Particle.DRIP_LAVA);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Lava Drops Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.DRIP_LAVA, 20, "Lava Drops Particle");
         }
         
         if (event.getSlot() == 31) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Obsidian Tears Particle")) {
-                currentParticleType.put(player, Particle.FALLING_OBSIDIAN_TEAR);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Obsidian Tears Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.FALLING_OBSIDIAN_TEAR, 20, "Obsidian Tears Particle");
         }
         
         if (event.getSlot() == 32) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "White Spell Particle")) {
-                currentParticleType.put(player, Particle.SPELL);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "White Spell Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SPELL, 20, "White Spell Particle");
         }
         
         if (event.getSlot() == 33) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Black Spell Particle")) {
-                currentParticleType.put(player, Particle.SPELL_MOB);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Black Spell Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SPELL_MOB, 20, "Black Spell Particle");
         }
         
         if (event.getSlot() == 34) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Purple Spell Particle")) {
-                currentParticleType.put(player, Particle.SPELL_WITCH);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Purple Spell Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SPELL_WITCH, 20, "Purple Spell Particle");
         }
         
         // Next Particle Type Gui
@@ -392,6 +170,12 @@ public class ParticleGuiListeners implements Listener {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(particletypegui2.inv);
             });
+        }
+        
+        // Remove Particle Effect
+        if (event.getSlot() == 40) {
+            currentParticleType.remove(player);
+            currentParticlePattern.remove(player);
         }
         
         // Return to cosmetic window
@@ -420,243 +204,63 @@ public class ParticleGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Enchant Glyph Particle")) {
-                currentParticleType.put(player, Particle.ENCHANTMENT_TABLE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Enchant Glyph Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.ENCHANTMENT_TABLE, 20, "Enchant Glyph Particle");
         }
         
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "End Rod Particle")) {
-                currentParticleType.put(player, Particle.END_ROD);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "End Rod Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.END_ROD, 20, "End Rod Particle");
         }
         
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Explosion Particle")) {
-                currentParticleType.put(player, Particle.EXPLOSION_LARGE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Explosion Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.EXPLOSION_LARGE, 20, "Explosion Particle");
         }
         
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Soul Fire Particle")) {
-                currentParticleType.put(player, Particle.SOUL_FIRE_FLAME);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Soul Fire Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SOUL_FIRE_FLAME, 20, "Soul Fire Particle");
         }
         
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Nectar Particle")) {
-                currentParticleType.put(player, Particle.FALLING_NECTAR);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Nectar Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.FALLING_NECTAR, 20, "Nectar Particle");
         }
         
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Water Wake Particle")) {
-                currentParticleType.put(player, Particle.WATER_WAKE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Water Wake Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.WATER_WAKE, 20, "Water Wake Particle");
         }
         
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Heart Particle")) {
-                currentParticleType.put(player, Particle.HEART);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Heart Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.HEART, 20, "Heart Particle");
         }
         
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Slime Particle")) {
-                currentParticleType.put(player, Particle.SLIME);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Slime Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SLIME, 20, "Slime Particle");
         }
         
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Snowball Particle")) {
-                currentParticleType.put(player, Particle.SNOWBALL);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Snowball Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SNOWBALL, 20, "Snowball Particle");
         }
         
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Nautilus Particle")) {
-                currentParticleType.put(player, Particle.NAUTILUS);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Nautilus Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.NAUTILUS, 20, "Nautilus Particle");
         }
         
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Music Note Particle")) {
-                currentParticleType.put(player, Particle.NOTE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Music Note Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.NOTE, 20, "Music Note Particle");
         }
         
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Contagious Particle")) {
-                currentParticleType.put(player, Particle.SNEEZE);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Contagious Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SNEEZE, 20, "Contagious Particle");
         }
         
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Ink Particle")) {
-                currentParticleType.put(player, Particle.SQUID_INK);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Ink Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.SQUID_INK, 20, "Ink Particle");
         }
         
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Totem Particle")) {
-                currentParticleType.put(player, Particle.TOTEM);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Totem Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.TOTEM, 20, "Totem Particle");
         }
         
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Lava Burst Particle")) {
-                currentParticleType.put(player, Particle.LAVA);
-                
-                particlepatterngui.ExampleGui(player);
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    player.openInventory(particlepatterngui.inv);
-                });
-            }
-            else {
-                purchaseItem.put(player, "Lava Burst Particle"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            ParticleEquip1(player, Particle.LAVA, 20, "Lava Burst Particle");
         }
         
         
@@ -666,6 +270,12 @@ public class ParticleGuiListeners implements Listener {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(particletypegui.inv);
             });
+        }
+        
+        // Remove Particle Effect
+        if (event.getSlot() == 40) {
+            currentParticleType.remove(player);
+            currentParticlePattern.remove(player);
         }
         
         
@@ -687,217 +297,84 @@ public class ParticleGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Dot Pattern")) {
-                currentParticlePattern.put(player, "Dot");
-            }
-            else {
-                purchaseItem.put(player, "Dot Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }   
+            PatternEquip(player, "Dot", 20, "Dot Pattern"); 
         }
         
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Halo Pattern")) {
-                currentParticlePattern.put(player, "Halo");
-            }
-            else {
-                purchaseItem.put(player, "Halo Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Halo", 20, "Halo Pattern"); 
         }
         
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Rings Pattern")) {
-                currentParticlePattern.put(player, "Rings");
-            }
-            else {
-                purchaseItem.put(player, "Rings Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Rings", 20, "Rings Pattern"); 
         }
         
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Sphere Pattern")) {
-                currentParticlePattern.put(player, "Sphere");
-            }
-            else {
-                purchaseItem.put(player, "Sphere Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Sphere", 20, "Sphere Pattern"); 
         }
         
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Prism Pattern")) {
-                currentParticlePattern.put(player, "Prism");
-            }
-            else {
-                purchaseItem.put(player, "Prism Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Prism", 20, "Prism Pattern"); 
         }
         
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Burst Pattern")) {
-                currentParticlePattern.put(player, "Burst");
-            }
-            else {
-                purchaseItem.put(player, "Burst Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Burst", 20, "Burst Pattern"); 
         }
         
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Smiley Pattern")) {
-                currentParticlePattern.put(player, "Smiley");
-            }
-            else {
-                purchaseItem.put(player, "Smiley Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Smiley", 20, "Smiley Pattern"); 
         }
         
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Heart Pattern")) {
-                currentParticlePattern.put(player, "Heart");
-            }
-            else {
-                purchaseItem.put(player, "Hear Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Heart", 20, "Heart Pattern"); 
         }
         
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Swirl Helix Pattern")) {
-                currentParticlePattern.put(player, "Swirl Helix");
-            }
-            else {
-                purchaseItem.put(player, "Swirl Helix Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Swirl Helix", 20, "Swirl Helix Pattern"); 
         }
         
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cube Pattern")) {
-                currentParticlePattern.put(player, "Cube");
-            }
-            else {
-                purchaseItem.put(player, "Cube Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Cube", 20, "Cube Pattern"); 
         }
         
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Chains Pattern")) {
-                currentParticlePattern.put(player, "Chains");
-            }
-            else {
-                purchaseItem.put(player, "Chains Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Chains", 20, "Chains Pattern"); 
         }
         
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Stars Pattern")) {
-                currentParticlePattern.put(player, "Stars");
-            }
-            else {
-                purchaseItem.put(player, "Stars Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Stars", 20, "Stars Pattern"); 
         }
         
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Double Helix Pattern")) {
-                currentParticlePattern.put(player, "Double Helix");
-            }
-            else {
-                purchaseItem.put(player, "Double Helix Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Double Helix", 20, "Double Helix Pattern"); 
         }
         
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "QuadraHelix Pattern")) {
-                currentParticlePattern.put(player, "QuadraHelix");
-            }
-            else {
-                purchaseItem.put(player, "QuadraHelix Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "QuadraHelix", 20, "QuadraHelix Pattern"); 
         }
         
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Egg Pattern")) {
-                currentParticlePattern.put(player, "Egg");
-            }
-            else {
-                purchaseItem.put(player, "Egg Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Egg", 20, "Egg Pattern"); 
         }
         
         if (event.getSlot() == 29) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Big Ring Pattern")) {
-                currentParticlePattern.put(player, "Big Ring");
-            }
-            else {
-                purchaseItem.put(player, "Big Ring Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Big Ring", 20, "Big Ring Pattern"); 
         }
         
         if (event.getSlot() == 30) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Normal Pattern")) {
-                currentParticlePattern.put(player, "Normal");
-            }
-            else {
-                purchaseItem.put(player, "Normal Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Normal", 20, "Normal Pattern"); 
         }
         
         if (event.getSlot() == 31) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Beams Pattern")) {
-                currentParticlePattern.put(player, "Beams");
-            }
-            else {
-                purchaseItem.put(player, "Beams Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Beams", 20, "Beams Pattern"); 
         }
         
         if (event.getSlot() == 32) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cage Pattern")) {
-                currentParticlePattern.put(player, "Cage");
-            }
-            else {
-                purchaseItem.put(player, "Cage Pattern"); //Input Name
-                purchasePrice.put(player, 20); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            } 
+            PatternEquip(player, "Cage", 20, "Cage Pattern");  
         }
         
-        if (event.getSlot() == 33) {
-            currentParticlePattern.put(player, "Test");
-        }
+//        if (event.getSlot() == 33) {
+//            currentParticlePattern.put(player, "Test");
+//        }
         
         // Return to Particle Types window
         if (event.getSlot() == 39) {
@@ -905,6 +382,12 @@ public class ParticleGuiListeners implements Listener {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.openInventory(particletypegui.inv);
             });
+        }
+        
+        // Remove Particle Effect
+        if (event.getSlot() == 40) {
+            currentParticleType.remove(player);
+            currentParticlePattern.remove(player);
         }
         
         

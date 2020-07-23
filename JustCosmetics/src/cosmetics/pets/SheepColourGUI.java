@@ -33,8 +33,7 @@ public class SheepColourGUI implements Listener {
     
     public void ExampleGui(Player player) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
-                + ChatColor.BOLD + "Sheep Color Selector");
+        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Sheep Color Selector");
 
         // Put the items into the inventory
         initializeItems(player);

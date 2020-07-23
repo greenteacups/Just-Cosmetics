@@ -16,7 +16,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 
 public class CosmeticGui implements Listener {
-//    private Cosmetics plugin;
+    
+    private Cosmetics plugin;
+    public CosmeticGui(Cosmetics b) {
+        plugin = b;
+    }
+    
     public Inventory inv;
     
     // Get player skull
@@ -36,9 +41,9 @@ public class CosmeticGui implements Listener {
         meta.setOwner(player.getName());
         
         meta.setDisplayName(ChatColor.GOLD + "" + player.getName());
-//        int slime = plugin.data.getSlime(player.getUniqueId());
-        meta.setLore(Arrays.asList("", ChatColor.DARK_PURPLE + "Points:" + ChatColor.WHITE + " 10",
-                ChatColor.GREEN + "Slime:" + ChatColor.WHITE + " 1300"));
+        
+        meta.setLore(Arrays.asList(ChatColor.GREEN + "Slime: " + 
+                ChatColor.WHITE + plugin.dataSlime.getSlime(player.getUniqueId())));
         
         playerskull.setItemMeta(meta);
         
@@ -47,8 +52,7 @@ public class CosmeticGui implements Listener {
     
     public void ExampleGui(Player player) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
-                + ChatColor.BOLD + "Cosmetics");
+        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Cosmetics");
 
         inv.setItem(31, getPlayerHead(player)); // Add player skull to inventory
         

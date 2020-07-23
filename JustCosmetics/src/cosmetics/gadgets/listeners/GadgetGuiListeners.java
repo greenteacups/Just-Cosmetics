@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -24,12 +25,14 @@ import cosmetics.gadgets.items.JumpStick;
 import cosmetics.gadgets.items.ParrotSpawn;
 import cosmetics.gadgets.items.ShellShooter;
 import cosmetics.gadgets.items.TurtleSpawn;
+import cosmetics.trails.TrailsGui;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class GadgetGuiListeners implements Listener {
 
     public CosmeticGui maingui = Cosmetics.maingui;
     public GadgetGui gadgetgui = Cosmetics.gadgetgui;
+    public TrailsGui trailsgui = Cosmetics.trailsgui;
     
     public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
@@ -74,6 +77,9 @@ public class GadgetGuiListeners implements Listener {
                     JumpStick jumpstick = new JumpStick();
                     player.getInventory().setItem(8, jumpstick.getItem());
                 }
+                else {
+                    player.sendMessage(ChatColor.RED + "Clear the 9th slot of your hotbar to equip the Jump Stick!");
+                }
             }
             else {
                 purchaseItem.put(player, "Jump Stick"); //Input Name
@@ -108,6 +114,9 @@ public class GadgetGuiListeners implements Listener {
                 if (player.getInventory().getItem(8) == null) {
                     ShellShooter shellshooter = new ShellShooter();
                     player.getInventory().setItem(8, shellshooter.getItem());
+                }
+                else {
+                    player.sendMessage(ChatColor.RED + "Clear the 9th slot of your hotbar to equip the Shell Shooter!");
                 }
 
             }
@@ -157,6 +166,9 @@ public class GadgetGuiListeners implements Listener {
                     AirStrike airstrike = new AirStrike();     
                     player.getInventory().setItem(8, airstrike.getItem());
                 }
+                else {
+                    player.sendMessage(ChatColor.RED + "Clear the 9th slot of your hotbar to equip the Air Strike Gadget!");
+                }
             }
             else {
                 purchaseItem.put(player, "Air Strike"); //Input Name
@@ -173,12 +185,23 @@ public class GadgetGuiListeners implements Listener {
                     FireworkSpawn fireworkSpawn = new FireworkSpawn();     
                     player.getInventory().setItem(8, fireworkSpawn.getItem());
                 }
+                else {
+                    player.sendMessage(ChatColor.RED + "Clear the 9th slot of your hotbar to equip the Firework Launcher!");
+                }
             }
             else {
                 purchaseItem.put(player, "Firework Gadget"); //Input Name
                 purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
+        }
+        
+        //Open Trails Menu
+        if (event.getSlot() == 15) {
+            trailsgui.ExampleGui(player);
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.openInventory(trailsgui.inv);
+            });
         }
          
         // Return to cosmetic window

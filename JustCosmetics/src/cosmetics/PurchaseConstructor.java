@@ -1,6 +1,7 @@
 package cosmetics;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class PurchaseConstructor {
@@ -28,6 +29,7 @@ public class PurchaseConstructor {
         }
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to buy this item!");
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
         }
     }
     
@@ -37,6 +39,7 @@ public class PurchaseConstructor {
             plugin.dataCosmetics.addItem(player, player.getUniqueId(), item);
             plugin.dataSlime.addSlime(player.getUniqueId(), -price);
             
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5, 10);
             player.sendMessage("" + ChatColor.RED + ChatColor.UNDERLINE + item + ChatColor.GOLD + " can now be Equipped!");
             player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN 
                     + ChatColor.UNDERLINE + plugin.dataSlime.getSlime(player.getUniqueId()) + ChatColor.GOLD + " Slime");
@@ -44,6 +47,7 @@ public class PurchaseConstructor {
         
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to complete this transaction!");
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
         }
   }
     

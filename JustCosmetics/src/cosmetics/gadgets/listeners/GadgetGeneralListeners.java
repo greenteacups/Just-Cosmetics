@@ -19,21 +19,32 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
+import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.TurtleSpawn;
+import cosmetics.trails.TrailsGui;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class GadgetGeneralListeners implements Listener {
     
     private Cosmetics plugin;
+    public CosmeticGui maingui = Cosmetics.maingui;
+    public GadgetGui gadgetgui = Cosmetics.gadgetgui;
+    public TrailsGui trailsgui = Cosmetics.trailsgui;
 
     public GadgetGeneralListeners(Cosmetics b) {
         plugin = b;
@@ -57,7 +68,8 @@ public class GadgetGeneralListeners implements Listener {
         
         // Jump Stick
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Jump Stick")) {
+            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Jump Stick") && 
+                    player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
                 if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
                     if (player.getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
                         player.setVelocity(player.getLocation().getDirection().multiply(2).setY(2));
@@ -203,7 +215,130 @@ public class GadgetGeneralListeners implements Listener {
             }
         }
     }
+    
+    @EventHandler
+    public void dropGadget(PlayerDropItemEvent event) {
+        if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Jump Stick") && 
+                event.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Green Shell Gun") && 
+                event.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Air Strike") && 
+                event.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Firework Gadget") && 
+                event.getItemDrop().getItemStack().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+    }
+    
+    @EventHandler
+    public void placeGadget(BlockPlaceEvent event) {
+        if (event.getItemInHand().getItemMeta().getDisplayName().contains("Jump Stick") && 
+                event.getItemInHand().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemInHand().getItemMeta().getDisplayName().contains("Green Shell Gun") && 
+                event.getItemInHand().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemInHand().getItemMeta().getDisplayName().contains("Air Strike") && 
+                event.getItemInHand().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+        if (event.getItemInHand().getItemMeta().getDisplayName().contains("Firework Gadget") && 
+                event.getItemInHand().getItemMeta().hasLore()) {
+            event.setCancelled(true);
+        }
+    }
+    
+    @EventHandler
+    public void InventoryClickEvent(InventoryClickEvent event){
         
+        if (event.getCurrentItem() != null && event.getClick() == ClickType.NUMBER_KEY) {
+            if (event.getWhoClicked().getInventory().getItem(8) != null && 
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore() &&
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().getDisplayName().contains("Jump Stick")) {
+                event.getWhoClicked().sendMessage(ChatColor.RED + "Number Keys are disabled while Gadget Equipped");
+                event.setCancelled(true);
+            }
+        }
+        if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null && event.getSlot() == 8 
+                && (event.getClickedInventory().getType() == InventoryType.PLAYER)
+                && event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore()
+                && event.getCurrentItem().getItemMeta().getDisplayName().contains("Jump Stick")){       
+            event.setCancelled(true);
+        }
+        
+        if (event.getCurrentItem() != null && event.getClick() == ClickType.NUMBER_KEY) {
+            if (event.getWhoClicked().getInventory().getItem(8) != null && 
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore() &&
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().getDisplayName().contains("Green Shell Gun")) {
+                event.getWhoClicked().sendMessage(ChatColor.RED + "Number Keys are disabled while Gadget Equipped");
+                event.setCancelled(true);
+            }
+        }
+        if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null && event.getSlot() == 8 
+                && (event.getClickedInventory().getType() == InventoryType.PLAYER)
+                && event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore()
+                && event.getCurrentItem().getItemMeta().getDisplayName().contains("Green Shell Gun")){       
+            event.setCancelled(true);
+        }
+        
+        if (event.getCurrentItem() != null && event.getClick() == ClickType.NUMBER_KEY) {
+            if (event.getWhoClicked().getInventory().getItem(8) != null && 
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore() &&
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().getDisplayName().contains("Air Strike")) {
+                event.getWhoClicked().sendMessage(ChatColor.RED + "Number Keys are disabled while Gadget Equipped");
+                event.setCancelled(true);
+            }
+        }
+        if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null && event.getSlot() == 8 
+                && (event.getClickedInventory().getType() == InventoryType.PLAYER)
+                && event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore()
+                && event.getCurrentItem().getItemMeta().getDisplayName().contains("Air Strike")){       
+            event.setCancelled(true);
+        }
+        
+        if (event.getCurrentItem() != null && event.getClick() == ClickType.NUMBER_KEY) {
+            if (event.getWhoClicked().getInventory().getItem(8) != null && 
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore() &&
+                    event.getWhoClicked().getInventory().getItem(8).getItemMeta().getDisplayName().contains("Firework Gadget")) {
+                event.getWhoClicked().sendMessage(ChatColor.RED + "Number Keys are disabled while Gadget Equipped");
+                event.setCancelled(true);
+            }
+        } 
+        if (event.getCurrentItem() != null && event.getCurrentItem().getItemMeta() != null && event.getSlot() == 8 
+                && (event.getClickedInventory().getType() == InventoryType.PLAYER)
+                && event.getWhoClicked().getInventory().getItem(8).getItemMeta().hasLore()
+                && event.getCurrentItem().getItemMeta().getDisplayName().contains("Firework Gadget")){       
+            event.setCancelled(true);
+        }
+    }
+        
+    // Stop dragging of items out of gadget gui, trail gui and main gui
+    @EventHandler
+    public void InvClick(InventoryClickEvent event) {
+        if(event.getInventory() == maingui.inv) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
+            });
+        }
+        if(event.getInventory() == gadgetgui.inv) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
+            });
+        }
+        if(event.getInventory() == trailsgui.inv) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
+            });
+        }
+    }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {

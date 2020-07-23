@@ -23,8 +23,7 @@ public class GadgetGui implements Listener {
 
     public void ExampleGui(Player player) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.GOLD + ""  
-                + ChatColor.BOLD + "Disguise Selector");
+        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Disguise Selector");
 
         // Put the items into the inventory
         initializeItems(player);
@@ -67,12 +66,12 @@ public class GadgetGui implements Listener {
             inv.setItem(14, createGuiItem(Material.BLAZE_ROD, ChatColor.GOLD + "Unlock Firework Gadget", "200 Slime"));
         }
         
-
+        inv.setItem(15, createGuiItem(Material.GRASS_PATH, ChatColor.GOLD + "Trails"));
         
         
         
         inv.setItem(39, createGuiItem(Material.ARROW, "Back"));
-        inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Disguise"));
+        inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Gadget"));
         //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));

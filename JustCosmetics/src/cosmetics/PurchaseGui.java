@@ -15,8 +15,7 @@ public class PurchaseGui implements Listener {
 
     public void ExampleGui(String item) {
         // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.BLACK + ""  
-                + ChatColor.BOLD + "Purchase: " + item + "?");
+        inv = Bukkit.createInventory(null, 54, ChatColor.RED + "Purchase: " + item + "?");
 
         // Put the items into the inventory
         initializeItems();

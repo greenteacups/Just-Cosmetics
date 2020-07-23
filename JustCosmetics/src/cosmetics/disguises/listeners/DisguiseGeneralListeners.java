@@ -11,13 +11,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
+import cosmetics.disguises.DisguiseGui;
+import cosmetics.disguises.DisguiseGui2;
 
 
 public class DisguiseGeneralListeners implements Listener {
+    
+    public DisguiseGui disguisegui = Cosmetics.disguisegui;
+    public DisguiseGui2 disguisegui2 = Cosmetics.disguisegui2;
+    
+    private Cosmetics plugin;
+    public DisguiseGeneralListeners(Cosmetics b) {
+        plugin = b;
+    }
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
     
@@ -60,6 +72,21 @@ public class DisguiseGeneralListeners implements Listener {
             }
             
             event.setCancelled(true);
+        }
+    }
+    
+    // Stop dragging of items out of disguise guis
+    @EventHandler
+    public void InvClick(InventoryClickEvent event) {
+        if(event.getInventory() == disguisegui.inv) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
+            });
+        }
+        if(event.getInventory() == disguisegui2.inv) {
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
+            });
         }
     }
     
