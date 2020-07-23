@@ -6,5 +6,6 @@ api-version: 1.13
 
 commands:
   cosmetic:
+    description: Open Cosmetics GUI
+    aliases: [cosmetics]
   slime:
-  wiggle:
