@@ -11,24 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import cosmetics.disguises.DisguiseGui;
-import cosmetics.disguises.DisguiseGui2;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
-import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
-import cosmetics.particles.ParticlePatternGui;
 import cosmetics.particles.ParticleRunnable;
-import cosmetics.particles.ParticleTypeGui;
-import cosmetics.particles.ParticleTypeGui2;
 import cosmetics.particles.listeners.ParticleGeneralListeners;
 import cosmetics.particles.listeners.ParticleGuiListeners;
-import cosmetics.pets.BabySheepColourGUI;
-import cosmetics.pets.PetGui;
-import cosmetics.pets.PetGui2;
-import cosmetics.pets.SheepColourGUI;
 import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
@@ -37,7 +27,6 @@ import cosmetics.sql.SQLGetterParticles;
 import cosmetics.sql.SQLGetterSlime;
 import cosmetics.sql.SQLListeners;
 import cosmetics.trails.TrailsConstructor;
-import cosmetics.trails.TrailsGui;
 import cosmetics.trails.TrailsGuiListeners;
 
 public class Cosmetics extends JavaPlugin implements Listener {
@@ -47,29 +36,11 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public SQLGetterCosmetics dataCosmetics;
     public SQLGetterParticles dataParticles;
     
-    public static CosmeticGui maingui;
-    
     public static RemoveEffects RemoveEffects = new RemoveEffects();
     
-    public static PurchaseGui purchasegui = new PurchaseGui();
     public static PurchaseConstructor PurchaseConstructor;
     public static HashMap<Player, String> purchaseItem = new HashMap<>();
     public static HashMap<Player, Integer> purchasePrice = new HashMap<>();
-    
-    public static PetGui petgui;
-    public static PetGui2 petgui2;
-    public static SheepColourGUI colourgui;
-    public static BabySheepColourGUI babycolourgui;
-    
-    public static DisguiseGui disguisegui;
-    public static DisguiseGui2 disguisegui2;
-    
-    public static GadgetGui gadgetgui;
-    public static TrailsGui trailsgui;
-    
-    public static ParticleTypeGui particletypegui;
-    public static ParticleTypeGui2 particletypegui2;
-    public static ParticlePatternGui particlepatterngui;
 
     public static TestRunnable test = new TestRunnable();
     public static GadgetRunnables shellspin = new GadgetRunnables();
@@ -78,7 +49,8 @@ public class Cosmetics extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         
-        this.SQL = new MySQL();
+        this.saveDefaultConfig();
+        this.SQL = new MySQL(this);
         this.dataSlime = new SQLGetterSlime(this);
         this.dataCosmetics = new SQLGetterCosmetics(this);
         this.dataParticles = new SQLGetterParticles(this);
@@ -100,23 +72,6 @@ public class Cosmetics extends JavaPlugin implements Listener {
         }
     
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
-        
-        maingui = new CosmeticGui(this);
-        
-        petgui = new PetGui(this); //Adds main pet gui P1/2
-        petgui2 = new PetGui2(this); //Adds main pet gui P2/2
-        colourgui = new SheepColourGUI(this); //Adds Adult sheep colour select gui
-        babycolourgui = new BabySheepColourGUI(this); //Add Baby sheep colour select gui
-        
-        disguisegui = new DisguiseGui(this);
-        disguisegui2 = new DisguiseGui2(this);
-        
-        gadgetgui = new GadgetGui(this);
-        trailsgui = new TrailsGui(this);
-        
-        particletypegui = new ParticleTypeGui(this);
-        particletypegui2 = new ParticleTypeGui2(this);
-        particlepatterngui = new ParticlePatternGui(this);
         
         this.getServer().getPluginManager().registerEvents(new SQLListeners(this), this); //Enable SQL Listeners
         
@@ -150,7 +105,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
             for (Player p : Bukkit.getOnlinePlayers()) {
                 ParticleRunnable.RunParticleSlow(p);
             }
-        }, 1, 40);
+        }, 1, 30);
         
     }
 
@@ -167,20 +122,19 @@ public class Cosmetics extends JavaPlugin implements Listener {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         
-        if (label.equalsIgnoreCase("cosmetic")) {
+        if (cmd.getName().equalsIgnoreCase("cosmetic")) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage("Console cannot run this command!");
                 return true;
             }
             Player player = (Player) sender;
-            maingui.ExampleGui(player);
             
             // open the GUI
-            player.openInventory(maingui.inv);
+            player.openInventory(new CosmeticGui(this, player).getInventory());
             return true;
         }
         
-        if (label.equalsIgnoreCase("slime")) {
+        if (cmd.getName().equalsIgnoreCase("slime")) {
             if (!(sender instanceof Player)) {
                 sender.sendMessage("Console cannot run this command!");
                 return true;
@@ -201,9 +155,11 @@ public class Cosmetics extends JavaPlugin implements Listener {
                     }
                     
                     if (args.length == 2) {
-                        player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[1]).getDisplayName() + " has " 
-                        + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[1]).getUniqueId()) 
-                        + ChatColor.GOLD + " Slime"); 
+                        try {
+                            player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[1]).getDisplayName() + " has " 
+                                    + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[1]).getUniqueId()) 
+                                    + ChatColor.GOLD + " Slime"); 
+                        } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[1].toString() + " is not online!"); }
                     } 
                 } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime balance <player>"); }
                 
@@ -212,6 +168,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
             
             if (args[0].equalsIgnoreCase("add")) {
                 try { 
+                    if (args.length == 1) {
+                        player.sendMessage(ChatColor.RED + "/slime add <amount> <player>");
+                    }
+                    
                     if (args.length == 2) {
                         dataSlime.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
                         player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
@@ -219,10 +179,12 @@ public class Cosmetics extends JavaPlugin implements Listener {
                     }
                     
                     if (args.length == 3) {
-                        dataSlime.addSlime(Bukkit.getPlayer(args[2]).getUniqueId(), Integer.parseInt(args[1]));
-                        player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[2]).getDisplayName() + " has " 
-                        + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[2]).getUniqueId()) 
-                        + ChatColor.GOLD + " Slime"); 
+                        try {
+                            dataSlime.addSlime(Bukkit.getPlayer(args[2]).getUniqueId(), Integer.parseInt(args[1]));
+                            player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[2]).getDisplayName() + " has " 
+                            + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[2]).getUniqueId()) 
+                            + ChatColor.GOLD + " Slime"); 
+                        } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[2].toString() + " is not online!"); }
                     } 
                 } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime add <amount> <player>"); }
                 

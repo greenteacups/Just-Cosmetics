@@ -10,16 +10,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.PurchaseGui;
 import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetGui;
 
 public class TrailsGuiListeners implements Listener {
     
-    public TrailsGui trailsgui = Cosmetics.trailsgui;
-    public GadgetGui gadgetgui = Cosmetics.gadgetgui;
-    
-    public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
@@ -53,7 +48,7 @@ public class TrailsGuiListeners implements Listener {
     //Clicking Inside the Trails Gui
     @EventHandler()
     public void onTypeGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(trailsgui.inv))
+        if (!(event.getInventory().getHolder() instanceof TrailsGui))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -69,43 +64,43 @@ public class TrailsGuiListeners implements Listener {
         }
         
         if (event.getSlot() == 10) {
-            TrailEquip(player, "Disco", 50, "Disco Trail");
+            TrailEquip(player, "Disco", 60, "Disco Trail");
         }
         
         if (event.getSlot() == 11) {
-            TrailEquip(player, "Path", 50, "Path Trail");
+            TrailEquip(player, "Path", 60, "Path Trail");
         }
         
         if (event.getSlot() == 12) {
-            TrailEquip(player, "Utility", 50, "Utility Trail");
+            TrailEquip(player, "Utility", 60, "Utility Trail");
         }
         
         if (event.getSlot() == 13) {
-            TrailEquip(player, "Wealthy", 50, "Wealthy Trail");
+            TrailEquip(player, "Wealthy", 60, "Wealthy Trail");
         }
         
         if (event.getSlot() == 14) {
-            TrailEquip(player, "Wood", 50, "Wood Trail");
+            TrailEquip(player, "Wood", 60, "Wood Trail");
         }
         
         if (event.getSlot() == 15) {
-            TrailEquip(player, "Ore", 50, "Ore Trail");
+            TrailEquip(player, "Ore", 60, "Ore Trail");
         }
         
         if (event.getSlot() == 16) {
-            TrailEquip(player, "Nether", 50, "Nether Trail");
+            TrailEquip(player, "Nether", 60, "Nether Trail");
         }
         
         if (event.getSlot() == 19) {
-            TrailEquip(player, "End", 50, "End Trail");
+            TrailEquip(player, "End", 60, "End Trail");
         }
         
         if (event.getSlot() == 20) {
-            TrailEquip(player, "Melon", 50, "Melon Trail");
+            TrailEquip(player, "Melon", 60, "Melon Trail");
         }
         
         if (event.getSlot() == 21) {
-            TrailEquip(player, "Coral", 50, "Coral Trail");
+            TrailEquip(player, "Coral", 60, "Coral Trail");
         }
     
         
@@ -113,9 +108,8 @@ public class TrailsGuiListeners implements Listener {
         
         // Return to Gadget window
         if (event.getSlot() == 39) {
-            gadgetgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(gadgetgui.inv);
+                player.openInventory(new GadgetGui(plugin, player).getInventory());
             });
         }
         

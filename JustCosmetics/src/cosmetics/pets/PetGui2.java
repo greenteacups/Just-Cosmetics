@@ -6,56 +6,60 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import cosmetics.Cosmetics;
 
-public class PetGui2 implements Listener {
-    public Inventory inv;
+public class PetGui2 implements InventoryHolder {
     
     private Cosmetics plugin;
-    public PetGui2(Cosmetics b) {
-        plugin = b;
+    private final Inventory inventory;
+    
+    public PetGui2(Cosmetics plugin, Player player) {
+        this.plugin = plugin;
+        
+        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Pet Selector (2/2)");
+        
+        initializeItems(player);
+    }
+    
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
     
     // GuiConstructor
     public void GuiConstructor(Player player, Material item, int pos, int price, String name, String desc) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, desc));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, desc));
         }
         else {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, price + " Slime"));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, 
+                    "" + ChatColor.AQUA + "Click to buy for " + ChatColor.GREEN + price + ChatColor.AQUA + " Slime!"));
         }
-    }
-
-    public void ExampleGui(Player player) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Pet Selector (2/2)");
-
-        // Put the items into the inventory
-        initializeItems(player);
     }
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.SCUTE, 10, 100, "Turtle Pet", "Shelly");
-        GuiConstructor(player, Material.GUNPOWDER, 11, 100, "Creeper Pet", "Psssssss");
-        GuiConstructor(player, Material.HAY_BLOCK, 12, 100, "Horse Pet", "Kinda like a Donkey");
-        GuiConstructor(player, Material.BLAZE_ROD, 13, 100, "Blaze Pet", "Fire Monster");
-        GuiConstructor(player, Material.EXPERIENCE_BOTTLE, 14, 100, "Witch Pet", "Potionless");
-        GuiConstructor(player, Material.SAND, 15, 100, "Husk Pet", "Needs Hydration");
-        GuiConstructor(player, Material.SANDSTONE_WALL, 16, 100, "Baby Husk Pet", "Not to be confused with Husky");
-        GuiConstructor(player, Material.ROTTEN_FLESH, 19, 100, "Zombie Pet", "Nice guy. Avoids sunlight");
-        GuiConstructor(player, Material.CRACKED_STONE_BRICKS, 20, 100, "Baby Zombie Pet", "Brains?");
-        GuiConstructor(player, Material.SNOW_BLOCK, 21, 100, "Snowman Pet", "Enjoys long walks on the beach");
-        GuiConstructor(player, Material.POPPY, 22, 100, "Golem Pet", "Iron Golem");
+        GuiConstructor(player, Material.SCUTE, 10, 200, "Turtle Pet", "Shelly");
+        GuiConstructor(player, Material.GUNPOWDER, 11, 200, "Creeper Pet", "Psssssss");
+        GuiConstructor(player, Material.HAY_BLOCK, 12, 200, "Horse Pet", "Kinda like a Donkey");
+        GuiConstructor(player, Material.BLAZE_ROD, 13, 200, "Blaze Pet", "Fire Monster");
+        GuiConstructor(player, Material.EXPERIENCE_BOTTLE, 14, 200, "Witch Pet", "Potionless");
+        GuiConstructor(player, Material.SAND, 15, 200, "Husk Pet", "Needs Hydration");
+        GuiConstructor(player, Material.SANDSTONE_WALL, 16, 200, "Baby Husk Pet", "Not to be confused with Husky");
+        GuiConstructor(player, Material.ROTTEN_FLESH, 19, 200, "Zombie Pet", "Nice guy. Avoids sunlight");
+        GuiConstructor(player, Material.CRACKED_STONE_BRICKS, 20, 200, "Baby Zombie Pet", "Brains?");
+        GuiConstructor(player, Material.SNOW_BLOCK, 21, 200, "Snowman Pet", "Enjoys long walks on the beach");
+        GuiConstructor(player, Material.POPPY, 22, 200, "Golem Pet", "Iron Golem");
+        GuiConstructor(player, Material.COOKED_COD, 23, 200, "Cat Pet", "Meow");
         
         
-        inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Pet"));
-        inv.setItem(39, createGuiItem(Material.ARROW, "Back"));
+        inventory.setItem(40, createGuiItem(Material.BARRIER, "Remove Pet"));
+        inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));
     }

@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,16 +20,10 @@ public class TrailsConstructor implements Listener {
     Random random = new Random();
     
     public static HashMap<Player, List<Location>> blockLocMap = new HashMap<>();
-    List<Location> blockLocList = new ArrayList<>();
-    
-    public static HashMap<Player, List<Material>> blockMatMap = new HashMap<>();
-    List<Material> blockMatList = new ArrayList<>();
-    
-    public static HashMap<Player, List<BlockData>> blockDataMap = new HashMap<>();
-    List<BlockData> blockDataList = new ArrayList<>();
+
     
     public static HashMap<Player, List<BlockState>> blockStateMap = new HashMap<>();
-    List<BlockState> blockStateList = new ArrayList<>();
+
     
     public HashMap<Player, Location> trailsMap = TrailsGuiListeners.trailsMap;
     public HashMap<Player, String> trailTypeMap = TrailsGuiListeners.trailTypeMap;
@@ -171,6 +164,18 @@ public class TrailsConstructor implements Listener {
                                                     Material.STONECUTTER,
                                                     };
     
+    
+    public Boolean doesBlockExist(Block bloc) {
+        Boolean exists = false;
+        
+        for (List<Location> list : blockLocMap.values()) {
+            if (list.contains(bloc.getLocation())) {
+                exists = true;
+            }
+        }
+        return exists;
+    }
+    
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = (Player) event.getPlayer();
@@ -188,78 +193,46 @@ public class TrailsConstructor implements Listener {
                     
                     Block bloc = player.getLocation().add(x, -1, z).getBlock();
                     
-                    //if (bloc.getLocation().add(0, 1, 0).getBlock().getType() != Material.AIR) return;
-                    
                     for (int j = 0; j < exemptMaterials.length; j++) {
                         exempt.add(exemptMaterials[j]);
                     }
-
                     
-                    if (bloc.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && 
-                            bloc.getType() != Material.AIR && !exempt.contains(bloc.getType())) {
+                    if (bloc.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && bloc.getType().isSolid() &&
+                            bloc.getType().isOccluding() && bloc.getType() != Material.AIR && !exempt.contains(bloc.getType())) {
                         
                         
                         if (blockLocMap.containsKey(player)) {
                             
-                            for (List<Location> list : blockLocMap.values()) {
-                                if (!list.contains(bloc.getLocation())) {
-                                    if (blockLocMap.get(player).size() >= 10) {
+                            if (!doesBlockExist(bloc)) {
+                                if (blockLocMap.get(player).size() >= 10) {
 
-                                        
-                                        blockLocMap.get(player).get(0).getBlock().setType(blockMatMap.get(player).get(0));
-                                        blockLocMap.get(player).get(0).getBlock().setBlockData(blockDataMap.get(player).get(0));
-                                        blockStateMap.get(player).get(0).update();///
-                                        
-                                        blockLocMap.get(player).remove(0);
-                                        blockMatMap.get(player).remove(0);
-                                        blockDataMap.get(player).remove(0);
-                                        blockStateMap.get(player).remove(0);///
-                                    }
+                                    blockStateMap.get(player).get(0).update(true, false);///
                                     
-                                    blockLocMap.get(player).add(bloc.getLocation());
-                                    blockMatMap.get(player).add(bloc.getType());
-                                    blockDataMap.get(player).add(bloc.getBlockData());
-                                    blockStateMap.get(player).add(bloc.getState());///
-                                    
-                                    bloc.setType(material);
+                                    blockLocMap.get(player).remove(0);
+                                    blockStateMap.get(player).remove(0);///
                                 }
+                                
+                                blockLocMap.get(player).add(bloc.getLocation());
+                                blockStateMap.get(player).add(bloc.getState());///
+                                
+                                bloc.setType(material);
                             }
                         }
 
                         
                         else {
-                            
-                            if (blockLocMap.isEmpty()) {
+                            if (!doesBlockExist(bloc)) {
+                                List<Location> blockLocList = new ArrayList<>();
+                                List<BlockState> blockStateList = new ArrayList<>();
+                                
                                 blockLocList.add(bloc.getLocation());
-                                blockMatList.add(bloc.getType());
-                                blockDataList.add(bloc.getBlockData());
                                 blockStateList.add(bloc.getState());///
                                 
                                 blockLocMap.put(player, blockLocList);
-                                blockMatMap.put(player, blockMatList);
-                                blockDataMap.put(player, blockDataList);
                                 blockStateMap.put(player, blockStateList);///
                                 
                                 bloc.setType(material);
                             }
-                            
-                            else {
-                                for (List<Location> list : blockLocMap.values()) {/////
-                                    if (!list.contains(bloc.getLocation())) {
-                                        blockLocList.add(bloc.getLocation());
-                                        blockMatList.add(bloc.getType());
-                                        blockDataList.add(bloc.getBlockData());
-                                        
-                                        blockLocMap.put(player, blockLocList);
-                                        blockMatMap.put(player, blockMatList);
-                                        blockDataMap.put(player, blockDataList);
-                                        
-                                        bloc.setType(material);
-                                    }
-                                }
-                            }
-                            
-
                         }  
                     }
                     

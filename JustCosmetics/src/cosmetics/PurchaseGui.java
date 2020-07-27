@@ -5,26 +5,31 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class PurchaseGui implements Listener {
-    public Inventory inv;
-
-    public void ExampleGui(String item) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.RED + "Purchase: " + item + "?");
-
-        // Put the items into the inventory
+public class PurchaseGui implements InventoryHolder {
+    
+    private final Inventory inventory;
+    
+    public PurchaseGui(String item) {
+        
+        inventory = Bukkit.createInventory(this, 54, ChatColor.RED + "Purchase: " + item + "?");
+        
         initializeItems();
+    }
+    
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 
     // You can call this whenever you want to put the items in
     public void initializeItems() {
-        inv.setItem(20, createGuiItem(Material.LIME_WOOL, ChatColor.GREEN + "YES"));
-        inv.setItem(24, createGuiItem(Material.RED_WOOL, ChatColor.RED + "NO"));
+        inventory.setItem(20, createGuiItem(Material.LIME_WOOL, ChatColor.GREEN + "YES"));
+        inventory.setItem(24, createGuiItem(Material.RED_WOOL, ChatColor.RED + "NO"));
 
     }
 

@@ -7,22 +7,32 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-
-
-public class CosmeticGui implements Listener {
+public class CosmeticGui implements InventoryHolder {
     
     private Cosmetics plugin;
-    public CosmeticGui(Cosmetics b) {
-        plugin = b;
+    private final Inventory inventory;
+    
+    public CosmeticGui(Cosmetics plugin, Player player) {
+        this.plugin = plugin;
+        
+        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Costmetics");
+        
+        inventory.setItem(31, getPlayerHead(player));
+        
+        initializeItems();
     }
     
-    public Inventory inv;
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
+    
     
     // Get player skull
     @SuppressWarnings("deprecation")
@@ -50,28 +60,18 @@ public class CosmeticGui implements Listener {
         return playerskull;
     }
     
-    public void ExampleGui(Player player) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Cosmetics");
-
-        inv.setItem(31, getPlayerHead(player)); // Add player skull to inventory
-        
-        // Put the items into the inventory
-        initializeItems();
-    }
-
     // You can call this whenever you want to put the items in
     public void initializeItems() {
-        inv.setItem(10, createGuiItem(Material.PARROT_SPAWN_EGG, ChatColor.GOLD + "Pets"));
-        inv.setItem(12, createGuiItem(Material.CARVED_PUMPKIN, ChatColor.GOLD + "Disguises"));
-        inv.setItem(14, createGuiItem(Material.STICKY_PISTON, ChatColor.GOLD + "Gadgets"));
-        inv.setItem(16, createGuiItem(Material.FIREWORK_ROCKET, ChatColor.GOLD + "Particles"));
+        inventory.setItem(10, createGuiItem(Material.PARROT_SPAWN_EGG, ChatColor.GOLD + "Pets"));
+        inventory.setItem(12, createGuiItem(Material.CARVED_PUMPKIN, ChatColor.GOLD + "Disguises"));
+        inventory.setItem(14, createGuiItem(Material.STICKY_PISTON, ChatColor.GOLD + "Gadgets"));
+        inventory.setItem(16, createGuiItem(Material.FIREWORK_ROCKET, ChatColor.GOLD + "Particles"));
         
         //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));
     }
-
+    
     // Nice little method to create a gui item with a custom name, and description
     protected ItemStack createGuiItem(final Material material, final String name, final String... lore) {
         final ItemStack item = new ItemStack(material, 1);
@@ -87,5 +87,4 @@ public class CosmeticGui implements Listener {
 
         return item;
     }
-
 }

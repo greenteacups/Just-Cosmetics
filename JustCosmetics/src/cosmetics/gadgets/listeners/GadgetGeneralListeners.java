@@ -20,8 +20,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -42,10 +44,6 @@ import net.minecraft.server.v1_16_R1.WorldServer;
 public class GadgetGeneralListeners implements Listener {
     
     private Cosmetics plugin;
-    public CosmeticGui maingui = Cosmetics.maingui;
-    public GadgetGui gadgetgui = Cosmetics.gadgetgui;
-    public TrailsGui trailsgui = Cosmetics.trailsgui;
-
     public GadgetGeneralListeners(Cosmetics b) {
         plugin = b;
     }
@@ -202,7 +200,7 @@ public class GadgetGeneralListeners implements Listener {
     }
     
     @EventHandler
-    public void airstrikeTntExplode(EntityExplodeEvent event) {
+    public void airstrikeTntExplodeBlocks(EntityExplodeEvent event) {
         if (event.getEntity() != null) {
             if (tntList.contains(event.getEntity())) {
                 event.getEntity().getWorld().spawnParticle(Particle.EXPLOSION_HUGE,
@@ -212,6 +210,15 @@ public class GadgetGeneralListeners implements Listener {
                 event.setCancelled(true);
                 
                 tntList.remove(event.getEntity());
+            }
+        }
+    }
+    
+    @EventHandler
+    public void airstrikeTntExplodeEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() != null) {
+            if (tntList.contains(event.getDamager())) {
+                event.setCancelled(true);
             }
         }
     }
@@ -233,6 +240,33 @@ public class GadgetGeneralListeners implements Listener {
         if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().contains("Firework Gadget") && 
                 event.getItemDrop().getItemStack().getItemMeta().hasLore()) {
             event.setCancelled(true);
+        }
+    }
+    
+    //Player death remove Everything
+    @EventHandler
+    public void onDeathEvent(PlayerDeathEvent event) {
+        for (int i = 0; i < event.getDrops().size(); i++) {
+            if (event.getDrops().get(i).getItemMeta().getDisplayName().contains("Jump Stick") && 
+                    event.getDrops().get(i).getItemMeta().hasLore()) {
+                event.getDrops().get(i).setAmount(0);
+                break;
+            }
+            if (event.getDrops().get(i).getItemMeta().getDisplayName().contains("Green Shell Gun") && 
+                    event.getDrops().get(i).getItemMeta().hasLore()) {
+                event.getDrops().get(i).setAmount(0);
+                break;
+            }
+            if (event.getDrops().get(i).getItemMeta().getDisplayName().contains("Air Strike") && 
+                    event.getDrops().get(i).getItemMeta().hasLore()) {
+                event.getDrops().get(i).setAmount(0);
+                break;
+            }
+            if (event.getDrops().get(i).getItemMeta().getDisplayName().contains("Firework Gadget") && 
+                    event.getDrops().get(i).getItemMeta().hasLore()) {
+                event.getDrops().get(i).setAmount(0);
+                break;
+            }
         }
     }
     
@@ -323,17 +357,17 @@ public class GadgetGeneralListeners implements Listener {
     // Stop dragging of items out of gadget gui, trail gui and main gui
     @EventHandler
     public void InvClick(InventoryClickEvent event) {
-        if(event.getInventory() == maingui.inv) {
+        if(event.getInventory().getHolder() instanceof CosmeticGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
         }
-        if(event.getInventory() == gadgetgui.inv) {
+        if(event.getInventory().getHolder() instanceof GadgetGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
         }
-        if(event.getInventory() == trailsgui.inv) {
+        if(event.getInventory().getHolder() instanceof TrailsGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });

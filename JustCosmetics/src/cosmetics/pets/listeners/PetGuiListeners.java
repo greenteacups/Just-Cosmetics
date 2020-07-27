@@ -13,13 +13,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.PurchaseGui;
 import cosmetics.RemoveEffects;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
 import cosmetics.pets.custompets.BlazePet;
+import cosmetics.pets.custompets.CatPet;
 import cosmetics.pets.custompets.ChickenPet;
 import cosmetics.pets.custompets.CowPet;
 import cosmetics.pets.custompets.CreeperPet;
@@ -46,14 +46,8 @@ import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class PetGuiListeners implements Listener {
 
-    public CosmeticGui maingui = Cosmetics.maingui;
-    public PetGui petgui = Cosmetics.petgui;
-    public PetGui2 petgui2 = Cosmetics.petgui2;
-    public SheepColourGUI colorgui = Cosmetics.colourgui;
-    public BabySheepColourGUI babycolorgui = Cosmetics.babycolourgui;
     private Cosmetics plugin;
     
-    public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
@@ -71,7 +65,7 @@ public class PetGuiListeners implements Listener {
     //Clicking Inside the main Pet Selector GUI Page 1/1
     @EventHandler()
     public void onPetGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(petgui.inv))
+        if (!(event.getInventory().getHolder() instanceof PetGui))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -99,7 +93,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Llama Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -118,7 +112,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Llama Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -136,7 +130,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Pig Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -155,7 +149,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Pig Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -173,7 +167,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Chicken Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -192,24 +186,22 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Chicken Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
         
         //Go to Sheep Gui
         if (event.getSlot() == 16) {
-            colorgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(colorgui.inv);
+                player.openInventory(new SheepColourGUI(plugin, player).getInventory());
             });
         }
         
         //Add Baby Sheep
         if (event.getSlot() == 19) {
-            babycolorgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(babycolorgui.inv);
+                player.openInventory(new BabySheepColourGUI(plugin, player).getInventory());
             });
         }
         
@@ -226,7 +218,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Cow Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -245,7 +237,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Cow Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -263,7 +255,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Mooshroom Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -281,7 +273,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Fox Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -300,7 +292,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Fox Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -318,7 +310,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Panda Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -337,7 +329,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Panda Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -355,7 +347,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Wolf Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -374,7 +366,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Wolf Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -392,7 +384,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Polar Bear Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -411,7 +403,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Polar Bear Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -429,7 +421,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Rabbit Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -447,7 +439,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Ocelot Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -460,15 +452,14 @@ public class PetGuiListeners implements Listener {
         // Return to cosmetic window
         if (event.getSlot() == 39) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(maingui.inv);
+                player.openInventory(new CosmeticGui(plugin, player).getInventory());
             });
         }
         
         // Pet Gui Page 2
         if (event.getSlot() == 41) {
-            petgui2.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(petgui2.inv);
+                player.openInventory(new PetGui2(plugin, player).getInventory());
             });
         }
         
@@ -479,7 +470,7 @@ public class PetGuiListeners implements Listener {
     //PetGui Page 2
     @EventHandler()
     public void onPetGui2Click(InventoryClickEvent event) {
-        if (!event.getInventory().equals(petgui2.inv))
+        if (!(event.getInventory().getHolder() instanceof PetGui2))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -507,7 +498,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Turtle Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -525,7 +516,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Creeper Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -543,7 +534,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Horse Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -561,7 +552,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Blaze Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -579,7 +570,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Witch Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -597,7 +588,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Husk Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -616,7 +607,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Husk Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -634,7 +625,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Zombie Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -653,7 +644,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Baby Zombie Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -671,7 +662,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Snowman Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -689,7 +680,25 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Golem Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
+                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+            }
+        }
+        
+        //Add Cat
+        if (event.getSlot() == 23) {
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cat Pet")) {
+                CatPet pet = new CatPet(player.getLocation(), player);
+                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
+                        + ChatColor.BOLD + player.getName() + "'s Pet"));
+                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+                world.addEntity(pet);
+                
+                currentPet.put(player, pet.getBukkitEntity());
+            }
+            else {
+                purchaseItem.put(player, "Cat Pet"); //Input Name
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -701,9 +710,8 @@ public class PetGuiListeners implements Listener {
         
         // Pet Gui Page 2
         if (event.getSlot() == 39) {
-            petgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(petgui.inv);
+                player.openInventory(new PetGui(plugin, player).getInventory());
             });
         }
         
@@ -714,7 +722,7 @@ public class PetGuiListeners implements Listener {
     //Clicking Inside the main Sheep Colour Selector GUI
     @EventHandler()
     public void onSheepColourGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(colorgui.inv))
+        if (!(event.getInventory().getHolder() instanceof SheepColourGUI))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -743,7 +751,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Red Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -762,7 +770,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Orange Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -781,7 +789,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Yellow Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -800,7 +808,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Green Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -819,7 +827,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Lime Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -838,7 +846,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Blue Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -857,7 +865,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Cyan Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -876,7 +884,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Light Blue Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -895,7 +903,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Purple Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -914,7 +922,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Magenta Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -933,7 +941,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Pink Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -952,7 +960,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Brown Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -971,7 +979,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Black Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -990,7 +998,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Gray Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1009,7 +1017,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Light Gray Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1028,16 +1036,15 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "White Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            petgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(petgui.inv);
+                player.openInventory(new PetGui(plugin, player).getInventory());
             });
         }
         
@@ -1053,7 +1060,7 @@ public class PetGuiListeners implements Listener {
     //Clicking Inside the main Baby Sheep Colour Selector GUI
     @EventHandler()
     public void onBabySheepColourGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(babycolorgui.inv))
+        if (!(event.getInventory().getHolder() instanceof BabySheepColourGUI))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -1083,7 +1090,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Red Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1103,7 +1110,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Orange Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1123,7 +1130,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Yellow Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1143,7 +1150,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Green Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1163,7 +1170,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Lime Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1183,7 +1190,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Blue Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1203,7 +1210,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Cyan Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1223,7 +1230,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Light Blue Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1243,7 +1250,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Purple Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1263,7 +1270,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Magenta Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1283,7 +1290,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Pink Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1303,7 +1310,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Brown Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1323,7 +1330,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Black Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1343,7 +1350,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Gray Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1363,7 +1370,7 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Light Gray Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -1383,16 +1390,15 @@ public class PetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "White Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            petgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(petgui.inv);
+                player.openInventory(new PetGui(plugin, player).getInventory());
             });
         }
         

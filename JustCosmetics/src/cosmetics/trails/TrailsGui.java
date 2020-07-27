@@ -7,53 +7,57 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import cosmetics.Cosmetics;
 
-public class TrailsGui {
-    public Inventory inv;
+public class TrailsGui implements InventoryHolder {
     
     private Cosmetics plugin;
-    public TrailsGui(Cosmetics b) {
-        plugin = b;
+    private final Inventory inventory;
+    
+    public TrailsGui(Cosmetics plugin, Player player) {
+        this.plugin = plugin;
+        
+        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Trail Type");
+        
+        initializeItems(player);
+    }
+    
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 
     // GuiConstructor
     public void GuiConstructor(Player player, Material item, int pos, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, "Equip " + name + "!"));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, ChatColor.GREEN + "Click to equip!"));
         }
         else {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, price + " Slime"));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, 
+                    "" + ChatColor.AQUA + "Click to buy for " + ChatColor.GREEN + price + ChatColor.AQUA + " Slime!"));
         }
-    }
-    
-    public void ExampleGui(Player player) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Trail Type");
-
-        // Put the items into the inventory
-        initializeItems(player);
     }
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.MAGENTA_CONCRETE, 10, 50, "Disco Trail");
-        GuiConstructor(player, Material.GRASS_PATH, 11, 50, "Path Trail");
-        GuiConstructor(player, Material.CRAFTING_TABLE, 12, 50, "Utility Trail");
-        GuiConstructor(player, Material.GOLD_INGOT, 13, 50, "Wealthy Trail");
-        GuiConstructor(player, Material.SPRUCE_PLANKS, 14, 50, "Wood Trail");
-        GuiConstructor(player, Material.COAL_ORE, 15, 50, "Ore Trail");
-        GuiConstructor(player, Material.CRIMSON_HYPHAE, 16, 50, "Nether Trail");
-        GuiConstructor(player, Material.END_STONE, 19, 50, "End Trail");
-        GuiConstructor(player, Material.MELON, 20, 50, "Melon Trail");
-        GuiConstructor(player, Material.FIRE_CORAL_BLOCK, 21, 50, "Coral Trail");
+        GuiConstructor(player, Material.MAGENTA_CONCRETE, 10, 60, "Disco Trail");
+        GuiConstructor(player, Material.GRASS_PATH, 11, 60, "Path Trail");
+        GuiConstructor(player, Material.CRAFTING_TABLE, 12, 60, "Utility Trail");
+        GuiConstructor(player, Material.GOLD_INGOT, 13, 60, "Wealthy Trail");
+        GuiConstructor(player, Material.SPRUCE_PLANKS, 14, 60, "Wood Trail");
+        GuiConstructor(player, Material.COAL_ORE, 15, 60, "Ore Trail");
+        GuiConstructor(player, Material.CRIMSON_HYPHAE, 16, 60, "Nether Trail");
+        GuiConstructor(player, Material.END_STONE, 19, 60, "End Trail");
+        GuiConstructor(player, Material.MELON, 20, 60, "Melon Trail");
+        GuiConstructor(player, Material.FIRE_CORAL_BLOCK, 21, 60, "Coral Trail");
         
         
-        inv.setItem(39, createGuiItem(Material.ARROW, "Back"));
-        inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Trail"));
+        inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));
+        inventory.setItem(40, createGuiItem(Material.BARRIER, "Remove Trail"));
         //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));

@@ -7,10 +7,12 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowman;
+import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -24,11 +26,6 @@ import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
 
 public class PetGeneralListeners implements Listener {
-    
-    public PetGui petgui = Cosmetics.petgui;
-    public PetGui2 petgui2 = Cosmetics.petgui2;
-    public SheepColourGUI colorgui = Cosmetics.colourgui;
-    public BabySheepColourGUI babycolorgui = Cosmetics.babycolourgui;
     
     private Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
@@ -97,25 +94,48 @@ public class PetGeneralListeners implements Listener {
         }
     }
     
+    //Stop pets burning
+    @EventHandler
+    public void onDisguiseDamage(EntityDamageEvent event) {
+        if (currentPet.containsValue(event.getEntity())) {
+            
+            if (event.getEntity() != null && event.getCause() == DamageCause.FIRE_TICK) {
+                if(event.getEntity() instanceof Zombie) {
+                    event.getEntity().setFireTicks(0);;
+                }
+            }
+            
+            event.setCancelled(true);
+        }
+    }
+    
+    //Stop naming and colour pet
+    @EventHandler
+    public void onMobInteract(PlayerInteractEntityEvent event) {
+        if (currentPet.containsValue(event.getRightClicked())) {
+            event.setCancelled(true);
+        }
+    }
+    
     // Stop dragging of items out of pet guis
     @EventHandler
     public void InvClick(InventoryClickEvent event) {
-        if(event.getInventory() == petgui.inv) {
+        if(event.getInventory().getHolder() instanceof PetGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
         }
-        if(event.getInventory() == petgui2.inv) {
+        if(event.getInventory().getHolder() instanceof PetGui2) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
         }
-        if(event.getInventory() == colorgui.inv) {
+        if(event.getInventory().getHolder() instanceof SheepColourGUI) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
         }
-        if(event.getInventory() == babycolorgui.inv) {
+        if(event.getInventory().getHolder() instanceof BabySheepColourGUI) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });

@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 
 public class PurchaseConstructor {
     
-    public PurchaseGui purchasegui = Cosmetics.purchasegui;
-    
     private Cosmetics plugin;
 
     public PurchaseConstructor(Cosmetics b) {
@@ -22,9 +20,8 @@ public class PurchaseConstructor {
 //        System.out.println("GUI = " + purchasegui);
         
         if (plugin.dataSlime.getSlime(player.getUniqueId()) >= price) {
-            purchasegui.ExampleGui(item);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(purchasegui.inv);
+                player.openInventory(new PurchaseGui(item).getInventory());
             });
         }
         else {

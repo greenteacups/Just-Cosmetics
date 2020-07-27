@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import cosmetics.Cosmetics;
-import cosmetics.disguises.DisguiseGui;
 
 public class SQLListeners implements Listener {
     
@@ -16,14 +15,14 @@ public class SQLListeners implements Listener {
         plugin = b;
     }
     
-    public DisguiseGui disguisegui = Cosmetics.disguisegui;
-    
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        plugin.dataSlime.createPlayer(player);
-        //plugin.dataCosmetics.createPlayer(player);
-
+        
+        if (!plugin.dataSlime.exists(player.getUniqueId())) {
+            plugin.dataSlime.createPlayer(player);
+            plugin.dataSlime.addSlime(player.getUniqueId(), 100);
+        }
     }
 
 }

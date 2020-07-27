@@ -4,13 +4,27 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQL {
+import cosmetics.Cosmetics;
 
-    private String host = "localhost";
-    private String port = "3306";
-    private String database = "greenteacupsplugins";
-    private String username = "root";
-    private String password = "";
+public class MySQL {
+    
+    private Cosmetics plugin;
+
+    public MySQL(Cosmetics b) {
+        plugin = b;
+        
+        host = plugin.getConfig().getString("SQL.host");
+        port = plugin.getConfig().getString("SQL.port");
+        database = plugin.getConfig().getString("SQL.database");
+        username = plugin.getConfig().getString("SQL.username");
+        password = plugin.getConfig().getString("SQL.password");
+    }
+
+    private String host;
+    private String port;
+    private String database;
+    private String username;
+    private String password;
     
     private Connection connection;
     

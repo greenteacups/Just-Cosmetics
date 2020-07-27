@@ -15,7 +15,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.PurchaseGui;
 import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
@@ -29,12 +28,7 @@ import cosmetics.trails.TrailsGui;
 import net.minecraft.server.v1_16_R1.WorldServer;
 
 public class GadgetGuiListeners implements Listener {
-
-    public CosmeticGui maingui = Cosmetics.maingui;
-    public GadgetGui gadgetgui = Cosmetics.gadgetgui;
-    public TrailsGui trailsgui = Cosmetics.trailsgui;
     
-    public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
@@ -55,7 +49,7 @@ public class GadgetGuiListeners implements Listener {
     //Clicking Inside the main Main Gui
     @EventHandler()
     public void onGadgetGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(gadgetgui.inv))
+        if (!(event.getInventory().getHolder() instanceof GadgetGui))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
@@ -83,7 +77,7 @@ public class GadgetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Jump Stick"); //Input Name
-                purchasePrice.put(player, 100); //Input Price
+                purchasePrice.put(player, 200); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -122,7 +116,7 @@ public class GadgetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Green Shells"); //Input Name
-                purchasePrice.put(player, 500); //Input Price
+                purchasePrice.put(player, 400); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -152,7 +146,7 @@ public class GadgetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Dazed"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
+                purchasePrice.put(player, 300); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
             
@@ -172,7 +166,7 @@ public class GadgetGuiListeners implements Listener {
             }
             else {
                 purchaseItem.put(player, "Air Strike"); //Input Name
-                purchasePrice.put(player, 500); //Input Price
+                purchasePrice.put(player, 300); //Input Price
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
@@ -198,16 +192,15 @@ public class GadgetGuiListeners implements Listener {
         
         //Open Trails Menu
         if (event.getSlot() == 15) {
-            trailsgui.ExampleGui(player);
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(trailsgui.inv);
+                player.openInventory(new TrailsGui(plugin, player).getInventory());
             });
         }
          
         // Return to cosmetic window
         if (event.getSlot() == 39) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(maingui.inv);
+                player.openInventory(new CosmeticGui(plugin, player).getInventory());
             });
         }
         

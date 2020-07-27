@@ -20,7 +20,7 @@ public class SQLGetterSlime {
         PreparedStatement ps;
         try {
             ps = plugin.SQL.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS CosmeticCurrency " 
-                    + "(NAME VARCHAR(100),UUID VARCHAR(100),SLIME INT(100),PRIMARY KEY (NAME))");
+                    + "(NAME VARCHAR(100),UUID VARCHAR(100),SLIME INT(100),PRIMARY KEY (UUID))");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

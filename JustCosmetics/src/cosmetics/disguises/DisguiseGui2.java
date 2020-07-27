@@ -6,66 +6,70 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import cosmetics.Cosmetics;
 
-public class DisguiseGui2 implements Listener {
-    public Inventory inv;
+public class DisguiseGui2 implements InventoryHolder {
     
     private Cosmetics plugin;
-    public DisguiseGui2(Cosmetics b) {
-        plugin = b;
+    private final Inventory inventory;
+    
+    public DisguiseGui2(Cosmetics plugin, Player player) {
+        this.plugin = plugin;
+        
+        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Disguise Selector (2/2)");
+        
+        initializeItems(player);
+    }
+    
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
     
     // GuiConstructor
     public void GuiConstructor(Player player, Material item, int pos, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, "Equip " + name + "!"));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, ChatColor.GREEN + "Click to equip!"));
         }
         else {
-            inv.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, price + " Slime"));
+            inventory.setItem(pos, createGuiItem(item, ChatColor.GOLD + name, 
+                    "" + ChatColor.AQUA + "Click to buy for " + ChatColor.GREEN + price + ChatColor.AQUA + " Slime!"));
         }
     }
-    
-    public void ExampleGui(Player player) {
-        // Create a new inventory, with no owner (as this isn't a real inventory), a size of nine, called example
-        inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Disguise Selector (2/2)");
 
-        // Put the items into the inventory
-        initializeItems(player);
-    }
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
         
-        GuiConstructor(player, Material.PARROT_SPAWN_EGG, 10, 100, "Parrot Disguise");
-        GuiConstructor(player, Material.PIG_SPAWN_EGG, 11, 100, "Pig Disguise");
-        GuiConstructor(player, Material.PIGLIN_SPAWN_EGG, 12, 100, "Piglin Disguise");
-        GuiConstructor(player, Material.PILLAGER_SPAWN_EGG, 13, 100, "Pillager Disguise");
-        GuiConstructor(player, Material.POLAR_BEAR_SPAWN_EGG, 14, 100, "Polar Bear Disguise");
-        GuiConstructor(player, Material.RABBIT_SPAWN_EGG, 15, 100, "Rabbit Disguise");
-        GuiConstructor(player, Material.SHEEP_SPAWN_EGG, 16, 100, "Sheep Disguise");
-        GuiConstructor(player, Material.SILVERFISH_SPAWN_EGG, 19, 100, "Silverfish Disguise");
-        GuiConstructor(player, Material.SKELETON_SPAWN_EGG, 20, 100, "Skeleton Disguise");
-        GuiConstructor(player, Material.SLIME_SPAWN_EGG, 21, 100, "Slime Disguise");
-        GuiConstructor(player, Material.SPIDER_SPAWN_EGG, 22, 100, "Spider Disguise");
-        GuiConstructor(player, Material.STRAY_SPAWN_EGG, 23, 100, "Stray Disguise");
-        GuiConstructor(player, Material.STRIDER_SPAWN_EGG, 24, 100, "Strider Disguise");
-        GuiConstructor(player, Material.TURTLE_SPAWN_EGG, 25, 100, "Turtle Disguise");
-        GuiConstructor(player, Material.VINDICATOR_SPAWN_EGG, 28, 100, "Vindicator Disguise");
-        GuiConstructor(player, Material.WITCH_SPAWN_EGG, 29, 100, "Witch Disguise");
-        GuiConstructor(player, Material.WITHER_SKELETON_SPAWN_EGG, 30, 100, "Wither Skeleton Disguise");
-        GuiConstructor(player, Material.WOLF_SPAWN_EGG, 31, 100, "Wolf Disguise");
-        GuiConstructor(player, Material.ZOGLIN_SPAWN_EGG, 32, 100, "Zoglin Disguise");
-        GuiConstructor(player, Material.ZOMBIE_SPAWN_EGG, 33, 100, "Zombie Disguise");
+        GuiConstructor(player, Material.PARROT_SPAWN_EGG, 10, 200, "Parrot Disguise");
+        GuiConstructor(player, Material.PIG_SPAWN_EGG, 11, 200, "Pig Disguise");
+        GuiConstructor(player, Material.PIGLIN_SPAWN_EGG, 12, 200, "Piglin Disguise");
+        GuiConstructor(player, Material.PILLAGER_SPAWN_EGG, 13, 200, "Pillager Disguise");
+        GuiConstructor(player, Material.POLAR_BEAR_SPAWN_EGG, 14, 200, "Polar Bear Disguise");
+        GuiConstructor(player, Material.RABBIT_SPAWN_EGG, 15, 200, "Rabbit Disguise");
+        GuiConstructor(player, Material.SHEEP_SPAWN_EGG, 16, 200, "Sheep Disguise");
+        GuiConstructor(player, Material.SILVERFISH_SPAWN_EGG, 19, 200, "Silverfish Disguise");
+        GuiConstructor(player, Material.SKELETON_SPAWN_EGG, 20, 200, "Skeleton Disguise");
+        GuiConstructor(player, Material.SLIME_SPAWN_EGG, 21, 200, "Slime Disguise");
+        GuiConstructor(player, Material.SPIDER_SPAWN_EGG, 22, 200, "Spider Disguise");
+        GuiConstructor(player, Material.STRAY_SPAWN_EGG, 23, 200, "Stray Disguise");
+        GuiConstructor(player, Material.STRIDER_SPAWN_EGG, 24, 200, "Strider Disguise");
+        GuiConstructor(player, Material.TURTLE_SPAWN_EGG, 25, 200, "Turtle Disguise");
+        GuiConstructor(player, Material.VINDICATOR_SPAWN_EGG, 28, 200, "Vindicator Disguise");
+        GuiConstructor(player, Material.WITCH_SPAWN_EGG, 29, 200, "Witch Disguise");
+        GuiConstructor(player, Material.WITHER_SKELETON_SPAWN_EGG, 30, 200, "Wither Skeleton Disguise");
+        GuiConstructor(player, Material.WOLF_SPAWN_EGG, 31, 200, "Wolf Disguise");
+        GuiConstructor(player, Material.ZOGLIN_SPAWN_EGG, 32, 200, "Zoglin Disguise");
+        GuiConstructor(player, Material.ZOMBIE_SPAWN_EGG, 33, 200, "Zombie Disguise");
 
         
-        inv.setItem(39, createGuiItem(Material.ARROW, "Back"));
-        inv.setItem(40, createGuiItem(Material.BARRIER, "Remove Disguise"));
+        inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));
+        inventory.setItem(40, createGuiItem(Material.BARRIER, "Remove Disguise"));
         //inv.setItem(41, createGuiItem(Material.ARROW, "Next"));
         
         //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));

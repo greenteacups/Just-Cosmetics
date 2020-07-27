@@ -12,7 +12,6 @@ import cosmetics.PurchaseConstructor;
 
 public class PurchaseGuiListeners implements Listener {
 
-    public PurchaseGui purchasegui = Cosmetics.purchasegui;
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
@@ -27,7 +26,7 @@ public class PurchaseGuiListeners implements Listener {
     //Clicking Inside the main Main Gui
     @EventHandler()
     public void onPurchaseGuiClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(purchasegui.inv))
+        if (!(event.getInventory().getHolder() instanceof PurchaseGui))
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;

@@ -46,19 +46,38 @@ public class GadgetRunnables {
      //Parrot spinning
      if (parrotMap.containsKey(player)) {
          
-         for (int i = 0; i <= 2; i++) {
-             Entity parrot = parrotMap.get(player).get(i);
+         if(!player.isSneaking()) {
+             for (int i = 0; i <= 2; i++) {
+                 Entity parrot = parrotMap.get(player).get(i);
+                 
+                 double thetanew = System.currentTimeMillis()/500.0 + i * Math.PI * 2 / 3;
+                 
+                 parrot.teleport(player.getLocation().add(0.8*Math.cos(thetanew), 1.7, 0.8*Math.sin(thetanew)));
+             }
              
-             double thetanew = System.currentTimeMillis()/500.0 + i * Math.PI * 2 / 3;
+             for (int i = 0; i <= 1; i++) {
+                 player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
+                         player.getLocation().add(Math.random()-0.5, 0, 0).getX(), player.getLocation().add(0, 2, 0).getY(),
+                         player.getLocation().add(0, 0, Math.random()-0.5).getZ(), 0);
+             }
+         }
+         else {
+             for (int i = 0; i <= 2; i++) {
+                 Entity parrot = parrotMap.get(player).get(i);
+                 
+                 double thetanew = System.currentTimeMillis()/500.0 + i * Math.PI * 2 / 3;
+                 
+                 parrot.teleport(player.getLocation().add(0.8*Math.cos(thetanew), 1.3, 0.8*Math.sin(thetanew)));
+             }
              
-             parrot.teleport(player.getLocation().add(0.8*Math.cos(thetanew), 1.7, 0.8*Math.sin(thetanew)));
+             for (int i = 0; i <= 1; i++) {
+                 player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
+                         player.getLocation().add(Math.random()-0.5, 0, 0).getX(), player.getLocation().add(0, 1.7, 0).getY(),
+                         player.getLocation().add(0, 0, Math.random()-0.5).getZ(), 0);
+             }
          }
          
-         for (int i = 0; i <= 1; i++) {
-             player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
-                     player.getLocation().add(Math.random()-0.5, 0, 0).getX(), player.getLocation().add(0, 2, 0).getY(),
-                     player.getLocation().add(0, 0, Math.random()-0.5).getZ(), 0);
-         }
+
      }
      
      //Air Strike
