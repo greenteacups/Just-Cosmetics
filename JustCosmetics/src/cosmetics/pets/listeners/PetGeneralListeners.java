@@ -149,5 +149,17 @@ public class PetGeneralListeners implements Listener {
         RemoveEffects.ClearEffects(player);
     }
     
+    // Force pets/disguises/anything JustCosmetics to be spawned
+    @EventHandler(priority=EventPriority.HIGHEST)
+    public void onEntitySpawn(EntitySpawnEvent event) {
+        if (event.isCancelled()) {
+            for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+                if (element.getClassName().contains("cosmetics")) {
+                    // This has something to do with cosmetics, must be us
+                    event.setCancelled(false);
+                }
+            }
+        }
+    }
     
 }
