@@ -92,6 +92,10 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         this.getServer().getPluginManager().registerEvents(new TrailsGuiListeners(this), this); //
         this.getServer().getPluginManager().registerEvents(new TrailsConstructor(), this); //
+
+        try { // Paper only
+            this.getServer().getPluginManager().registerEvents(new PaperListener(this), this);
+        } catch (Exception ignored) {}
         
         getServer().getScheduler().runTaskTimer(this, () -> {
             for (Player p : Bukkit.getOnlinePlayers()) {
