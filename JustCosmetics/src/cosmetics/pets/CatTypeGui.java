@@ -13,15 +13,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import cosmetics.Cosmetics;
 
-public class PetGui2 implements InventoryHolder {
+public class CatTypeGui implements InventoryHolder {
     
     private Cosmetics plugin;
     private final Inventory inventory;
     
-    public PetGui2(Cosmetics plugin, Player player) {
+    public CatTypeGui(Cosmetics plugin, Player player) {
         this.plugin = plugin;
         
-        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Pet Selector (2/2)");
+        inventory = Bukkit.createInventory(this, 54, ChatColor.DARK_GRAY + "Cat Type Selector");
         
         initializeItems(player);
     }
@@ -44,24 +44,21 @@ public class PetGui2 implements InventoryHolder {
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.SCUTE, 10, 200, "Turtle Pet", "Shelly");
-        GuiConstructor(player, Material.GUNPOWDER, 11, 200, "Creeper Pet", "Psssssss");
-        GuiConstructor(player, Material.HAY_BLOCK, 12, 200, "Horse Pet", "Kinda like a Donkey");
-        GuiConstructor(player, Material.BLAZE_ROD, 13, 200, "Blaze Pet", "Fire Monster");
-        GuiConstructor(player, Material.EXPERIENCE_BOTTLE, 14, 200, "Witch Pet", "Potionless");
-        GuiConstructor(player, Material.SAND, 15, 200, "Husk Pet", "Needs Hydration");
-        GuiConstructor(player, Material.SANDSTONE_WALL, 16, 200, "Baby Husk Pet", "Not to be confused with Husky");
-        GuiConstructor(player, Material.ROTTEN_FLESH, 19, 200, "Zombie Pet", "Nice guy. Avoids sunlight");
-        GuiConstructor(player, Material.CRACKED_STONE_BRICKS, 20, 200, "Baby Zombie Pet", "Brains?");
-        GuiConstructor(player, Material.SNOW_BLOCK, 21, 200, "Snowman Pet", "Enjoys long walks on the beach");
-        GuiConstructor(player, Material.POPPY, 22, 200, "Golem Pet", "Iron Golem");
-        GuiConstructor(player, Material.RABBIT_HIDE, 23, 200, "Rabbit Pet", "Do a trick!");
+        GuiConstructor(player, Material.BLACK_DYE, 10, 200, "Black Cat Pet", "(black with orange eyes)");
+        GuiConstructor(player, Material.COOKED_COD, 11, 200, "British Shorthair Cat Pet", "(silver with yellow eyes)");
+        GuiConstructor(player, Material.COOKED_SALMON, 12, 200, "Calico Cat Pet", "(orange, white and dark brown with yellow and blue eyes)");
+        GuiConstructor(player, Material.SEA_PICKLE, 13, 200, "Jellie Cat Pet", "(gray and white with gray-green eyes)");
+        GuiConstructor(player, Material.COD, 14, 200, "Persian Cat Pet", "(creamy with blue eyes)");
+        GuiConstructor(player, Material.SEAGRASS, 15, 200, "Ragdoll Cat Pet", "(white and soft amber with blue eyes)");
+        GuiConstructor(player, Material.TROPICAL_FISH, 16, 200, "Red Cat Pet", "(orange and white with green eyes)");
+        GuiConstructor(player, Material.FERN, 19, 200, "Siamese Cat Pet", "(white and pale brown with blue eyes)");
+        GuiConstructor(player, Material.SALMON, 20, 200, "Tabby Cat Pet", "(brown and white with yellow eyes)");
+        GuiConstructor(player, Material.DRIED_KELP, 21, 200, "Tuxedo Cat Pet", "(black and white with green eyes)");
+        GuiConstructor(player, Material.PUFFERFISH, 22, 200, "White Cat Pet", "(white with light blue and yellow eyes)");
+
         
-        
-        inventory.setItem(40, createGuiItem(Material.BARRIER, "Remove Pet"));
         inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));
-        
-        //inv.setItem(53, createGuiItem(Material.CARROT, "Test Slot"));
+        inventory.setItem(40, createGuiItem(Material.BARRIER, "Remove Pet"));
     }
 
     // Nice little method to create a gui item with a custom name, and description

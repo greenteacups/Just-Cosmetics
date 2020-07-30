@@ -7,10 +7,10 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
@@ -39,45 +39,41 @@ public class ParticleGeneralListeners implements Listener {
             currentParticleType.put(player, Particle.valueOf(plugin.dataParticles.getType(player.getUniqueId())));
             currentParticlePattern.put(player, plugin.dataParticles.getPattern(player.getUniqueId()));
 
-            plugin.dataParticles.remove(player.getUniqueId());
-        }
-    }
-    
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-
-        Player player = (Player) event.getPlayer();
-        
-        if (currentParticleType != null && currentParticlePattern != null) {
-            if (currentParticleType.containsKey(player) && currentParticlePattern.containsKey(player)) {
-                
-                plugin.dataParticles.addParticle(player, player.getUniqueId(),
-                        currentParticleType.get(player).toString(), currentParticlePattern.get(player));
-                
-                currentParticleType.remove(player);
-                currentParticlePattern.remove(player);
-                
-            }
         }
     }
     
     // Stop dragging of items out of particle gui
     @EventHandler
     public void InvClick(InventoryClickEvent event) {
-        if(event.getInventory().getHolder() instanceof ParticleTypeGui) {
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof ParticleTypeGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
-        if(event.getInventory().getHolder() instanceof ParticleTypeGui2) {
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof ParticleTypeGui2) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
-        if(event.getInventory().getHolder() instanceof ParticlePatternGui) {
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof ParticlePatternGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
     }
     

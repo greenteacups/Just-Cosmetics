@@ -67,6 +67,7 @@ public class ParticleGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -157,8 +158,17 @@ public class ParticleGuiListeners implements Listener {
         }
         
         // Auto equip Normal
-        if (event.getSlot() <= 34 && currentParticleType.get(player) != null) {
+        if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) == null) {
             currentParticlePattern.put(player, "Normal");
+        }
+        
+        // Save player to SQL
+        if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) != null) {
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
+            plugin.dataParticles.addParticle(player, player.getUniqueId(),
+                    currentParticleType.get(player).toString(), currentParticlePattern.get(player));
         }
         
         // Next Particle Type Gui
@@ -172,6 +182,9 @@ public class ParticleGuiListeners implements Listener {
         if (event.getSlot() == 40) {
             currentParticleType.remove(player);
             currentParticlePattern.remove(player);
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
         }
         
         // Return to cosmetic window
@@ -194,6 +207,7 @@ public class ParticleGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -260,8 +274,17 @@ public class ParticleGuiListeners implements Listener {
 //        }
         
         // Auto equip Normal
-        if (event.getSlot() <= 34 && currentParticleType.get(player) != null) {
+        if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) == null) {
             currentParticlePattern.put(player, "Normal");
+        }
+        
+        // Save player to SQL
+        if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) != null) {
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
+            plugin.dataParticles.addParticle(player, player.getUniqueId(),
+                    currentParticleType.get(player).toString(), currentParticlePattern.get(player));
         }
         
         // Return to cosmetic window
@@ -275,6 +298,9 @@ public class ParticleGuiListeners implements Listener {
         if (event.getSlot() == 40) {
             currentParticleType.remove(player);
             currentParticlePattern.remove(player);
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
         }
         
         
@@ -290,6 +316,7 @@ public class ParticleGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -375,6 +402,14 @@ public class ParticleGuiListeners implements Listener {
             PatternEquip(player, "Vortex", 30, "Vortex Pattern");  
         }
         
+        // Save player to SQL
+        if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) != null) {
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
+            plugin.dataParticles.addParticle(player, player.getUniqueId(),
+                    currentParticleType.get(player).toString(), currentParticlePattern.get(player));
+        }
 
         
 //        if (event.getSlot() == 33) {
@@ -392,10 +427,14 @@ public class ParticleGuiListeners implements Listener {
         if (event.getSlot() == 40) {
             currentParticleType.remove(player);
             currentParticlePattern.remove(player);
+            if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
+                plugin.dataParticles.remove(player.getUniqueId());
+            }
         }
         
         
-        player.closeInventory();
+        //Return to main menu
+        player.openInventory(new CosmeticGui(plugin, player).getInventory());
     }
     
     

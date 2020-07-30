@@ -54,6 +54,7 @@ public class GadgetGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -209,7 +210,8 @@ public class GadgetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        player.closeInventory();
+        //Return to main menu
+        player.openInventory(new CosmeticGui(plugin, player).getInventory());
     }
     
     

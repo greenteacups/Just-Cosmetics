@@ -65,8 +65,9 @@ public class PetGui implements InventoryHolder {
         GuiConstructor(player, Material.BONE, 30, 200, "Baby Wolf Pet", "Baby Wolf Pet");
         GuiConstructor(player, Material.SALMON, 31, 200, "Polar Bear Pet", "Super Forbidden Teddy");
         GuiConstructor(player, Material.MILK_BUCKET, 32, 200, "Baby Polar Bear Pet", "Forbidden Teddy");
-        GuiConstructor(player, Material.RABBIT_HIDE, 33, 200, "Rabbit Pet", "Do a trick!");
-        GuiConstructor(player, Material.COD, 34, 200, "Ocelot Pet", "Wild Meow");
+        GuiConstructor(player, Material.COD, 33, 200, "Ocelot Pet", "Wild Meow");
+        
+        inventory.setItem(34, createGuiItem(Material.COOKED_COD, ChatColor.GOLD + "Cat Type Selector", "Meow"));
         
         
         inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));

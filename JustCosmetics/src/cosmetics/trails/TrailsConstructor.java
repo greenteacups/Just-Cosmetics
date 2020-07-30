@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class TrailsConstructor implements Listener {
@@ -253,6 +254,24 @@ public class TrailsConstructor implements Listener {
                 if (list.contains(event.getBlock().getLocation())) {
                     event.setCancelled(true);
                 }
+            }
+        }
+
+    }
+    
+    @EventHandler
+    public void onTrailBreakExplosion(EntityExplodeEvent event) {
+        if (!blockLocMap.isEmpty()) {
+            
+            for (int i = 0; i < event.blockList().size(); i++) {
+                for (List<Location> list : blockLocMap.values()) {/////
+                    if (list.contains(event.blockList().get(i).getLocation())) {
+                        
+                        event.blockList().get(i).setType(Material.AIR);
+
+                    }
+                }
+
             }
         }
 

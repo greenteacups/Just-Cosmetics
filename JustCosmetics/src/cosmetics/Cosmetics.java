@@ -16,6 +16,7 @@ import cosmetics.disguises.listeners.DisguiseGuiListeners;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
+import cosmetics.paper.PaperListener;
 import cosmetics.particles.ParticleRunnable;
 import cosmetics.particles.listeners.ParticleGeneralListeners;
 import cosmetics.particles.listeners.ParticleGuiListeners;

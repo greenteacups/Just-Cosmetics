@@ -31,6 +31,7 @@ public class PurchaseGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -43,11 +44,20 @@ public class PurchaseGuiListeners implements Listener {
             purchaseItem.remove(player);
             purchasePrice.remove(player);
             
-            player.closeInventory();
+            //Return to main menu & Close (stop item steal)
+            player.openInventory(new CosmeticGui(plugin, player).getInventory());
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.closeInventory();
+            });
         }
         
         if (event.getSlot() == 24) {
-            player.closeInventory();
+            //Return to main menu & Close(stop item steal)
+            player.openInventory(new CosmeticGui(plugin, player).getInventory());
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.closeInventory();
+            });
+            
             player.sendMessage(ChatColor.RED + "Transaction Cancelled");
             
             purchaseItem.remove(player);

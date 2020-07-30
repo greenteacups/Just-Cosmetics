@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
 import cosmetics.RemoveEffects;
@@ -53,6 +54,7 @@ public class TrailsGuiListeners implements Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
         if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
+        if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
         
@@ -118,7 +120,8 @@ public class TrailsGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        player.closeInventory();
+        //Return to main menu
+        player.openInventory(new CosmeticGui(plugin, player).getInventory());
     }
     
     

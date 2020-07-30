@@ -356,21 +356,36 @@ public class GadgetGeneralListeners implements Listener {
         
     // Stop dragging of items out of gadget gui, trail gui and main gui
     @EventHandler
-    public void InvClick(InventoryClickEvent event) {
-        if(event.getInventory().getHolder() instanceof CosmeticGui) {
+    public void InvClick(InventoryClickEvent event) {    
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof CosmeticGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
-        if(event.getInventory().getHolder() instanceof GadgetGui) {
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof GadgetGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
-        if(event.getInventory().getHolder() instanceof TrailsGui) {
+        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof TrailsGui) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 event.getWhoClicked().getInventory().remove(event.getCurrentItem());
             });
+            if (event.getClick().equals(ClickType.UNKNOWN)) {
+                plugin.getServer().getScheduler().runTask(plugin, () -> {
+                    event.getWhoClicked().getInventory().setItemInOffHand(null);
+                });
+            }
         }
     }
     
