@@ -15,22 +15,16 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
-import cosmetics.pets.BabySheepColourGUI;
-import cosmetics.pets.CatTypeGui;
-import cosmetics.pets.PetGui;
-import cosmetics.pets.PetGui2;
-import cosmetics.pets.SheepColourGUI;
 
 public class PetGeneralListeners implements Listener {
     
+    @SuppressWarnings("unused")
     private Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
         plugin = b;
@@ -121,62 +115,6 @@ public class PetGeneralListeners implements Listener {
         }
     }
     
-    // Stop dragging of items out of pet guis
-    @EventHandler
-    public void InvClick(InventoryClickEvent event) {
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof PetGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof PetGui2) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof SheepColourGUI) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof BabySheepColourGUI) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-            
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof CatTypeGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-            
-        }
-    }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {

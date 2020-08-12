@@ -60,12 +60,13 @@ public class DisguiseGui2 implements InventoryHolder {
         GuiConstructor(player, Material.STRAY_SPAWN_EGG, 23, 200, "Stray Disguise");
         GuiConstructor(player, Material.STRIDER_SPAWN_EGG, 24, 200, "Strider Disguise");
         GuiConstructor(player, Material.TURTLE_SPAWN_EGG, 25, 200, "Turtle Disguise");
-        GuiConstructor(player, Material.VINDICATOR_SPAWN_EGG, 28, 200, "Vindicator Disguise");
-        GuiConstructor(player, Material.WITCH_SPAWN_EGG, 29, 200, "Witch Disguise");
-        GuiConstructor(player, Material.WITHER_SKELETON_SPAWN_EGG, 30, 200, "Wither Skeleton Disguise");
-        GuiConstructor(player, Material.WOLF_SPAWN_EGG, 31, 200, "Wolf Disguise");
-        GuiConstructor(player, Material.ZOGLIN_SPAWN_EGG, 32, 200, "Zoglin Disguise");
-        GuiConstructor(player, Material.ZOMBIE_SPAWN_EGG, 33, 200, "Zombie Disguise");
+        GuiConstructor(player, Material.VEX_SPAWN_EGG, 28, 200, "Vex Disguise");
+        GuiConstructor(player, Material.VINDICATOR_SPAWN_EGG, 29, 200, "Vindicator Disguise");
+        GuiConstructor(player, Material.WITCH_SPAWN_EGG, 30, 200, "Witch Disguise");
+        GuiConstructor(player, Material.WITHER_SKELETON_SPAWN_EGG, 31, 200, "Wither Skeleton Disguise");
+        GuiConstructor(player, Material.WOLF_SPAWN_EGG, 32, 200, "Wolf Disguise");
+        GuiConstructor(player, Material.ZOGLIN_SPAWN_EGG, 33, 200, "Zoglin Disguise");
+        GuiConstructor(player, Material.ZOMBIE_SPAWN_EGG, 34, 200, "Zombie Disguise");
 
         
         inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));

@@ -50,7 +50,7 @@ public class ParticleTypeGui implements InventoryHolder {
         GuiConstructor(player, Material.TUBE_CORAL_FAN, 13, 30, "Water Bubble Particle");
         GuiConstructor(player, Material.TUBE_CORAL, 14, 30, "Bubble Pop Particle");
         GuiConstructor(player, Material.FIRE_CHARGE, 15, 30, "Smoulder Particle");
-        GuiConstructor(player, Material.TORCH, 16, 30, "Smoke Particle");
+        GuiConstructor(player, Material.MAGMA_CREAM, 16, 30, "Smoke Particle");
         GuiConstructor(player, Material.CAMPFIRE, 19, 30, "Campfire Smoke Particle");
         GuiConstructor(player, Material.COBWEB, 20, 30, "Cloud Particle");
         GuiConstructor(player, Material.CRIMSON_FUNGUS, 21, 30, "Crimson Spore Particle");

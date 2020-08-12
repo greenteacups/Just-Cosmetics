@@ -2,6 +2,7 @@ package cosmetics.particles;
 
 import java.util.HashMap;
 
+import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,7 @@ public class ParticleRunnable  {
     public static HashMap<Player, String> currentParticlePattern = ParticleGuiListeners.currentParticlePattern;
     
     public static void RunParticle(Player player) {
+        if (player.getGameMode() == GameMode.SPECTATOR) return;
         
         if (currentParticleType.containsKey(player) && currentParticlePattern.containsKey(player)) {
             //player.sendMessage("" + currentParticlePattern.get(player).equals("Dot"));
@@ -262,14 +264,14 @@ public class ParticleRunnable  {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                             player.getLocation().add(5*Math.cos(thetanew + i), 0, 0).getX(),
                             player.getLocation().add(0, 0, 0).getY(),
-                            player.getLocation().add(0, 0, 5*Math.sin(thetanew + i)).getZ(), 0, -0.05*Math.cos(thetanew + i), 0, -0.05*Math.sin(thetanew + i));
+                            player.getLocation().add(0, 0, 5*Math.sin(thetanew + i)).getZ(), 0, -0.15*Math.cos(thetanew + i), 0, -0.15*Math.sin(thetanew + i));
                 }
                 
                 for (int i = 0; i <= 225; i = i + 45) {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                             player.getLocation().add(-5*Math.cos(thetanew + i), 0, 0).getX(),
                             player.getLocation().add(0, 0, 0).getY(),
-                            player.getLocation().add(0, 0, 5*Math.sin(thetanew + i)).getZ(), 0, 0.05*Math.cos(thetanew + i), 0, -0.05*Math.sin(thetanew + i));
+                            player.getLocation().add(0, 0, 5*Math.sin(thetanew + i)).getZ(), 0, 0.15*Math.cos(thetanew + i), 0, -0.15*Math.sin(thetanew + i));
                 }
                 
                 
@@ -422,6 +424,7 @@ public class ParticleRunnable  {
     }
         
     public static void RunParticleSlow(Player player) {
+        if (player.getGameMode() == GameMode.SPECTATOR) return;
         
         if (currentParticleType.containsKey(player) && currentParticlePattern.containsKey(player)) {
             

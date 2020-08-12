@@ -8,7 +8,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
 import cosmetics.RemoveEffects;
@@ -120,8 +119,8 @@ public class TrailsGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     

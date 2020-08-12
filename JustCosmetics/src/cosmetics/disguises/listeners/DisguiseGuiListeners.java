@@ -206,7 +206,7 @@ public class DisguiseGuiListeners implements Listener {
         }
         
         //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory()); 
+        player.closeInventory();
     }
     
     
@@ -300,35 +300,41 @@ public class DisguiseGuiListeners implements Listener {
             DisguiseEquip(player, EntityType.TURTLE, 200, "Turtle Disguise");
         }
         
-        //Add Vindicator Disguise
+        //Add Vex Disguise
         if (event.getSlot() == 28) {
+            DisguiseEquip(player, EntityType.VEX, 200, "Vex Disguise");
+        }
+        
+        //Add Vindicator Disguise
+        if (event.getSlot() == 29) {
             DisguiseEquip(player, EntityType.VINDICATOR, 200, "Vindicator Disguise");
         }
         
         //Add Witch Disguise
-        if (event.getSlot() == 29) {
+        if (event.getSlot() == 30) {
             DisguiseEquip(player, EntityType.WITCH, 200, "Witch Disguise");
         }
         
         //Add Wither Skeleton Disguise
-        if (event.getSlot() == 30) {
+        if (event.getSlot() == 31) {
             DisguiseEquip(player, EntityType.WITHER_SKELETON, 200, "Wither Skeleton Disguise");
         }
         
         //Add Wolf Disguise
-        if (event.getSlot() == 31) {
+        if (event.getSlot() == 32) {
             DisguiseEquip(player, EntityType.WOLF, 200, "Wolf Disguise");
         }
         
         //Add Zoglin Disguise
-        if (event.getSlot() == 32) {
+        if (event.getSlot() == 33) {
             DisguiseEquip(player, EntityType.ZOGLIN, 200, "Zoglin Disguise");
         }
         
         //Add Zombie Disguise
-        if (event.getSlot() == 33) {
+        if (event.getSlot() == 34) {
             DisguiseEquip(player, EntityType.ZOMBIE, 200, "Zombie Disguise");
         }
+        
 
         
         // Previous Page
@@ -351,7 +357,7 @@ public class DisguiseGuiListeners implements Listener {
         }
         
         //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        player.closeInventory();
     }
     
     

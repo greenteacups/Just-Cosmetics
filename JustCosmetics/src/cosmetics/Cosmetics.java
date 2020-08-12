@@ -4,13 +4,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import cosmetics.commands.CosmeticCommand;
+import cosmetics.commands.SlimeCommand;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
 import cosmetics.gadgets.GadgetRunnables;
@@ -71,6 +70,9 @@ public class Cosmetics extends JavaPlugin implements Listener {
             dataParticles.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
+        
+        getCommand("cosmetic").setExecutor(new CosmeticCommand(this));
+        getCommand("slime").setExecutor(new SlimeCommand(this));
     
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
         
@@ -93,6 +95,8 @@ public class Cosmetics extends JavaPlugin implements Listener {
         
         this.getServer().getPluginManager().registerEvents(new TrailsGuiListeners(this), this); //
         this.getServer().getPluginManager().registerEvents(new TrailsConstructor(), this); //
+        
+        this.getServer().getPluginManager().registerEvents(new GuiTamper(), this); //
 
         try { // Paper only
             this.getServer().getPluginManager().registerEvents(new PaperListener(this), this);
@@ -123,83 +127,6 @@ public class Cosmetics extends JavaPlugin implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-    }
-
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        
-        if (cmd.getName().equalsIgnoreCase("cosmetic")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("Console cannot run this command!");
-                return true;
-            }
-            Player player = (Player) sender;
-            
-            // open the GUI
-            player.openInventory(new CosmeticGui(this, player).getInventory());
-            return true;
-        }
-        
-        if (cmd.getName().equalsIgnoreCase("slime")) {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage("Console cannot run this command!");
-                return true;
-            }
-            Player player = (Player) sender;
-
-            if (args.length == 0) {
-                player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
-                    + ChatColor.GOLD + " Slime");
-                return true;
-            }
-            
-            if (args[0].equalsIgnoreCase("balance")) {
-                try { 
-                    if (args.length == 1) {
-                        player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
-                        + ChatColor.GOLD + " Slime");
-                    }
-                    
-                    if (args.length == 2) {
-                        try {
-                            player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[1]).getDisplayName() + " has " 
-                                    + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[1]).getUniqueId()) 
-                                    + ChatColor.GOLD + " Slime"); 
-                        } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[1].toString() + " is not online!"); }
-                    } 
-                } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime balance <player>"); }
-                
-                return true;
-            }
-            
-            if (args[0].equalsIgnoreCase("add")) {
-                try { 
-                    if (args.length == 1) {
-                        player.sendMessage(ChatColor.RED + "/slime add <amount> <player>");
-                    }
-                    
-                    if (args.length == 2) {
-                        dataSlime.addSlime(player.getUniqueId(), Integer.parseInt(args[1]));
-                        player.sendMessage(ChatColor.GOLD + "You have " + ChatColor.GREEN + dataSlime.getSlime(player.getUniqueId()) 
-                        + ChatColor.GOLD + " Slime"); 
-                    }
-                    
-                    if (args.length == 3) {
-                        try {
-                            dataSlime.addSlime(Bukkit.getPlayer(args[2]).getUniqueId(), Integer.parseInt(args[1]));
-                            player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[2]).getDisplayName() + " has " 
-                            + ChatColor.GREEN + dataSlime.getSlime(Bukkit.getPlayer(args[2]).getUniqueId()) 
-                            + ChatColor.GOLD + " Slime"); 
-                        } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[2].toString() + " is not online!"); }
-                    } 
-                } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime add <amount> <player>"); }
-                
-                return true;
-            }
-            
-            return true;
-        }
-
-        return false;
     }
     
 }

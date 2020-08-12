@@ -7,7 +7,7 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -15,7 +15,7 @@ import org.bukkit.entity.TNTPrimed;
 import cosmetics.gadgets.items.TurtleSpawn;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
-import net.minecraft.server.v1_16_R1.WorldServer;
+import net.minecraft.server.v1_16_R2.WorldServer;
 
 public class GadgetRunnables {
 

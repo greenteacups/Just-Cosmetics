@@ -3,7 +3,7 @@ package cosmetics.pets.listeners;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,10 +15,10 @@ import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
 import cosmetics.RemoveEffects;
 import cosmetics.pets.BabySheepColourGUI;
+import cosmetics.pets.CatTypeGui;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
-import cosmetics.pets.CatTypeGui;
 import cosmetics.pets.custompets.BlazePet;
 import cosmetics.pets.custompets.CatPet;
 import cosmetics.pets.custompets.ChickenPet;
@@ -41,9 +41,9 @@ import cosmetics.pets.custompets.TurtlePet;
 import cosmetics.pets.custompets.WitchPet;
 import cosmetics.pets.custompets.WolfPet;
 import cosmetics.pets.custompets.ZombiePet;
-import net.minecraft.server.v1_16_R1.ChatComponentText;
-import net.minecraft.server.v1_16_R1.EnumColor;
-import net.minecraft.server.v1_16_R1.WorldServer;
+import net.minecraft.server.v1_16_R2.ChatComponentText;
+import net.minecraft.server.v1_16_R2.EnumColor;
+import net.minecraft.server.v1_16_R2.WorldServer;
 
 public class PetGuiListeners implements Listener {
 
@@ -455,8 +455,8 @@ public class PetGuiListeners implements Listener {
             });
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     //////
@@ -696,6 +696,7 @@ public class PetGuiListeners implements Listener {
                 PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
             }
         }
+        
     
         // Remove Pet Option
         if (event.getSlot() == 40) {
@@ -709,8 +710,8 @@ public class PetGuiListeners implements Listener {
             });
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     //////
@@ -1049,8 +1050,8 @@ public class PetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     //////
@@ -1405,8 +1406,8 @@ public class PetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     
@@ -1640,8 +1641,8 @@ public class PetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
 }

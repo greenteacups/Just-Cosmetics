@@ -1,11 +1,11 @@
 package cosmetics.gadgets.items;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_16_R1.EntityTurtle;
-import net.minecraft.server.v1_16_R1.EntityTypes;
+import net.minecraft.server.v1_16_R2.EntityTurtle;
+import net.minecraft.server.v1_16_R2.EntityTypes;
 
 public class TurtleSpawn extends EntityTurtle {
 

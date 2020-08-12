@@ -12,7 +12,7 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -32,14 +32,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
-import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.TurtleSpawn;
-import cosmetics.trails.TrailsGui;
-import net.minecraft.server.v1_16_R1.WorldServer;
+import net.minecraft.server.v1_16_R2.WorldServer;
 
 public class GadgetGeneralListeners implements Listener {
     
@@ -354,40 +351,6 @@ public class GadgetGeneralListeners implements Listener {
         }
     }
         
-    // Stop dragging of items out of gadget gui, trail gui and main gui
-    @EventHandler
-    public void InvClick(InventoryClickEvent event) {    
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof CosmeticGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof GadgetGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof TrailsGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-    }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {

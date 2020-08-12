@@ -1,18 +1,18 @@
 package cosmetics.pets.custompets;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
 import cosmetics.pets.PathfinderGoalPet;
-import net.minecraft.server.v1_16_R1.EntityChicken;
-import net.minecraft.server.v1_16_R1.EntityHuman;
-import net.minecraft.server.v1_16_R1.EntityLiving;
-import net.minecraft.server.v1_16_R1.EntityTypes;
-import net.minecraft.server.v1_16_R1.PathfinderGoalFloat;
-import net.minecraft.server.v1_16_R1.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_16_R2.EntityChicken;
+import net.minecraft.server.v1_16_R2.EntityHuman;
+import net.minecraft.server.v1_16_R2.EntityLiving;
+import net.minecraft.server.v1_16_R2.EntityTypes;
+import net.minecraft.server.v1_16_R2.PathfinderGoalFloat;
+import net.minecraft.server.v1_16_R2.PathfinderGoalLookAtPlayer;
 
 public class ChickenPet extends EntityChicken {
 

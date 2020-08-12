@@ -269,6 +269,10 @@ public class ParticleGuiListeners implements Listener {
             ParticleEquip1(player, Particle.SQUID_INK, 30, "Ink Particle");
         }
         
+        if (event.getSlot() == 25) {
+            ParticleEquip1(player, Particle.FLAME, 30, "Flame Particle");
+        }
+        
 //        if (event.getSlot() == 28) {
 //            ParticleEquip1(player, Particle.LAVA, 20, "Lava Burst Particle");
 //        }
@@ -433,8 +437,8 @@ public class ParticleGuiListeners implements Listener {
         }
         
         
-        //Return to main menu
-        player.openInventory(new CosmeticGui(plugin, player).getInventory());
+        //Close Menu
+        player.closeInventory();
     }
     
     

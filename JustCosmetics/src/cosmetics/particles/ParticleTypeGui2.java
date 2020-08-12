@@ -58,6 +58,7 @@ public class ParticleTypeGui2 implements InventoryHolder {
         GuiConstructor(player, Material.NOTE_BLOCK, 22, 30, "Music Note Particle");
         GuiConstructor(player, Material.BAMBOO, 23, 30, "Contagious Particle");
         GuiConstructor(player, Material.INK_SAC, 24, 30, "Ink Particle");
+        GuiConstructor(player, Material.TORCH, 25, 30, "Flame Particle");
         //GuiConstructor(player, Material.MAGMA_CREAM, 28, 20, "Lava Burst Particle");
 
         

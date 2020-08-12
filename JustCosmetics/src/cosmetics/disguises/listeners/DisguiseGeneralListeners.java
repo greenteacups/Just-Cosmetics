@@ -15,8 +15,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -25,12 +23,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
-import cosmetics.disguises.DisguiseGui;
-import cosmetics.disguises.DisguiseGui2;
 
 
 public class DisguiseGeneralListeners implements Listener {
     
+    @SuppressWarnings("unused")
     private Cosmetics plugin;
     public DisguiseGeneralListeners(Cosmetics b) {
         plugin = b;
@@ -139,31 +136,6 @@ public class DisguiseGeneralListeners implements Listener {
         }
     }
     
-    
-    // Stop dragging of items out of disguise guis
-    @EventHandler
-    public void InvClick(InventoryClickEvent event) {
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof DisguiseGui) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-        if(event.getRawSlot() <= 53 && event.getInventory().getHolder() instanceof DisguiseGui2) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                event.getWhoClicked().getInventory().remove(event.getCurrentItem());
-            });
-            if (event.getClick().equals(ClickType.UNKNOWN)) {
-                plugin.getServer().getScheduler().runTask(plugin, () -> {
-                    event.getWhoClicked().getInventory().setItemInOffHand(null);
-                });
-            }
-        }
-    }
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
