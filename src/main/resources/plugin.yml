@@ -1,0 +1,12 @@
+main: cosmetics.Cosmetics
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+author: greenteacups
+api-version: 1.13
+
+commands:
+  cosmetic:
+    description: Open Cosmetics GUI
+    aliases: [cosmetics, cos]
+  slime:

@@ -1,8 +1,0 @@
-main: me.greenteacups.custompets.Main
-name: CustomMob
-version: 1.0
-author: greenteacups
-api-version: 1.13
-
-commands:
-  pet:

@@ -1,6 +1,0 @@
-SQL:
-  host: "localhost"
-  port: "3306"
-  database: "greenteacupsplugins"
-  username: "root"
-  password: ""
