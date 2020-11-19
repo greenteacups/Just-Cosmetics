@@ -1,18 +1,18 @@
 package cosmetics.pets.custompets;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
 import cosmetics.pets.PathfinderGoalPet;
-import net.minecraft.server.v1_16_R2.EntityCow;
-import net.minecraft.server.v1_16_R2.EntityHuman;
-import net.minecraft.server.v1_16_R2.EntityLiving;
-import net.minecraft.server.v1_16_R2.EntityTypes;
-import net.minecraft.server.v1_16_R2.PathfinderGoalFloat;
-import net.minecraft.server.v1_16_R2.PathfinderGoalLookAtPlayer;
+import net.minecraft.server.v1_16_R3.EntityCow;
+import net.minecraft.server.v1_16_R3.EntityHuman;
+import net.minecraft.server.v1_16_R3.EntityLiving;
+import net.minecraft.server.v1_16_R3.EntityTypes;
+import net.minecraft.server.v1_16_R3.PathfinderGoalFloat;
+import net.minecraft.server.v1_16_R3.PathfinderGoalLookAtPlayer;
 
 public class CowPet extends EntityCow {
 

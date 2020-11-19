@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +25,7 @@ import cosmetics.gadgets.items.ParrotSpawn;
 import cosmetics.gadgets.items.ShellShooter;
 import cosmetics.gadgets.items.TurtleSpawn;
 import cosmetics.trails.TrailsGui;
-import net.minecraft.server.v1_16_R2.WorldServer;
+import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class GadgetGuiListeners implements Listener {
     

@@ -12,7 +12,7 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -36,7 +36,7 @@ import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.TurtleSpawn;
-import net.minecraft.server.v1_16_R2.WorldServer;
+import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class GadgetGeneralListeners implements Listener {
     
