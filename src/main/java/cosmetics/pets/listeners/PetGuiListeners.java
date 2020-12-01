@@ -3,9 +3,15 @@ package cosmetics.pets.listeners;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.DyeColor;
+import org.bukkit.entity.Ageable;
+import org.bukkit.entity.Animals;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,31 +25,6 @@ import cosmetics.pets.CatTypeGui;
 import cosmetics.pets.PetGui;
 import cosmetics.pets.PetGui2;
 import cosmetics.pets.SheepColourGUI;
-import cosmetics.pets.custompets.BlazePet;
-import cosmetics.pets.custompets.CatPet;
-import cosmetics.pets.custompets.ChickenPet;
-import cosmetics.pets.custompets.CowPet;
-import cosmetics.pets.custompets.CreeperPet;
-import cosmetics.pets.custompets.FoxPet;
-import cosmetics.pets.custompets.HorsePet;
-import cosmetics.pets.custompets.HuskPet;
-import cosmetics.pets.custompets.IronGolemPet;
-import cosmetics.pets.custompets.LlamaPet;
-import cosmetics.pets.custompets.MooshroomPet;
-import cosmetics.pets.custompets.OcelotPet;
-import cosmetics.pets.custompets.PandaPet;
-import cosmetics.pets.custompets.PigPet;
-import cosmetics.pets.custompets.PolarbearPet;
-import cosmetics.pets.custompets.RabbitPet;
-import cosmetics.pets.custompets.SheepPet;
-import cosmetics.pets.custompets.SnowmanPet;
-import cosmetics.pets.custompets.TurtlePet;
-import cosmetics.pets.custompets.WitchPet;
-import cosmetics.pets.custompets.WolfPet;
-import cosmetics.pets.custompets.ZombiePet;
-import net.minecraft.server.v1_16_R3.ChatComponentText;
-import net.minecraft.server.v1_16_R3.EnumColor;
-import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class PetGuiListeners implements Listener {
 
@@ -60,7 +41,108 @@ public class PetGuiListeners implements Listener {
     public static RemoveEffects RemoveEffects = new RemoveEffects();
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();
+    //public static HashMap<Player, Entity> currentnewpet = new HashMap<>();
     
+    //Pet Spawner
+    public void PetSpawn(Player player, EntityType entity, Boolean isbaby) {
+        LivingEntity pet = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entity);
+        pet.setAI(false);
+        
+        //Code for baby pets
+        if (isbaby == true) {
+            if (entity == EntityType.ZOMBIE || entity == EntityType.HUSK) {
+                Ageable zomb = (Ageable) pet;
+                zomb.setBaby();
+            }
+            else {
+                Animals baby = (Animals) pet;
+                baby.setBaby();
+                baby.setAgeLock(true);  
+            }
+        }
+        
+        pet.setInvulnerable(true);
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        currentPet.put(player, pet);
+    }
+    
+    //Pet Equiper
+    public void PetEquip(Player player, EntityType entity, Boolean isbaby, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            PetSpawn(player, entity, isbaby);
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
+    
+    
+    //Sheep Spawner
+    public void SheepSpawn(Player player, DyeColor sheepColor, Boolean isbaby) {
+        LivingEntity pet = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), EntityType.SHEEP);
+        pet.setAI(false);
+        
+        Sheep sheep = (Sheep) pet;
+        sheep.setColor(sheepColor);
+        
+        //Code for baby pets
+        if (isbaby == true) {
+            Animals baby = (Animals) pet;
+            baby.setBaby();
+            baby.setAgeLock(true);
+        }
+        
+        pet.setInvulnerable(true);
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        currentPet.put(player, pet);
+    }
+    
+    //Sheep Equiper
+    public void SheepEquip(Player player, DyeColor sheepColor, Boolean isbaby, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            SheepSpawn(player, sheepColor, isbaby);
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
+    
+    
+    //Cat Spawner
+    public void CatSpawn(Player player, Cat.Type catType, Boolean isbaby) {
+        LivingEntity pet = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), EntityType.CAT);
+        pet.setAI(false);
+        
+        Cat cat = (Cat) pet;
+        cat.setCatType(catType);
+        
+        //Code for baby pets
+        if (isbaby == true) {
+            Animals baby = (Animals) pet;
+            baby.setBaby();
+            baby.setAgeLock(true);
+        }
+        
+        pet.setInvulnerable(true);
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        currentPet.put(player, pet);
+    }
+    
+    //Cat Equiper
+    public void CatEquip(Player player, Cat.Type catType, Boolean isbaby, int price, String name) {
+        if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            CatSpawn(player, catType, isbaby);
+        }
+        else {
+            purchaseItem.put(player, name); //Input Name
+            purchasePrice.put(player, price); //Input Price
+            PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
+        }
+    }
     
     //////
     //Clicking Inside the main Pet Selector GUI Page 1/1
@@ -84,113 +166,32 @@ public class PetGuiListeners implements Listener {
 
         //Add Llama
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Llama Pet")) {
-                LlamaPet pet = new LlamaPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Llama Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.LLAMA, false, 200, "Llama Pet");
         }
         
         //Add Baby Llama
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Llama Pet")) {
-                LlamaPet pet = new LlamaPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Llama Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.LLAMA, true, 200, "Baby Llama Pet");
         }
         
         //Add Pig
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Pig Pet")) {
-                PigPet pet = new PigPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Pig Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.PIG, false, 200, "Pig Pet");
         }
         
         //Add Baby Pig
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Pig Pet")) {
-                PigPet pet = new PigPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Pig Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.PIG, true, 200, "Baby Pig Pet");
         }
         
         //Add Chicken
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Chicken Pet")) {
-                ChickenPet pet = new ChickenPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Chicken Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.CHICKEN, false, 200, "Chicken Pet");
         }
         
         //Add Baby Chicken
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Chicken Pet")) {
-                ChickenPet pet = new ChickenPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Chicken Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.CHICKEN, true, 200, "Baby Chicken Pet");
         }
         
         //Go to Sheep Gui
@@ -209,223 +210,62 @@ public class PetGuiListeners implements Listener {
         
         //Add Cow
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cow Pet")) {
-                CowPet pet = new CowPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Cow Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.COW, false, 200, "Cow Pet");
         }
         
         //Add Baby Cow
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Cow Pet")) {
-                CowPet pet = new CowPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Cow Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.COW, true, 200, "Baby Cow Pet");
         }
         
         //Add Mooshroom
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Mooshroom Pet")) {
-                MooshroomPet pet = new MooshroomPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Mooshroom Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.MUSHROOM_COW, false, 200, "Mooshroom Pet");
         }
         
         //Add Fox
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Fox Pet")) {
-                FoxPet pet = new FoxPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Fox Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.FOX, false, 200, "Fox Pet");
         }
         
         //Add Baby Fox
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Fox Pet")) {
-                FoxPet pet = new FoxPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Fox Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.FOX, true, 200, "Baby Fox Pet");
         }
         
         //Add Panda
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Panda Pet")) {
-                PandaPet pet = new PandaPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Panda Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.PANDA, false, 200, "Panda Pet");
         }
         
         //Add Baby Panda
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Panda Pet")) {
-                PandaPet pet = new PandaPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Panda Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.PANDA, true, 200, "Baby Panda Pet");
         }
         
         //Add Wolf
         if (event.getSlot() == 29) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Wolf Pet")) {
-                WolfPet pet = new WolfPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Wolf Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.WOLF, false, 200, "Wolf Pet");
         }
         
         //Add Baby Wolf
         if (event.getSlot() == 30) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Wolf Pet")) {
-                WolfPet pet = new WolfPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Wolf Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.WOLF, true, 200, "Baby Wolf Pet");
         }
         
         //Add Polar Bear
         if (event.getSlot() == 31) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Polar Bear Pet")) {
-                PolarbearPet pet = new PolarbearPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Polar Bear Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.POLAR_BEAR, false, 200, "Polar Bear Pet");
         }
         
         //Add Baby Polar Bear
         if (event.getSlot() == 32) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Polar Bear Pet")) {
-                PolarbearPet pet = new PolarbearPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Polar Bear Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.POLAR_BEAR, true, 200, "Baby Polar Bear Pet");
         }
         
         //Add Ocelot
         if (event.getSlot() == 33) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Ocelot Pet")) {
-                OcelotPet pet = new OcelotPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Ocelot Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.OCELOT, false, 200, "Ocelot Pet");
         }
         
         //Add Cat
@@ -481,220 +321,62 @@ public class PetGuiListeners implements Listener {
         
         //Add Turtle
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Turtle Pet")) {
-                TurtlePet pet = new TurtlePet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Turtle Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.TURTLE, false, 200, "Turtle Pet");
         }
         
         //Add Creeper
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Creeper Pet")) {
-                CreeperPet pet = new CreeperPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Creeper Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.CREEPER, false, 200, "Creeper Pet");
         }
         
         //Add Horse
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Horse Pet")) {
-                HorsePet pet = new HorsePet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Horse Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.HORSE, false, 200, "Horse Pet");
         }
         
         //Add Blaze
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Blaze Pet")) {
-                BlazePet pet = new BlazePet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Blaze Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.BLAZE, false, 200, "Blaze Pet");
         }
         
         //Add Witch
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Witch Pet")) {
-                WitchPet pet = new WitchPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Witch Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.WITCH, false, 200, "Witch Pet");
         }
         
         //Add Husk
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Husk Pet")) {
-                HuskPet pet = new HuskPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Husk Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.HUSK, false, 200, "Husk Pet");
         }
         
         //Add Baby Husk
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Husk Pet")) {
-                HuskPet pet = new HuskPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setBaby(true);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Husk Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.HUSK, true, 200, "Baby Husk Pet");
         }
         
         //Add Zombie
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Zombie Pet")) {
-                ZombiePet pet = new ZombiePet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Zombie Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.ZOMBIE, false, 200, "Zombie Pet");
         }
         
         //Add Baby Zombie
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Baby Zombie Pet")) {
-                ZombiePet pet = new ZombiePet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setBaby(true);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Baby Zombie Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.ZOMBIE, true, 200, "Baby Zombie Pet");
         }
         
         //Add Snowman
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Snowman Pet")) {
-                SnowmanPet pet = new SnowmanPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Snowman Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.SNOWMAN, false, 200, "Snowman Pet");
         }
         
         //Add Iron Golem
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Golem Pet")) {
-                IronGolemPet pet = new IronGolemPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Golem Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.IRON_GOLEM, false, 200, "Golem Pet");
         }
         
         //Add Rabbit
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Rabbit Pet")) {
-                RabbitPet pet = new RabbitPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Rabbit Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            PetEquip(player, EntityType.RABBIT, false, 200, "Rabbit Pet");
         }
         
     
@@ -736,306 +418,82 @@ public class PetGuiListeners implements Listener {
         
         //Add Red Sheep
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Red Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.RED);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Red Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.RED, false, 200, "Red Sheep Pet");
         }
         
         //Add Orange Sheep
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Orange Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.ORANGE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Orange Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.ORANGE, false, 200, "Orange Sheep Pet");
         }
         
         //Add Yellow Sheep
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Yellow Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.YELLOW);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Yellow Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.YELLOW, false, 200, "Yellow Sheep Pet");
         }
         
         //Add Green Sheep
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Green Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.GREEN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Green Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.GREEN, false, 200, "Green Sheep Pet");
         }
         
         //Add Lime Sheep
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Lime Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.LIME);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Lime Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIME, false, 200, "Lime Sheep Pet");
         }
         
         //Add Blue Sheep
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Blue Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.BLUE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Blue Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BLUE, false, 200, "Blue Sheep Pet");
         }
         
         //Add Cyan Sheep
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cyan Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.CYAN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Cyan Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.CYAN, false, 200, "Cyan Sheep Pet");
         }
         
         //Add Light Blue Sheep
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Light Blue Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.LIGHT_BLUE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Light Blue Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIGHT_BLUE, false, 200, "Light Blue Sheep Pet");
         }
         
         //Add Purple Sheep
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Purple Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.PURPLE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Purple Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.PURPLE, false, 200, "Purple Sheep Pet");
         }
         
         //Add Magenta Sheep
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Magenta Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.MAGENTA);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Magenta Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.MAGENTA, false, 200, "Magenta Sheep Pet");
         }
         
         //Add Pink Sheep
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Pink Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.PINK);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Pink Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.PINK, false, 200, "Pink Sheep Pet");
         }
         
         //Add Brown Sheep
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Brown Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.BROWN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Brown Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BROWN, false, 200, "Brown Sheep Pet");
         }
         
         //Add Black Sheep
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Black Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.BLACK);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Black Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BLACK, false, 200, "Black Sheep Pet");
         }
         
         //Add Gray Sheep
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Gray Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.GRAY);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Gray Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.GRAY, false, 200, "Gray Sheep Pet");
         }
         
         //Add Light Gray Sheep
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Light Gray Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.LIGHT_GRAY);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Light Gray Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIGHT_GRAY, false, 200, "Light Gray Sheep Pet");
         }
         
         //Add White Sheep
         if (event.getSlot() == 29) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "White Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setColor(EnumColor.WHITE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "White Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.WHITE, false, 200, "White Sheep Pet");
         }
         
         //Back Arrow
@@ -1074,324 +532,84 @@ public class PetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
-        //Add Red Baby Sheep
+        //Add Baby Red Sheep
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Red Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.RED);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Red Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.RED, true, 200, "Red Baby Sheep Pet");
         }
         
-        //Add Orange Baby Sheep
+        //Add Baby Orange Sheep
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Orange Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.ORANGE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Orange Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.ORANGE, true, 200, "Orange Baby Sheep Pet");
         }
         
-        //Add Yellow Baby Sheep
+        //Add Baby Yellow Sheep
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Yellow Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.YELLOW);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Yellow Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.YELLOW, true, 200, "Yellow Baby Sheep Pet");
         }
         
-        //Add Green Baby Sheep
+        //Add Baby Green Sheep
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Green Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.GREEN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Green Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.GREEN, true, 200, "Green Baby Sheep Pet");
         }
         
-        //Add Lime Baby Sheep
+        //Add Baby Lime Sheep
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Lime Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.LIME);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Lime Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIME, true, 200, "Lime Baby Sheep Pet");
         }
         
-        //Add Blue Baby Sheep
+        //Add Baby Blue Sheep
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Blue Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.BLUE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Blue Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BLUE, true, 200, "Blue Baby Sheep Pet");
         }
         
-        //Add Cyan Baby Sheep
+        //Add Baby Cyan Sheep
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Cyan Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.CYAN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Cyan Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.CYAN, true, 200, "Cyan Baby Sheep Pet");
         }
         
-        //Add Light Blue Baby Sheep
+        //Add Baby Light Blue Sheep
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Light Blue Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.LIGHT_BLUE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Light Blue Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIGHT_BLUE, true, 200, "Light Blue Baby Sheep Pet");
         }
         
-        //Add Purple Baby Sheep
+        //Add Baby Purple Sheep
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Purple Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.PURPLE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Purple Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.PURPLE, true, 200, "Purple Baby Sheep Pet");
         }
         
-        //Add Magenta Baby Sheep
+        //Add Baby Magenta Sheep
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Magenta Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.MAGENTA);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Magenta Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.MAGENTA, true, 200, "Magenta Baby Sheep Pet");
         }
         
-        //Add Pink Baby Sheep
+        //Add Baby Pink Sheep
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Pink Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.PINK);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Pink Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.PINK, true, 200, "Pink Baby Sheep Pet");
         }
         
-        //Add Brown Baby Sheep
+        //Add Baby Brown Sheep
         if (event.getSlot() == 23) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Brown Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.BROWN);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Brown Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BROWN, true, 200, "Brown Baby Sheep Pet");
         }
         
-        //Add Black Baby Sheep
+        //Add Baby Black Sheep
         if (event.getSlot() == 24) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Black Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.BLACK);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Black Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.BLACK, true, 200, "Black Baby Sheep Pet");
         }
         
-        //Add Gray Baby Sheep
+        //Add Baby Gray Sheep
         if (event.getSlot() == 25) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Gray Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.GRAY);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Gray Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.GRAY, true, 200, "Gray Baby Sheep Pet");
         }
         
-        //Add Light Gray Baby Sheep
+        //Add Baby Light Gray Sheep
         if (event.getSlot() == 28) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Light Gray Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.LIGHT_GRAY);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Light Gray Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.LIGHT_GRAY, true, 200, "Light Gray Baby Sheep Pet");
         }
         
-        //Add White Baby Sheep
+        //Add Baby White Sheep
         if (event.getSlot() == 29) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "White Baby Sheep Pet")) {
-                SheepPet pet = new SheepPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setAge(-99999999);
-                pet.setColor(EnumColor.WHITE);
-                
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "White Baby Sheep Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            SheepEquip(player, DyeColor.WHITE, true, 200, "White Baby Sheep Pet");
         }
         
         //Back Arrow
@@ -1433,200 +651,57 @@ public class PetGuiListeners implements Listener {
         
         //Add Black Cat Pet
         if (event.getSlot() == 10) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Black Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(10); //black
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Black Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.ALL_BLACK, false, 200, "Black Cat Pet");
         }
         
         //Add British Shorthair Cat Pet
         if (event.getSlot() == 11) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "British Shorthair Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(4); //British Shorthair
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "British Shorthair Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.BRITISH_SHORTHAIR, false, 200, "British Shorthair Cat Pet");
         }
         
         //Add Calico Cat Pet
         if (event.getSlot() == 12) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Calico Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(5); //calico
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Calico Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.CALICO, false, 200, "Calico Cat Pet");
         }
         
         //Add Jellie Cat Pet
         if (event.getSlot() == 13) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Jellie Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(9); //jellie
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Jellie Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.JELLIE, false, 200, "Jellie Cat Pet");
         }
         
         //Add Persian Cat Pet
         if (event.getSlot() == 14) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Persian Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(6); //persian
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Persian Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.PERSIAN, false, 200, "Persian Cat Pet");
         }
         
         //Add Ragdoll Cat Pet
         if (event.getSlot() == 15) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Ragdoll Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(7); //ragdoll
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Ragdoll Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.RAGDOLL, false, 200, "Ragdoll Cat Pet");
         }
         
         //Add Red Cat Pet
         if (event.getSlot() == 16) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Red Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(2); //red
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Red Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.RED, false, 200, "Red Cat Pet");
         }
         
         //Add Siamese Cat Pet
         if (event.getSlot() == 19) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Siamese Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(3); //siamese
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Siamese Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.SIAMESE, false, 200, "Siamese Cat Pet");
         }
         
         //Add Tabby Cat Pet
         if (event.getSlot() == 20) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Tabby Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(11); //Tabby
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Tabby Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.TABBY, false, 200, "Tabby Cat Pet");
         }
         
         //Add Tuxedo Cat Pet
         if (event.getSlot() == 21) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "Tuxedo Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(1); //tuxedo
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "Tuxedo Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.BLACK, false, 200, "Tuxedo Cat Pet");
         }
         
         //Add White Cat Pet
         if (event.getSlot() == 22) {
-            if (plugin.dataCosmetics.exists(player.getUniqueId(), "White Cat Pet")) {
-                CatPet pet = new CatPet(player.getLocation(), player);
-                pet.setCustomName(new ChatComponentText(ChatColor.GOLD + ""  
-                        + ChatColor.BOLD + player.getName() + "'s Pet"));
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                world.addEntity(pet);
-                pet.setCatType(8); //white
-                currentPet.put(player, pet.getBukkitEntity());
-            }
-            else {
-                purchaseItem.put(player, "White Cat Pet"); //Input Name
-                purchasePrice.put(player, 200); //Input Price
-                PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
-            }
+            CatEquip(player, Cat.Type.WHITE, false, 200, "White Cat Pet");
         }
         
         //Back Arrow

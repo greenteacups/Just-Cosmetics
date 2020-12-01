@@ -24,6 +24,8 @@ public class RemoveEffects {
             PetGuiListeners.currentPet.get(player).remove();
             PetGuiListeners.currentPet.remove(player);
         }
+
+        
         
         if (player.getInventory().getItem(8) != null && player.getInventory().getItem(8).getItemMeta().hasLore() &&
                 player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Jump Stick")) {

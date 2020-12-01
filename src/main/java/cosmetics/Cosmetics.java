@@ -19,6 +19,7 @@ import cosmetics.paper.PaperListener;
 import cosmetics.particles.ParticleRunnable;
 import cosmetics.particles.listeners.ParticleGeneralListeners;
 import cosmetics.particles.listeners.ParticleGuiListeners;
+import cosmetics.pets.PathfinderRun;
 import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
@@ -45,6 +46,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public static TestRunnable test = new TestRunnable();
     public static GadgetRunnables shellspin = new GadgetRunnables();
     public static ParticleRunnable PlayerRunnable = new ParticleRunnable();
+    public static PathfinderRun PetTeleport = new PathfinderRun();
     
     @Override
     public void onEnable() {
@@ -107,6 +109,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
                 //test.TestRun(p);
                 ParticleRunnable.RunParticle(p);
                 shellspin.SpinRunnable(p);
+                PetTeleport.PetTeleport(p);
             }
         }, 1, 1);
         
