@@ -62,7 +62,7 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
         currentPet.put(player, pet);
     }
     
@@ -95,7 +95,7 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
         currentPet.put(player, pet);
     }
     
@@ -128,7 +128,7 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Test");
+        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
         currentPet.put(player, pet);
     }
     
