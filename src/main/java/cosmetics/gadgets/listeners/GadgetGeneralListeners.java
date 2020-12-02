@@ -33,7 +33,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import cosmetics.Cosmetics;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.TurtleSpawn;
 import net.minecraft.server.v1_16_R3.WorldServer;
@@ -45,7 +45,7 @@ public class GadgetGeneralListeners implements Listener {
         plugin = b;
     }
     
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public HashMap<Player, List<Entity>> shellMap = GadgetGuiListeners.shellMap;
     public HashMap<Player, List<Entity>> parrotMap = GadgetGuiListeners.parrotMap;
@@ -355,7 +355,7 @@ public class GadgetGeneralListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        RemoveEffects.ClearEffects(player);
+        RemoveEffectsOnQuit.ClearEffects(player);
     }
     
 

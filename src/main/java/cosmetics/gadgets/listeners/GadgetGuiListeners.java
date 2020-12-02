@@ -15,7 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 import cosmetics.gadgets.GadgetGui;
 import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.AirStrike;
@@ -38,7 +38,7 @@ public class GadgetGuiListeners implements Listener {
         plugin = b;
     }
     
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public static HashMap<Player, List<Entity>> shellMap = new HashMap<>();
     public static HashMap<Player, List<Entity>> parrotMap = new HashMap<>();
@@ -62,7 +62,7 @@ public class GadgetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Gadget
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Add Jump Stick Gadget
@@ -207,7 +207,7 @@ public class GadgetGuiListeners implements Listener {
         
         // Remove Gadget Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Close menu

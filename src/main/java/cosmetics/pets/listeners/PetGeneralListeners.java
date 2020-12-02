@@ -21,7 +21,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import cosmetics.Cosmetics;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 
 public class PetGeneralListeners implements Listener {
     
@@ -31,9 +31,10 @@ public class PetGeneralListeners implements Listener {
         plugin = b;
         PetSpawn = new PetGuiListeners(plugin);
     }
-    
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+
     public PetGuiListeners PetSpawn = new PetGuiListeners(plugin);
+    
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
@@ -121,14 +122,8 @@ public class PetGeneralListeners implements Listener {
     
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        
-//        if (currentPetName.containsKey(player)) {
-//            plugin.dataPets.addPet(player, player.getUniqueId(), currentPetName.get(player));
-//        }
-        
-        RemoveEffects.ClearEffects(player);
-        
+        Player player = event.getPlayer();        
+        RemoveEffectsOnQuit.ClearEffects(player);
     }
     
     @EventHandler

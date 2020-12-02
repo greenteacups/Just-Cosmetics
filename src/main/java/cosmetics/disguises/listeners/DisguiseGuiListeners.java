@@ -16,7 +16,7 @@ import org.bukkit.potion.PotionEffectType;
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 import cosmetics.disguises.DisguiseGui;
 import cosmetics.disguises.DisguiseGui2;
 
@@ -32,7 +32,7 @@ public class DisguiseGuiListeners implements Listener {
         plugin = b;
     }
     
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public static HashMap<Player, Entity> currentDisguise = new HashMap<>();
     
@@ -78,7 +78,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Disguise
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Add Bee Disguise
@@ -202,7 +202,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Disguise Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Return to main menu
@@ -227,7 +227,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Disguise
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Add Parrot Disguise
@@ -353,7 +353,7 @@ public class DisguiseGuiListeners implements Listener {
         
         // Remove Disguise Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Return to main menu

@@ -10,7 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 import cosmetics.gadgets.GadgetGui;
 
 public class TrailsGuiListeners implements Listener {
@@ -24,7 +24,7 @@ public class TrailsGuiListeners implements Listener {
         plugin = b;
     }
     
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public static HashMap<Player, Location> trailsMap = new HashMap<>();
     public static HashMap<Player, String> trailTypeMap = new HashMap<>();
@@ -61,7 +61,7 @@ public class TrailsGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new Gadget
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         if (event.getSlot() == 10) {
@@ -116,7 +116,7 @@ public class TrailsGuiListeners implements Listener {
         
         // Remove Effects Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            RemoveEffectsOnQuit.ClearEffects(player);
         }
         
         //Close Menu

@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.Cosmetics;
-import cosmetics.RemoveEffects;
+import cosmetics.RemoveEffectsOnQuit;
 
 
 public class DisguiseGeneralListeners implements Listener {
@@ -35,7 +35,7 @@ public class DisguiseGeneralListeners implements Listener {
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
     
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     @EventHandler
     public void onMovetest(PlayerMoveEvent event) {
@@ -95,7 +95,7 @@ public class DisguiseGeneralListeners implements Listener {
     @EventHandler
     public void onDeathEvent(PlayerDeathEvent event) {
         if (currentDisguise.containsKey(event.getEntity())) {
-            RemoveEffects.ClearEffects(event.getEntity());
+            RemoveEffectsOnQuit.ClearEffects(event.getEntity());
         }
     }
     
@@ -140,7 +140,7 @@ public class DisguiseGeneralListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        RemoveEffects.ClearEffects(player);
+        RemoveEffectsOnQuit.ClearEffects(player);
     }
     
 

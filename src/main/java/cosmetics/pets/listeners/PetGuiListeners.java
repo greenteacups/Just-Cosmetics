@@ -19,7 +19,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import cosmetics.CosmeticGui;
 import cosmetics.Cosmetics;
 import cosmetics.PurchaseConstructor;
-import cosmetics.RemoveEffects;
 import cosmetics.pets.BabySheepColourGUI;
 import cosmetics.pets.CatTypeGui;
 import cosmetics.pets.PetGui;
@@ -37,8 +36,6 @@ public class PetGuiListeners implements Listener {
     public PetGuiListeners(Cosmetics b) {
         plugin = b;
     }
-    
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();
     //public static HashMap<Player, String> currentPetName = new HashMap<>();
@@ -79,10 +76,9 @@ public class PetGuiListeners implements Listener {
         }
         //currentPetName.put(player, name);
         if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
-            System.out.println(plugin.dataPets.getPet(player.getUniqueId()));
             plugin.dataPets.remove(player.getUniqueId());
-            plugin.dataPets.addPet(player, player.getUniqueId(), name);
         } 
+        plugin.dataPets.addPet(player, player.getUniqueId(), name);
     }
     
     
@@ -119,8 +115,8 @@ public class PetGuiListeners implements Listener {
         //currentPetName.put(player, name);
         if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
             plugin.dataPets.remove(player.getUniqueId());
-            plugin.dataPets.addPet(player, player.getUniqueId(), name);
         } 
+        plugin.dataPets.addPet(player, player.getUniqueId(), name);
     }
     
     
@@ -157,8 +153,8 @@ public class PetGuiListeners implements Listener {
         //currentPetName.put(player, name);
         if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
             plugin.dataPets.remove(player.getUniqueId());
-            plugin.dataPets.addPet(player, player.getUniqueId(), name);
         } 
+        plugin.dataPets.addPet(player, player.getUniqueId(), name);
     }
     
     
@@ -403,7 +399,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35 && event.getSlot() != 16 && event.getSlot() != 19 && event.getSlot() != 34) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);
         }
 
         //Add Llama
@@ -520,7 +516,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         // Return to cosmetic window
@@ -558,7 +554,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         //Add Turtle
@@ -624,7 +620,7 @@ public class PetGuiListeners implements Listener {
     
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         // Pet Gui Page 2
@@ -655,7 +651,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         //Add Red Sheep
@@ -747,7 +743,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         //Close Menu
@@ -771,7 +767,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
 
         
@@ -864,7 +860,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         //Close Menu
@@ -889,7 +885,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         
@@ -957,7 +953,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            RemoveEffects.ClearEffects(player);
+            plugin.RemoveEffects.ClearEffects(player);;
         }
         
         //Close Menu

@@ -9,13 +9,8 @@ import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.trails.TrailsConstructor;
 import cosmetics.trails.TrailsGuiListeners;
 
-public class RemoveEffects {
+public class RemoveEffectsOnQuit {
     
-    private Cosmetics plugin;
-    public RemoveEffects(Cosmetics b) {
-        plugin = b;
-    }
-
     public void ClearEffects(Player player) {
 
         if (DisguiseGuiListeners.currentDisguise.containsKey(player)) {
@@ -28,13 +23,7 @@ public class RemoveEffects {
         if (PetGuiListeners.currentPet.containsKey(player)) {
             PetGuiListeners.currentPet.get(player).remove();
             PetGuiListeners.currentPet.remove(player);
-            
-            if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
-                plugin.dataPets.remove(player.getUniqueId());
-            }  
         }
-
-        
         
         if (player.getInventory().getItem(8) != null && player.getInventory().getItem(8).getItemMeta().hasLore() &&
                 player.getInventory().getItem(8).getItemMeta().getDisplayName().contains("Jump Stick")) {

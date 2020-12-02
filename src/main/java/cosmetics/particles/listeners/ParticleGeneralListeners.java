@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import cosmetics.Cosmetics;
-import cosmetics.RemoveEffects;
 
 public class ParticleGeneralListeners implements Listener {
 
@@ -17,8 +16,6 @@ public class ParticleGeneralListeners implements Listener {
     public ParticleGeneralListeners(Cosmetics b) {
         plugin = b;
     }
-    
-    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Particle> currentParticleType = ParticleGuiListeners.currentParticleType;
     public static HashMap<Player, String> currentParticlePattern = ParticleGuiListeners.currentParticlePattern;

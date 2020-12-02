@@ -39,7 +39,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public SQLGetterParticles dataParticles;
     public SQLGetterPets dataPets;
     
-    public static RemoveEffects RemoveEffects;
+    public RemoveEffects RemoveEffects;
     
     public static PurchaseConstructor PurchaseConstructor;
     public static HashMap<Player, String> purchaseItem = new HashMap<>();
