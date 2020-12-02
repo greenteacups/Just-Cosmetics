@@ -38,9 +38,10 @@ public class PetGuiListeners implements Listener {
         plugin = b;
     }
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();
+    //public static HashMap<Player, String> currentPetName = new HashMap<>();
     //public static HashMap<Player, Entity> currentnewpet = new HashMap<>();
     
     //Pet Spawner
@@ -76,6 +77,12 @@ public class PetGuiListeners implements Listener {
             purchasePrice.put(player, price); //Input Price
             PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
         }
+        //currentPetName.put(player, name);
+        if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+            System.out.println(plugin.dataPets.getPet(player.getUniqueId()));
+            plugin.dataPets.remove(player.getUniqueId());
+            plugin.dataPets.addPet(player, player.getUniqueId(), name);
+        } 
     }
     
     
@@ -109,6 +116,11 @@ public class PetGuiListeners implements Listener {
             purchasePrice.put(player, price); //Input Price
             PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
         }
+        //currentPetName.put(player, name);
+        if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+            plugin.dataPets.remove(player.getUniqueId());
+            plugin.dataPets.addPet(player, player.getUniqueId(), name);
+        } 
     }
     
     
@@ -142,6 +154,236 @@ public class PetGuiListeners implements Listener {
             purchasePrice.put(player, price); //Input Price
             PurchaseConstructor.purchaseGui(player, purchaseItem.get(player), purchasePrice.get(player));
         }
+        //currentPetName.put(player, name);
+        if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+            plugin.dataPets.remove(player.getUniqueId());
+            plugin.dataPets.addPet(player, player.getUniqueId(), name);
+        } 
+    }
+    
+    
+    // Pet Command
+    public void Pet(Player player, String name) {
+        if (name.equals("Llama Pet")) {
+            PetEquip(player, EntityType.LLAMA, false, 200, "Llama Pet");
+        }
+        if (name.equals("Baby Llama Pet")) {
+            PetEquip(player, EntityType.LLAMA, true, 200, "Baby Llama Pet");
+        }
+        if (name.equals("Pig Pet")) {
+            PetEquip(player, EntityType.PIG, false, 200, "Pig Pet");
+        }
+        if (name.equals("Baby Pig Pet")) {
+            PetEquip(player, EntityType.PIG, true, 200, "Baby Pig Pet");
+        }
+        if (name.equals("Chicken Pet")) {
+            PetEquip(player, EntityType.CHICKEN, false, 200, "Chicken Pet");
+        }
+        if (name.equals("Baby Chicken Pet")) {
+            PetEquip(player, EntityType.CHICKEN, true, 200, "Baby Chicken Pet");
+        }
+        if (name.equals("Cow Pet")) {
+            PetEquip(player, EntityType.COW, false, 200, "Cow Pet");
+        }
+        if (name.equals("Baby Cow Pet")) {
+            PetEquip(player, EntityType.COW, true, 200, "Baby Cow Pet");
+        }
+        if (name.equals("Mooshroom Pet")) {
+            PetEquip(player, EntityType.MUSHROOM_COW, false, 200, "Mooshroom Pet");
+        }
+        if (name.equals("Fox Pet")) {
+            PetEquip(player, EntityType.FOX, false, 200, "Fox Pet");
+        }
+        if (name.equals("Baby Fox Pet")) {
+            PetEquip(player, EntityType.FOX, true, 200, "Baby Fox Pet");
+        }
+        if (name.equals("Panda Pet")) {
+            PetEquip(player, EntityType.PANDA, false, 200, "Panda Pet");
+        }
+        if (name.equals("Baby Panda Pet")) {
+            PetEquip(player, EntityType.PANDA, true, 200, "Baby Panda Pet");
+        }
+        if (name.equals("Wolf Pet")) {
+            PetEquip(player, EntityType.WOLF, false, 200, "Wolf Pet");
+        }
+        if (name.equals("Baby Wolf Pet")) {
+            PetEquip(player, EntityType.WOLF, true, 200, "Baby Wolf Pet");
+        }
+        if (name.equals("Polar Bear Pet")) {
+            PetEquip(player, EntityType.POLAR_BEAR, false, 200, "Polar Bear Pet");
+        }
+        if (name.equals("Baby Polar Bear Pet")) {
+            PetEquip(player, EntityType.POLAR_BEAR, true, 200, "Baby Polar Bear Pet");
+        }
+        if (name.equals("Ocelot Pet")) {
+            PetEquip(player, EntityType.OCELOT, false, 200, "Ocelot Pet");
+        }
+        if (name.equals("Turtle Pet")) {
+            PetEquip(player, EntityType.TURTLE, false, 200, "Turtle Pet");
+        }
+        if (name.equals("Creeper Pet")) {
+            PetEquip(player, EntityType.CREEPER, false, 200, "Creeper Pet");
+        }
+        if (name.equals("Horse Pet")) {
+            PetEquip(player, EntityType.HORSE, false, 200, "Horse Pet");
+        }
+        if (name.equals("Blaze Pet")) {
+            PetEquip(player, EntityType.BLAZE, false, 200, "Blaze Pet");
+        }
+        if (name.equals("Witch Pet")) {
+            PetEquip(player, EntityType.WITCH, false, 200, "Witch Pet");
+        }
+        if (name.equals("Husk Pet")) {
+            PetEquip(player, EntityType.HUSK, false, 200, "Husk Pet");
+        }
+        if (name.equals("Baby Husk Pet")) {
+            PetEquip(player, EntityType.HUSK, true, 200, "Baby Husk Pet");
+        }
+        if (name.equals("Zombie Pet")) {
+            PetEquip(player, EntityType.ZOMBIE, false, 200, "Zombie Pet");
+        }
+        if (name.equals("Baby Zombie Pet")) {
+            PetEquip(player, EntityType.ZOMBIE, true, 200, "Baby Zombie Pet");
+        }
+        if (name.equals("Snowman Pet")) {
+            PetEquip(player, EntityType.SNOWMAN, false, 200, "Snowman Pet");
+        }
+        if (name.equals("Golem Pet")) {
+            PetEquip(player, EntityType.IRON_GOLEM, false, 200, "Golem Pet");
+        }
+        if (name.equals("Rabbit Pet")) {
+            PetEquip(player, EntityType.RABBIT, false, 200, "Rabbit Pet");
+        }
+        if (name.equals("Red Sheep Pet")) {
+            SheepEquip(player, DyeColor.RED, false, 200, "Red Sheep Pet");
+        }
+        if (name.equals("Orange Sheep Pet")) {
+            SheepEquip(player, DyeColor.ORANGE, false, 200, "Orange Sheep Pet");
+        }
+        if (name.equals("Yellow Sheep Pet")) {
+            SheepEquip(player, DyeColor.YELLOW, false, 200, "Yellow Sheep Pet");
+        }
+        if (name.equals("Green Sheep Pet")) {
+            SheepEquip(player, DyeColor.GREEN, false, 200, "Green Sheep Pet");
+        }
+        if (name.equals("Lime Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIME, false, 200, "Lime Sheep Pet");
+        }
+        if (name.equals("Blue Sheep Pet")) {
+            SheepEquip(player, DyeColor.BLUE, false, 200, "Blue Sheep Pet");
+        }
+        if (name.equals("Cyan Sheep Pet")) {
+            SheepEquip(player, DyeColor.CYAN, false, 200, "Cyan Sheep Pet");
+        }
+        if (name.equals("Light Blue Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIGHT_BLUE, false, 200, "Light Blue Sheep Pet");
+        }
+        if (name.equals("Purple Sheep Pet")) {
+            SheepEquip(player, DyeColor.PURPLE, false, 200, "Purple Sheep Pet");
+        }
+        if (name.equals("Magenta Sheep Pet")) {
+            SheepEquip(player, DyeColor.MAGENTA, false, 200, "Magenta Sheep Pet");
+        }
+        if (name.equals("Pink Sheep Pet")) {
+            SheepEquip(player, DyeColor.PINK, false, 200, "Pink Sheep Pet");
+        }
+        if (name.equals("Brown Sheep Pet")) {
+            SheepEquip(player, DyeColor.BROWN, false, 200, "Brown Sheep Pet");
+        }
+        if (name.equals("Black Sheep Pet")) {
+            SheepEquip(player, DyeColor.BLACK, false, 200, "Black Sheep Pet");
+        }
+        if (name.equals("Gray Sheep Pet")) {
+            SheepEquip(player, DyeColor.GRAY, false, 200, "Gray Sheep Pet");
+        }
+        if (name.equals("Light Gray Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIGHT_GRAY, false, 200, "Light Gray Sheep Pet");
+        }
+        if (name.equals("White Sheep Pet")) {
+            SheepEquip(player, DyeColor.WHITE, false, 200, "White Sheep Pet");
+        }
+        if (name.equals("Red Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.RED, true, 200, "Red Baby Sheep Pet");
+        }
+        if (name.equals("Orange Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.ORANGE, true, 200, "Orange Baby Sheep Pet");
+        }
+        if (name.equals("Yellow Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.YELLOW, true, 200, "Yellow Baby Sheep Pet");
+        }
+        if (name.equals("Green Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.GREEN, true, 200, "Green Baby Sheep Pet");
+        }
+        if (name.equals("Lime Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIME, true, 200, "Lime Baby Sheep Pet");
+        }
+        if (name.equals("Blue Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.BLUE, true, 200, "Blue Baby Sheep Pet");
+        }
+        if (name.equals("Cyan Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.CYAN, true, 200, "Cyan Baby Sheep Pet");
+        }
+        if (name.equals("Light Blue Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIGHT_BLUE, true, 200, "Light Blue Baby Sheep Pet");
+        }
+        if (name.equals("Purple Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.PURPLE, true, 200, "Purple Baby Sheep Pet");
+        }
+        if (name.equals("Magenta Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.MAGENTA, true, 200, "Magenta Baby Sheep Pet");
+        }
+        if (name.equals("Pink Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.PINK, true, 200, "Pink Baby Sheep Pet");
+        }
+        if (name.equals("Brown Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.BROWN, true, 200, "Brown Baby Sheep Pet");
+        }
+        if (name.equals("Black Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.BLACK, true, 200, "Black Baby Sheep Pet");
+        }
+        if (name.equals("Gray Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.GRAY, true, 200, "Gray Baby Sheep Pet");
+        }
+        if (name.equals("Light Gray Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.LIGHT_GRAY, true, 200, "Light Gray Baby Sheep Pet");
+        }
+        if (name.equals("White Baby Sheep Pet")) {
+            SheepEquip(player, DyeColor.WHITE, true, 200, "White Baby Sheep Pet");
+        }
+        if (name.equals("Black Cat Pet")) {
+            CatEquip(player, Cat.Type.ALL_BLACK, false, 200, "Black Cat Pet");
+        }
+        if (name.equals("British Shorthair Cat Pet")) {
+            CatEquip(player, Cat.Type.BRITISH_SHORTHAIR, false, 200, "British Shorthair Cat Pet");
+        }
+        if (name.equals("Calico Cat Pet")) {
+            CatEquip(player, Cat.Type.CALICO, false, 200, "Calico Cat Pet");
+        }
+        if (name.equals("Jellie Cat Pet")) {
+            CatEquip(player, Cat.Type.JELLIE, false, 200, "Jellie Cat Pet");
+        }
+        if (name.equals("Persian Cat Pet")) {
+            CatEquip(player, Cat.Type.PERSIAN, false, 200, "Persian Cat Pet");
+        }
+        if (name.equals("Ragdoll Cat Pet")) {
+            CatEquip(player, Cat.Type.RAGDOLL, false, 200, "Ragdoll Cat Pet");
+        }
+        if (name.equals("Red Cat Pet")) {
+            CatEquip(player, Cat.Type.RED, false, 200, "Red Cat Pet");
+        }
+        if (name.equals("Siamese Cat Pet")) {
+            CatEquip(player, Cat.Type.SIAMESE, false, 200, "Siamese Cat Pet");
+        }
+        if (name.equals("Tabby Cat Pet")) {
+            CatEquip(player, Cat.Type.TABBY, false, 200, "Tabby Cat Pet");
+        }
+        if (name.equals("Tuxedo Cat Pet")) {
+            CatEquip(player, Cat.Type.BLACK, false, 200, "Tuxedo Cat Pet");
+        }
+        if (name.equals("White Cat Pet")) {
+            CatEquip(player, Cat.Type.WHITE, false, 200, "White Cat Pet");
+        }
+        
     }
     
     //////
@@ -160,38 +402,38 @@ public class PetGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         // Remove Active Cosmetics when selecting new pet
-        if (event.getSlot() < 35) {
+        if (event.getSlot() < 35 && event.getSlot() != 16 && event.getSlot() != 19 && event.getSlot() != 34) {
             RemoveEffects.ClearEffects(player);
         }
 
         //Add Llama
         if (event.getSlot() == 10) {
-            PetEquip(player, EntityType.LLAMA, false, 200, "Llama Pet");
+            Pet(player, "Llama Pet");
         }
         
         //Add Baby Llama
         if (event.getSlot() == 11) {
-            PetEquip(player, EntityType.LLAMA, true, 200, "Baby Llama Pet");
+            Pet(player, "Baby Llama Pet");
         }
         
         //Add Pig
         if (event.getSlot() == 12) {
-            PetEquip(player, EntityType.PIG, false, 200, "Pig Pet");
+            Pet(player, "Pig Pet");
         }
         
         //Add Baby Pig
         if (event.getSlot() == 13) {
-            PetEquip(player, EntityType.PIG, true, 200, "Baby Pig Pet");
+            Pet(player, "Baby Pig Pet");
         }
         
         //Add Chicken
         if (event.getSlot() == 14) {
-            PetEquip(player, EntityType.CHICKEN, false, 200, "Chicken Pet");
+            Pet(player, "Chicken Pet");
         }
         
         //Add Baby Chicken
         if (event.getSlot() == 15) {
-            PetEquip(player, EntityType.CHICKEN, true, 200, "Baby Chicken Pet");
+            Pet(player, "Baby Chicken Pet");
         }
         
         //Go to Sheep Gui
@@ -210,62 +452,62 @@ public class PetGuiListeners implements Listener {
         
         //Add Cow
         if (event.getSlot() == 20) {
-            PetEquip(player, EntityType.COW, false, 200, "Cow Pet");
+            Pet(player, "Cow Pet");
         }
         
         //Add Baby Cow
         if (event.getSlot() == 21) {
-            PetEquip(player, EntityType.COW, true, 200, "Baby Cow Pet");
+            Pet(player, "Baby Cow Pet");
         }
         
         //Add Mooshroom
         if (event.getSlot() == 22) {
-            PetEquip(player, EntityType.MUSHROOM_COW, false, 200, "Mooshroom Pet");
+            Pet(player, "Mooshroom Pet");
         }
         
         //Add Fox
         if (event.getSlot() == 23) {
-            PetEquip(player, EntityType.FOX, false, 200, "Fox Pet");
+            Pet(player, "Fox Pet");
         }
         
         //Add Baby Fox
         if (event.getSlot() == 24) {
-            PetEquip(player, EntityType.FOX, true, 200, "Baby Fox Pet");
+            Pet(player, "Baby Fox Pet");
         }
         
         //Add Panda
         if (event.getSlot() == 25) {
-            PetEquip(player, EntityType.PANDA, false, 200, "Panda Pet");
+            Pet(player, "Panda Pet");
         }
         
         //Add Baby Panda
         if (event.getSlot() == 28) {
-            PetEquip(player, EntityType.PANDA, true, 200, "Baby Panda Pet");
+            Pet(player, "Baby Panda Pet");
         }
         
         //Add Wolf
         if (event.getSlot() == 29) {
-            PetEquip(player, EntityType.WOLF, false, 200, "Wolf Pet");
+            Pet(player, "Wolf Pet");
         }
         
         //Add Baby Wolf
         if (event.getSlot() == 30) {
-            PetEquip(player, EntityType.WOLF, true, 200, "Baby Wolf Pet");
+            Pet(player, "Baby Wolf Pet");
         }
         
         //Add Polar Bear
         if (event.getSlot() == 31) {
-            PetEquip(player, EntityType.POLAR_BEAR, false, 200, "Polar Bear Pet");
+            Pet(player, "Polar Bear Pet");
         }
         
         //Add Baby Polar Bear
         if (event.getSlot() == 32) {
-            PetEquip(player, EntityType.POLAR_BEAR, true, 200, "Baby Polar Bear Pet");
+            Pet(player, "Baby Polar Bear Pet");
         }
         
         //Add Ocelot
         if (event.getSlot() == 33) {
-            PetEquip(player, EntityType.OCELOT, false, 200, "Ocelot Pet");
+            Pet(player, "Ocelot Pet");
         }
         
         //Add Cat
@@ -321,62 +563,62 @@ public class PetGuiListeners implements Listener {
         
         //Add Turtle
         if (event.getSlot() == 10) {
-            PetEquip(player, EntityType.TURTLE, false, 200, "Turtle Pet");
+            Pet(player, "Turtle Pet");
         }
         
         //Add Creeper
         if (event.getSlot() == 11) {
-            PetEquip(player, EntityType.CREEPER, false, 200, "Creeper Pet");
+            Pet(player, "Creeper Pet");
         }
         
         //Add Horse
         if (event.getSlot() == 12) {
-            PetEquip(player, EntityType.HORSE, false, 200, "Horse Pet");
+            Pet(player, "Horse Pet");
         }
         
         //Add Blaze
         if (event.getSlot() == 13) {
-            PetEquip(player, EntityType.BLAZE, false, 200, "Blaze Pet");
+            Pet(player, "Blaze Pet");
         }
         
         //Add Witch
         if (event.getSlot() == 14) {
-            PetEquip(player, EntityType.WITCH, false, 200, "Witch Pet");
+            Pet(player, "Witch Pet");
         }
         
         //Add Husk
         if (event.getSlot() == 15) {
-            PetEquip(player, EntityType.HUSK, false, 200, "Husk Pet");
+            Pet(player, "Husk Pet");
         }
         
         //Add Baby Husk
         if (event.getSlot() == 16) {
-            PetEquip(player, EntityType.HUSK, true, 200, "Baby Husk Pet");
+            Pet(player, "Baby Husk Pet");
         }
         
         //Add Zombie
         if (event.getSlot() == 19) {
-            PetEquip(player, EntityType.ZOMBIE, false, 200, "Zombie Pet");
+            Pet(player, "Zombie Pet");
         }
         
         //Add Baby Zombie
         if (event.getSlot() == 20) {
-            PetEquip(player, EntityType.ZOMBIE, true, 200, "Baby Zombie Pet");
+            Pet(player, "Baby Zombie Pet");
         }
         
         //Add Snowman
         if (event.getSlot() == 21) {
-            PetEquip(player, EntityType.SNOWMAN, false, 200, "Snowman Pet");
+            Pet(player, "Snowman Pet");
         }
         
         //Add Iron Golem
         if (event.getSlot() == 22) {
-            PetEquip(player, EntityType.IRON_GOLEM, false, 200, "Golem Pet");
+            Pet(player, "Golem Pet");
         }
         
         //Add Rabbit
         if (event.getSlot() == 23) {
-            PetEquip(player, EntityType.RABBIT, false, 200, "Rabbit Pet");
+            Pet(player, "Rabbit Pet");
         }
         
     
@@ -418,82 +660,82 @@ public class PetGuiListeners implements Listener {
         
         //Add Red Sheep
         if (event.getSlot() == 10) {
-            SheepEquip(player, DyeColor.RED, false, 200, "Red Sheep Pet");
+            Pet(player, "Red Sheep Pet");
         }
         
         //Add Orange Sheep
         if (event.getSlot() == 11) {
-            SheepEquip(player, DyeColor.ORANGE, false, 200, "Orange Sheep Pet");
+            Pet(player, "Orange Sheep Pet");
         }
         
         //Add Yellow Sheep
         if (event.getSlot() == 12) {
-            SheepEquip(player, DyeColor.YELLOW, false, 200, "Yellow Sheep Pet");
+            Pet(player, "Yellow Sheep Pet");
         }
         
         //Add Green Sheep
         if (event.getSlot() == 13) {
-            SheepEquip(player, DyeColor.GREEN, false, 200, "Green Sheep Pet");
+            Pet(player, "Green Sheep Pet");
         }
         
         //Add Lime Sheep
         if (event.getSlot() == 14) {
-            SheepEquip(player, DyeColor.LIME, false, 200, "Lime Sheep Pet");
+            Pet(player, "Lime Sheep Pet");
         }
         
         //Add Blue Sheep
         if (event.getSlot() == 15) {
-            SheepEquip(player, DyeColor.BLUE, false, 200, "Blue Sheep Pet");
+            Pet(player, "Blue Sheep Pet");
         }
         
         //Add Cyan Sheep
         if (event.getSlot() == 16) {
-            SheepEquip(player, DyeColor.CYAN, false, 200, "Cyan Sheep Pet");
+            Pet(player, "Cyan Sheep Pet");
         }
         
         //Add Light Blue Sheep
         if (event.getSlot() == 19) {
-            SheepEquip(player, DyeColor.LIGHT_BLUE, false, 200, "Light Blue Sheep Pet");
+            Pet(player, "Light Blue Sheep Pet");
         }
         
         //Add Purple Sheep
         if (event.getSlot() == 20) {
-            SheepEquip(player, DyeColor.PURPLE, false, 200, "Purple Sheep Pet");
+            Pet(player, "Purple Sheep Pet");
         }
         
         //Add Magenta Sheep
         if (event.getSlot() == 21) {
-            SheepEquip(player, DyeColor.MAGENTA, false, 200, "Magenta Sheep Pet");
+            Pet(player, "Magenta Sheep Pet");
         }
         
         //Add Pink Sheep
         if (event.getSlot() == 22) {
-            SheepEquip(player, DyeColor.PINK, false, 200, "Pink Sheep Pet");
+            Pet(player, "Pink Sheep Pet");
         }
         
         //Add Brown Sheep
         if (event.getSlot() == 23) {
-            SheepEquip(player, DyeColor.BROWN, false, 200, "Brown Sheep Pet");
+            Pet(player, "Brown Sheep Pet");
         }
         
         //Add Black Sheep
         if (event.getSlot() == 24) {
-            SheepEquip(player, DyeColor.BLACK, false, 200, "Black Sheep Pet");
+            Pet(player, "Black Sheep Pet");
         }
         
         //Add Gray Sheep
         if (event.getSlot() == 25) {
-            SheepEquip(player, DyeColor.GRAY, false, 200, "Gray Sheep Pet");
+            Pet(player, "Gray Sheep Pet");
         }
         
         //Add Light Gray Sheep
         if (event.getSlot() == 28) {
-            SheepEquip(player, DyeColor.LIGHT_GRAY, false, 200, "Light Gray Sheep Pet");
+            Pet(player, "Light Gray Sheep Pet");
         }
         
         //Add White Sheep
         if (event.getSlot() == 29) {
-            SheepEquip(player, DyeColor.WHITE, false, 200, "White Sheep Pet");
+            Pet(player, "White Sheep Pet");
         }
         
         //Back Arrow
@@ -531,85 +773,86 @@ public class PetGuiListeners implements Listener {
         if (event.getSlot() < 35) {
             RemoveEffects.ClearEffects(player);
         }
+
         
         //Add Baby Red Sheep
         if (event.getSlot() == 10) {
-            SheepEquip(player, DyeColor.RED, true, 200, "Red Baby Sheep Pet");
+            Pet(player,"Red Baby Sheep Pet");
         }
         
         //Add Baby Orange Sheep
         if (event.getSlot() == 11) {
-            SheepEquip(player, DyeColor.ORANGE, true, 200, "Orange Baby Sheep Pet");
+            Pet(player,"Orange Baby Sheep Pet");
         }
         
         //Add Baby Yellow Sheep
         if (event.getSlot() == 12) {
-            SheepEquip(player, DyeColor.YELLOW, true, 200, "Yellow Baby Sheep Pet");
+            Pet(player,"Yellow Baby Sheep Pet");
         }
         
         //Add Baby Green Sheep
         if (event.getSlot() == 13) {
-            SheepEquip(player, DyeColor.GREEN, true, 200, "Green Baby Sheep Pet");
+            Pet(player,"Green Baby Sheep Pet");
         }
         
         //Add Baby Lime Sheep
         if (event.getSlot() == 14) {
-            SheepEquip(player, DyeColor.LIME, true, 200, "Lime Baby Sheep Pet");
+            Pet(player, "Lime Baby Sheep Pet");
         }
         
         //Add Baby Blue Sheep
         if (event.getSlot() == 15) {
-            SheepEquip(player, DyeColor.BLUE, true, 200, "Blue Baby Sheep Pet");
+            Pet(player, "Blue Baby Sheep Pet");
         }
         
         //Add Baby Cyan Sheep
         if (event.getSlot() == 16) {
-            SheepEquip(player, DyeColor.CYAN, true, 200, "Cyan Baby Sheep Pet");
+            Pet(player, "Cyan Baby Sheep Pet");
         }
         
         //Add Baby Light Blue Sheep
         if (event.getSlot() == 19) {
-            SheepEquip(player, DyeColor.LIGHT_BLUE, true, 200, "Light Blue Baby Sheep Pet");
+            Pet(player, "Light Blue Baby Sheep Pet");
         }
         
         //Add Baby Purple Sheep
         if (event.getSlot() == 20) {
-            SheepEquip(player, DyeColor.PURPLE, true, 200, "Purple Baby Sheep Pet");
+            Pet(player, "Purple Baby Sheep Pet");
         }
         
         //Add Baby Magenta Sheep
         if (event.getSlot() == 21) {
-            SheepEquip(player, DyeColor.MAGENTA, true, 200, "Magenta Baby Sheep Pet");
+            Pet(player, "Magenta Baby Sheep Pet");
         }
         
         //Add Baby Pink Sheep
         if (event.getSlot() == 22) {
-            SheepEquip(player, DyeColor.PINK, true, 200, "Pink Baby Sheep Pet");
+            Pet(player, "Pink Baby Sheep Pet");
         }
         
         //Add Baby Brown Sheep
         if (event.getSlot() == 23) {
-            SheepEquip(player, DyeColor.BROWN, true, 200, "Brown Baby Sheep Pet");
+            Pet(player, "Brown Baby Sheep Pet");
         }
         
         //Add Baby Black Sheep
         if (event.getSlot() == 24) {
-            SheepEquip(player, DyeColor.BLACK, true, 200, "Black Baby Sheep Pet");
+            Pet(player, "Black Baby Sheep Pet");
         }
         
         //Add Baby Gray Sheep
         if (event.getSlot() == 25) {
-            SheepEquip(player, DyeColor.GRAY, true, 200, "Gray Baby Sheep Pet");
+            Pet(player, "Gray Baby Sheep Pet");
         }
         
         //Add Baby Light Gray Sheep
         if (event.getSlot() == 28) {
-            SheepEquip(player, DyeColor.LIGHT_GRAY, true, 200, "Light Gray Baby Sheep Pet");
+            Pet(player, "Light Gray Baby Sheep Pet");
         }
         
         //Add Baby White Sheep
         if (event.getSlot() == 29) {
-            SheepEquip(player, DyeColor.WHITE, true, 200, "White Baby Sheep Pet");
+            Pet(player, "White Baby Sheep Pet");
         }
         
         //Back Arrow
@@ -649,59 +892,60 @@ public class PetGuiListeners implements Listener {
             RemoveEffects.ClearEffects(player);
         }
         
+        
         //Add Black Cat Pet
         if (event.getSlot() == 10) {
-            CatEquip(player, Cat.Type.ALL_BLACK, false, 200, "Black Cat Pet");
+            Pet(player, "Black Cat Pet");
         }
         
         //Add British Shorthair Cat Pet
         if (event.getSlot() == 11) {
-            CatEquip(player, Cat.Type.BRITISH_SHORTHAIR, false, 200, "British Shorthair Cat Pet");
+            Pet(player, "British Shorthair Cat Pet");
         }
         
         //Add Calico Cat Pet
         if (event.getSlot() == 12) {
-            CatEquip(player, Cat.Type.CALICO, false, 200, "Calico Cat Pet");
+            Pet(player, "Calico Cat Pet");
         }
         
         //Add Jellie Cat Pet
         if (event.getSlot() == 13) {
-            CatEquip(player, Cat.Type.JELLIE, false, 200, "Jellie Cat Pet");
+            Pet(player, "Jellie Cat Pet");
         }
         
         //Add Persian Cat Pet
         if (event.getSlot() == 14) {
-            CatEquip(player, Cat.Type.PERSIAN, false, 200, "Persian Cat Pet");
+            Pet(player, "Persian Cat Pet");
         }
         
         //Add Ragdoll Cat Pet
         if (event.getSlot() == 15) {
-            CatEquip(player, Cat.Type.RAGDOLL, false, 200, "Ragdoll Cat Pet");
+            Pet(player, "Ragdoll Cat Pet");
         }
         
         //Add Red Cat Pet
         if (event.getSlot() == 16) {
-            CatEquip(player, Cat.Type.RED, false, 200, "Red Cat Pet");
+            Pet(player, "Red Cat Pet");
         }
         
         //Add Siamese Cat Pet
         if (event.getSlot() == 19) {
-            CatEquip(player, Cat.Type.SIAMESE, false, 200, "Siamese Cat Pet");
+            Pet(player, "Siamese Cat Pet");
         }
         
         //Add Tabby Cat Pet
         if (event.getSlot() == 20) {
-            CatEquip(player, Cat.Type.TABBY, false, 200, "Tabby Cat Pet");
+            Pet(player, "Tabby Cat Pet");
         }
         
         //Add Tuxedo Cat Pet
         if (event.getSlot() == 21) {
-            CatEquip(player, Cat.Type.BLACK, false, 200, "Tuxedo Cat Pet");
+            Pet(player, "Tuxedo Cat Pet");
         }
         
         //Add White Cat Pet
         if (event.getSlot() == 22) {
-            CatEquip(player, Cat.Type.WHITE, false, 200, "White Cat Pet");
+            Pet(player, "White Cat Pet");
         }
         
         //Back Arrow

@@ -35,7 +35,7 @@ public class DisguiseGeneralListeners implements Listener {
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     @EventHandler
     public void onMovetest(PlayerMoveEvent event) {

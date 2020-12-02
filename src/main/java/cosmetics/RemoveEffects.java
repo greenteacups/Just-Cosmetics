@@ -10,6 +10,11 @@ import cosmetics.trails.TrailsConstructor;
 import cosmetics.trails.TrailsGuiListeners;
 
 public class RemoveEffects {
+    
+    private Cosmetics plugin;
+    public RemoveEffects(Cosmetics b) {
+        plugin = b;
+    }
 
     public void ClearEffects(Player player) {
 
@@ -23,6 +28,17 @@ public class RemoveEffects {
         if (PetGuiListeners.currentPet.containsKey(player)) {
             PetGuiListeners.currentPet.get(player).remove();
             PetGuiListeners.currentPet.remove(player);
+            
+//            System.out.println("test1");
+            System.out.println(plugin);
+//            System.out.println("test");
+            
+            if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+                System.out.println(plugin.dataPets.getPet(player.getUniqueId()));
+                plugin.dataPets.remove(player.getUniqueId());
+            } 
+            
+            
         }
 
         

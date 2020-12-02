@@ -38,7 +38,7 @@ public class GadgetGuiListeners implements Listener {
         plugin = b;
     }
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, List<Entity>> shellMap = new HashMap<>();
     public static HashMap<Player, List<Entity>> parrotMap = new HashMap<>();

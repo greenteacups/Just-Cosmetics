@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -28,9 +29,11 @@ public class PetGeneralListeners implements Listener {
     private Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
         plugin = b;
+        PetSpawn = new PetGuiListeners(plugin);
     }
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
+    public PetGuiListeners PetSpawn = new PetGuiListeners(plugin);
     
     public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
@@ -119,7 +122,24 @@ public class PetGeneralListeners implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        
+//        if (currentPetName.containsKey(player)) {
+//            plugin.dataPets.addPet(player, player.getUniqueId(), currentPetName.get(player));
+//        }
+        
         RemoveEffects.ClearEffects(player);
+        
+    }
+    
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        
+        Player player = (Player) event.getPlayer();
+
+        if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+            PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId()));
+            //plugin.dataPets.remove(player.getUniqueId());
+        }
     }
     
     // Force pets/disguises/anything JustCosmetics to be spawned
@@ -133,5 +153,6 @@ public class PetGeneralListeners implements Listener {
                 }
             }
         }
-    }
+    } 
+    
 }

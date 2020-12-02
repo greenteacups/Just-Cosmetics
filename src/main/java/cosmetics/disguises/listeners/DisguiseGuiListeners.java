@@ -32,7 +32,7 @@ public class DisguiseGuiListeners implements Listener {
         plugin = b;
     }
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Entity> currentDisguise = new HashMap<>();
     

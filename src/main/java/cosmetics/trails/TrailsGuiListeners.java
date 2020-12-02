@@ -24,7 +24,7 @@ public class TrailsGuiListeners implements Listener {
         plugin = b;
     }
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Location> trailsMap = new HashMap<>();
     public static HashMap<Player, String> trailTypeMap = new HashMap<>();

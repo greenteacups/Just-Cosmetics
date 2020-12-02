@@ -12,13 +12,13 @@ import cosmetics.Cosmetics;
 import cosmetics.RemoveEffects;
 
 public class ParticleGeneralListeners implements Listener {
-    
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
 
     private Cosmetics plugin;
     public ParticleGeneralListeners(Cosmetics b) {
         plugin = b;
     }
+    
+    public RemoveEffects RemoveEffects = new RemoveEffects(plugin);
     
     public static HashMap<Player, Particle> currentParticleType = ParticleGuiListeners.currentParticleType;
     public static HashMap<Player, String> currentParticlePattern = ParticleGuiListeners.currentParticlePattern;

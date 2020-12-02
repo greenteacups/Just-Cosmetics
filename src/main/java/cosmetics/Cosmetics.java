@@ -25,6 +25,7 @@ import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
 import cosmetics.sql.SQLGetterCosmetics;
 import cosmetics.sql.SQLGetterParticles;
+import cosmetics.sql.SQLGetterPets;
 import cosmetics.sql.SQLGetterSlime;
 import cosmetics.sql.SQLListeners;
 import cosmetics.trails.TrailsConstructor;
@@ -36,8 +37,9 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public SQLGetterSlime dataSlime;
     public SQLGetterCosmetics dataCosmetics;
     public SQLGetterParticles dataParticles;
+    public SQLGetterPets dataPets;
     
-    public static RemoveEffects RemoveEffects = new RemoveEffects();
+    public static RemoveEffects RemoveEffects;
     
     public static PurchaseConstructor PurchaseConstructor;
     public static HashMap<Player, String> purchaseItem = new HashMap<>();
@@ -56,6 +58,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.dataSlime = new SQLGetterSlime(this);
         this.dataCosmetics = new SQLGetterCosmetics(this);
         this.dataParticles = new SQLGetterParticles(this);
+        this.dataPets = new SQLGetterPets(this);
         
         try {
             SQL.connect();
@@ -70,6 +73,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
             dataSlime.createTable();
             dataCosmetics.createTable();
             dataParticles.createTable();
+            dataPets.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
         
@@ -77,6 +81,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
         getCommand("slime").setExecutor(new SlimeCommand(this));
     
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
+        RemoveEffects = new RemoveEffects(this);
         
         this.getServer().getPluginManager().registerEvents(new SQLListeners(this), this); //Enable SQL Listeners
         
