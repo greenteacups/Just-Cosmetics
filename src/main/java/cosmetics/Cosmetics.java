@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cosmetics.commands.CosmeticCommand;
+import cosmetics.commands.PetNameCommand;
 import cosmetics.commands.SlimeCommand;
 import cosmetics.disguises.listeners.DisguiseGeneralListeners;
 import cosmetics.disguises.listeners.DisguiseGuiListeners;
@@ -25,6 +26,7 @@ import cosmetics.pets.listeners.PetGuiListeners;
 import cosmetics.sql.MySQL;
 import cosmetics.sql.SQLGetterCosmetics;
 import cosmetics.sql.SQLGetterParticles;
+import cosmetics.sql.SQLGetterPetNames;
 import cosmetics.sql.SQLGetterPets;
 import cosmetics.sql.SQLGetterSlime;
 import cosmetics.sql.SQLListeners;
@@ -38,6 +40,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
     public SQLGetterCosmetics dataCosmetics;
     public SQLGetterParticles dataParticles;
     public SQLGetterPets dataPets;
+    public SQLGetterPetNames dataPetNames;
     
     public RemoveEffects RemoveEffects;
     
@@ -59,6 +62,7 @@ public class Cosmetics extends JavaPlugin implements Listener {
         this.dataCosmetics = new SQLGetterCosmetics(this);
         this.dataParticles = new SQLGetterParticles(this);
         this.dataPets = new SQLGetterPets(this);
+        this.dataPetNames = new SQLGetterPetNames(this);
         
         try {
             SQL.connect();
@@ -74,11 +78,13 @@ public class Cosmetics extends JavaPlugin implements Listener {
             dataCosmetics.createTable();
             dataParticles.createTable();
             dataPets.createTable();
+            dataPetNames.createTable();
             this.getServer().getPluginManager().registerEvents(this, this);
         }
         
         getCommand("cosmetic").setExecutor(new CosmeticCommand(this));
         getCommand("slime").setExecutor(new SlimeCommand(this));
+        getCommand("petname").setExecutor(new PetNameCommand(this));
     
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
         RemoveEffects = new RemoveEffects(this);

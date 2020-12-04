@@ -60,7 +60,14 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        
+        if (plugin.dataPetNames.existsPlayer(player.getUniqueId())) {
+            pet.setCustomName(ChatColor.GOLD + plugin.dataPetNames.getPetName(player.getUniqueId()));
+        }
+        else {
+            pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        }
+
         currentPet.put(player, pet);
     }
     
@@ -98,7 +105,14 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        
+        if (plugin.dataPetNames.existsPlayer(player.getUniqueId())) {
+            pet.setCustomName(ChatColor.GOLD + plugin.dataPetNames.getPetName(player.getUniqueId()));
+        }
+        else {
+            pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        }
+
         currentPet.put(player, pet);
     }
     
@@ -136,7 +150,14 @@ public class PetGuiListeners implements Listener {
         }
         
         pet.setInvulnerable(true);
-        pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        
+        if (plugin.dataPetNames.existsPlayer(player.getUniqueId())) {
+            pet.setCustomName(ChatColor.GOLD + plugin.dataPetNames.getPetName(player.getUniqueId()));
+        }
+        else {
+            pet.setCustomName(ChatColor.GOLD + ""  + ChatColor.BOLD + player.getName() + "'s Pet");
+        }
+
         currentPet.put(player, pet);
     }
     

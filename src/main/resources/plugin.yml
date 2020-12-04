@@ -10,3 +10,4 @@ commands:
     description: Open Cosmetics GUI
     aliases: [cosmetics, cos]
   slime:
+  petname:
