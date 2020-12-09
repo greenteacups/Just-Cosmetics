@@ -161,7 +161,7 @@ public class ParticleRunnable  {
             if (currentParticlePattern.get(player).equals("Stars")) { //Made by accident*
                 double thetanew = System.currentTimeMillis()/100.0 + Math.PI * 2 / 3;
                 
-                double pos =  Math.floorMod(System.currentTimeMillis(), 11);
+                double pos =  System.currentTimeMillis()%11;
                 
                 player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                         player.getLocation().add(pos*Math.cos(thetanew), 0, 0).getX(),
