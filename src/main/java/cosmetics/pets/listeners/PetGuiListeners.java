@@ -38,11 +38,15 @@ public class PetGuiListeners implements Listener {
     }
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();
-    //public static HashMap<Player, String> currentPetName = new HashMap<>();
-    //public static HashMap<Player, Entity> currentnewpet = new HashMap<>();
+    
     
     //Pet Spawner
     public void PetSpawn(Player player, EntityType entity, Boolean isbaby) {
+        
+//        Location pet_loc = player.getLocation();
+//        pet_loc.setY(Math.round(player.getLocation().getY()));
+//        System.out.println(pet_loc);
+        
         LivingEntity pet = (LivingEntity) player.getWorld().spawnEntity(player.getLocation(), entity);
         pet.setAI(false);
         

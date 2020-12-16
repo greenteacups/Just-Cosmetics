@@ -59,7 +59,7 @@ public class CosmeticGuiListeners implements Listener {
         }
         
         if (event.getSlot() == 31) {
-            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "https://justminecraft.buycraft.net/");
         }
         
         player.closeInventory();

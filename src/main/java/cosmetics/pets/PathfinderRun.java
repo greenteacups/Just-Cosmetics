@@ -31,7 +31,7 @@ public class PathfinderRun {
             double new_z_dist = new_dist*Math.sin(theta);
             
             // Find block infront of entity
-            Location blc_infront = player.getLocation().subtract(0.8*new_x_dist, 0, 0.8*new_z_dist);
+            Location blc_infront = player.getLocation().subtract(0.7*new_x_dist, 0, 0.7*new_z_dist);
             blc_infront.setY(pet.getLocation().getY());
             
             if (dist > 3) {
@@ -42,38 +42,39 @@ public class PathfinderRun {
                 currentPet.get(player).teleport(player_loc.subtract(new_x_dist, 0, new_z_dist));
                              
             }
+
             
-//            else {
-//                Long test = System.currentTimeMillis()%200;
-//                if (test <= 100) {
-//                    Location wander_loc = player.getLocation().add(Math.round((System.currentTimeMillis()%60000)/10000), 0, Math.round((System.currentTimeMillis()%50000)/10000));
-//                    
-//                    double x_distt = player.getLocation().getX() - wander_loc.getX();
-//                    double z_distt = player.getLocation().getZ() - wander_loc.getZ();
-//                    
-//                    double distt = Math.sqrt(x_distt*x_distt + z_distt*z_distt);
-//                    double thetat = Math.atan2(z_distt, x_distt);
-//                    
-//                    double new_distt = distt - 0.05;
-//                    double new_x_distt = new_distt*Math.cos(thetat);
-//                    double new_z_distt = new_distt*Math.sin(thetat);
-//                    
-//                    
-//                    currentnewpet.get(player).teleport(player.getLocation().subtract(new_x_distt, 0, new_z_distt));
-//                }
-//                
+//            System.out.println(blc_infront.getBlock().getType());
+//            //System.out.println(pet.getLocation().add(0, -0.5, 0).getBlock().getType());
+//            // Move pet up if block infront exists
+//            if (blc_infront.getBlock().getType() != Material.AIR) {
+//                pet.teleport(pet.getLocation().add(0, 0.5, 0));
+//            }
+//            else if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR) {
+//                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
 //            }
             
-            // Move pet up if block infront exists
-            if (blc_infront.getBlock().getType() != Material.AIR && blc_infront.getBlock().getType().isSolid() &&
-                    blc_infront.getBlock().getType().isOccluding()) {
-                pet.teleport(pet.getLocation().add(0, 1, 0));
+            
+            if (pet.getLocation().getBlock().getType() != Material.AIR && pet.getLocation().getBlock().getType().isSolid() ) {
+                pet.teleport(pet.getLocation().add(0, 0.5, 0));
             }
+//            else {
+//                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
+//            }
+            
             
             // Move pet down if standing on air
             if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
-                pet.teleport(pet.getLocation().subtract(0, 0.5, 0));
+                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
             }
+
+            if (pet.getLocation().getY()%0.5 != 0) {
+                Location pet_loc = pet.getLocation();
+                pet_loc.setY(Math.round(pet.getLocation().getY()));
+                pet.teleport(pet_loc);
+            }
+            
+            
 //            if (pet.getLocation().add(0, -0.45, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
 //                pet.teleport(pet.getLocation().subtract(0, 0.45, 0));
 //            }   
@@ -105,6 +106,8 @@ public class PathfinderRun {
                 
                 currentPet.get(player).teleport(player_loc.subtract(tp_x_dist, 0, tp_z_dist));
             }
+            
+            //System.out.println(pet.getLocation().getY());
         }
         
 //     if (currentpathfindcat.containsKey(player)) {

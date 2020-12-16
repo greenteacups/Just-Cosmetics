@@ -26,7 +26,7 @@ public class PurchaseConstructor {
         }
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to buy this item!");
-            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "https://justminecraft.buycraft.net/");
         }
     }
     
@@ -44,7 +44,7 @@ public class PurchaseConstructor {
         
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to complete this transaction!");
-            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "http://justminecraft.buycraft.net/");
+            player.sendMessage(ChatColor.AQUA + "Buy more Slime at: " + ChatColor.GOLD + ChatColor.BOLD + "https://justminecraft.buycraft.net/");
         }
   }
     
