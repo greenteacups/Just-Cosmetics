@@ -165,7 +165,7 @@ public class ParticleRunnable  {
                 
                 player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                         player.getLocation().add(pos*Math.cos(thetanew), 0, 0).getX(),
-                        player.getLocation().add(0, Math.floorMod(System.currentTimeMillis(), 11), 0).getY(),
+                        player.getLocation().add(0, pos, 0).getY(),
                         player.getLocation().add(0, 0, pos*Math.sin(thetanew)).getZ(), 0);
             }
             
