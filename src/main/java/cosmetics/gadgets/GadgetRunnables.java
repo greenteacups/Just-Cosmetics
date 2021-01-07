@@ -5,17 +5,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 
-import cosmetics.gadgets.items.TurtleSpawn;
 import cosmetics.gadgets.listeners.GadgetGeneralListeners;
 import cosmetics.gadgets.listeners.GadgetGuiListeners;
-import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class GadgetRunnables {
 
@@ -108,10 +108,15 @@ public class GadgetRunnables {
          if (System.currentTimeMillis()/50 - airstrike.get(player) > 145) {
              
              if (airturtlelist.containsKey(player) == false) {
-                 WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                 TurtleSpawn airturtle = new TurtleSpawn(player.getLocation().add(0, 10, -50), player);
-                 world.addEntity(airturtle);
-                 airturtlelist.put(player, airturtle.getBukkitEntity());
+                 
+                 Location turtleLoc = player.getLocation().add(0, 10, -50);
+                 turtleLoc.setYaw(0);
+                 
+                 LivingEntity airturtle = (LivingEntity) player.getWorld().spawnEntity(turtleLoc, EntityType.TURTLE);
+                 airturtle.setInvulnerable(true);
+                 airturtle.setAI(false);
+
+                 airturtlelist.put(player, airturtle);
              }
              
              airturtlelist.get(player).teleport(airturtlelist.get(player).getLocation().add(0, 0, 1.5));

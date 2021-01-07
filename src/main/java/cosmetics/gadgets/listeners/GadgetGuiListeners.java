@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,11 +22,8 @@ import cosmetics.gadgets.GadgetRunnables;
 import cosmetics.gadgets.items.AirStrike;
 import cosmetics.gadgets.items.FireworkSpawn;
 import cosmetics.gadgets.items.JumpStick;
-import cosmetics.gadgets.items.ParrotSpawn;
 import cosmetics.gadgets.items.ShellShooter;
-import cosmetics.gadgets.items.TurtleSpawn;
 import cosmetics.trails.TrailsGui;
-import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class GadgetGuiListeners implements Listener {
     
@@ -88,19 +86,20 @@ public class GadgetGuiListeners implements Listener {
             if (plugin.dataCosmetics.exists(player.getUniqueId(), "Green Shells")) {
                 List<Entity> shellList = new ArrayList<>();
                 
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+                LivingEntity shell1 = (LivingEntity) player.getWorld().spawnEntity(player.getLocation().add(0, 0, -2), EntityType.TURTLE);
+                LivingEntity shell2 = (LivingEntity) player.getWorld().spawnEntity(player.getLocation().add(2/Math.sqrt(2), 0, 2/Math.sqrt(2)), EntityType.TURTLE);
+                LivingEntity shell3 = (LivingEntity) player.getWorld().spawnEntity(player.getLocation().add(-2/Math.sqrt(2), 0, 2/Math.sqrt(2)), EntityType.TURTLE);
                 
-                TurtleSpawn shell1 = new TurtleSpawn(player.getLocation().add(0, 0, -2), player);
-                TurtleSpawn shell2 = new TurtleSpawn(player.getLocation().add(2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
-                TurtleSpawn shell3 = new TurtleSpawn(player.getLocation().add(-2/Math.sqrt(2), 0, 2/Math.sqrt(2)), player);
+                shell1.setInvulnerable(true);
+                shell2.setInvulnerable(true);
+                shell3.setInvulnerable(true);
+                shell1.setAI(false);
+                shell2.setAI(false);
+                shell3.setAI(false);
                 
-                world.addEntity(shell1);
-                world.addEntity(shell2);
-                world.addEntity(shell3);
-                
-                shellList.add(shell1.getBukkitEntity());
-                shellList.add(shell2.getBukkitEntity());
-                shellList.add(shell3.getBukkitEntity());
+                shellList.add(shell1);
+                shellList.add(shell2);
+                shellList.add(shell3);
                 
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 shellMap.put(player, shellList);
@@ -127,19 +126,17 @@ public class GadgetGuiListeners implements Listener {
             if (plugin.dataCosmetics.exists(player.getUniqueId(), "Dazed")) {
                 List<Entity> parrotList = new ArrayList<>();
                 
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
+                Entity parrot1 = player.getWorld().spawnEntity(player.getLocation().add(0, 1.7, -0.8), EntityType.PARROT);
+                Entity parrot2 = player.getWorld().spawnEntity(player.getLocation().add(0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), EntityType.PARROT);
+                Entity parrot3 = player.getWorld().spawnEntity(player.getLocation().add(-0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), EntityType.PARROT);    
                 
-                ParrotSpawn parrot1 = new ParrotSpawn(player.getLocation().add(0, 1.7, -0.8), player);
-                ParrotSpawn parrot2 = new ParrotSpawn(player.getLocation().add(0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
-                ParrotSpawn parrot3 = new ParrotSpawn(player.getLocation().add(-0.8/Math.sqrt(2), 1.7, 0.8/Math.sqrt(2)), player);
+                parrot1.setInvulnerable(true);
+                parrot2.setInvulnerable(true);
+                parrot3.setInvulnerable(true);
                 
-                world.addEntity(parrot1);
-                world.addEntity(parrot2);
-                world.addEntity(parrot3);
-                
-                parrotList.add(parrot1.getBukkitEntity());
-                parrotList.add(parrot2.getBukkitEntity());
-                parrotList.add(parrot3.getBukkitEntity());
+                parrotList.add(parrot1);
+                parrotList.add(parrot2);
+                parrotList.add(parrot3);
                 
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 parrotMap.put(player, parrotList);

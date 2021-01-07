@@ -12,10 +12,10 @@ import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,8 +35,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffectsOnQuit;
 import cosmetics.gadgets.GadgetRunnables;
-import cosmetics.gadgets.items.TurtleSpawn;
-import net.minecraft.server.v1_16_R3.WorldServer;
 
 public class GadgetGeneralListeners implements Listener {
     
@@ -96,15 +94,14 @@ public class GadgetGeneralListeners implements Listener {
                     shotshell.clear();
                 }
                 
-                WorldServer world = ((CraftWorld) player.getWorld()).getHandle();
-                TurtleSpawn shootshell = new TurtleSpawn(player.getLocation().add(0, 0, -2), player);
-                world.addEntity(shootshell);
                 
-                shootshell.setNoAI(false);
+                LivingEntity shootshell = (LivingEntity) player.getWorld().spawnEntity(player.getLocation().add(0, 0, -2), EntityType.TURTLE);
+                
+                shootshell.setAI(true);
                 shootshell.setHealth(1);
-                shootshell.getBukkitEntity().setVelocity(player.getLocation().getDirection().multiply(4));
+                shootshell.setVelocity(player.getLocation().getDirection().multiply(4));
                 
-                shotshell.add(shootshell.getBukkitEntity());
+                shotshell.add(shootshell);
                 
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     if (shotshell.size() > 0) {
