@@ -45,7 +45,7 @@ public class TrailsGui implements InventoryHolder {
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
         GuiConstructor(player, Material.MAGENTA_CONCRETE, 10, 60, "Disco Trail");
-        GuiConstructor(player, Material.GRASS_PATH, 11, 60, "Path Trail");
+        GuiConstructor(player, Material.COARSE_DIRT, 11, 60, "Path Trail");
         GuiConstructor(player, Material.CRAFTING_TABLE, 12, 60, "Utility Trail");
         GuiConstructor(player, Material.GOLD_INGOT, 13, 60, "Wealthy Trail");
         GuiConstructor(player, Material.SPRUCE_PLANKS, 14, 60, "Wood Trail");

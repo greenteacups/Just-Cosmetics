@@ -77,12 +77,9 @@ public class RemoveEffects {
         }
         
         if (TrailsConstructor.blockLocMap.containsKey(player)) {
-            for (int i = 0; i < TrailsConstructor.blockLocMap.get(player).size(); i++) {
-                TrailsConstructor.blockStateMap.get(player).get(i).update(true, false);///
-            }
+            TrailsConstructor.blockLocMap.get(player).forEach(TrailsConstructor::hideBlock);
             
             TrailsConstructor.blockLocMap.remove(player);
-            TrailsConstructor.blockStateMap.remove(player);
             
             TrailsGuiListeners.trailsMap.remove(player);
             TrailsGuiListeners.trailTypeMap.remove(player);

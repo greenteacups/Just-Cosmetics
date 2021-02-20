@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -21,10 +22,6 @@ public class TrailsConstructor implements Listener {
     Random random = new Random();
     
     public static HashMap<Player, List<Location>> blockLocMap = new HashMap<>();
-
-    
-    public static HashMap<Player, List<BlockState>> blockStateMap = new HashMap<>();
-
     
     public HashMap<Player, Location> trailsMap = TrailsGuiListeners.trailsMap;
     public HashMap<Player, String> trailTypeMap = TrailsGuiListeners.trailTypeMap;
@@ -49,7 +46,13 @@ public class TrailsConstructor implements Listener {
         }
         
         if (trailTypeMap.get(player).equals("Path")) {
-            material = Material.GRASS_PATH;
+            Material[] discoTrail = new Material[]    {Material.DIRT,
+                                                            Material.DIRT,
+                                                            Material.COARSE_DIRT,
+                                                            Material.COARSE_DIRT,
+                                                            Material.GRAVEL};
+
+            material = discoTrail[random.nextInt(discoTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Utility")) {
@@ -166,8 +169,8 @@ public class TrailsConstructor implements Listener {
                                                     };
     
     
-    public Boolean doesBlockExist(Block bloc) {
-        Boolean exists = false;
+    public boolean doesBlockExist(Block bloc) {
+        boolean exists = false;
         
         for (List<Location> list : blockLocMap.values()) {
             if (list.contains(bloc.getLocation())) {
@@ -179,7 +182,7 @@ public class TrailsConstructor implements Listener {
     
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         
         if (trailsMap.containsKey(player)) {
 
@@ -198,7 +201,7 @@ public class TrailsConstructor implements Listener {
                         exempt.add(exemptMaterials[j]);
                     }
                     
-                    if (bloc.getLocation().add(0, 1, 0).getBlock().getType() == Material.AIR && bloc.getType().isSolid() &&
+                    if (!bloc.getLocation().add(0, 1, 0).getBlock().getType().isOccluding() && bloc.getType().isSolid() &&
                             bloc.getType().isOccluding() && bloc.getType() != Material.AIR && !exempt.contains(bloc.getType())) {
                         
                         
@@ -206,17 +209,12 @@ public class TrailsConstructor implements Listener {
                             
                             if (!doesBlockExist(bloc)) {
                                 if (blockLocMap.get(player).size() >= 10) {
-
-                                    blockStateMap.get(player).get(0).update(true, false);///
-                                    
-                                    blockLocMap.get(player).remove(0);
-                                    blockStateMap.get(player).remove(0);///
+                                    hideBlock(blockLocMap.get(player).remove(0));
                                 }
                                 
                                 blockLocMap.get(player).add(bloc.getLocation());
-                                blockStateMap.get(player).add(bloc.getState());///
-                                
-                                bloc.setType(material);
+
+                                showBlock(bloc, material);
                             }
                         }
 
@@ -224,15 +222,12 @@ public class TrailsConstructor implements Listener {
                         else {
                             if (!doesBlockExist(bloc)) {
                                 List<Location> blockLocList = new ArrayList<>();
-                                List<BlockState> blockStateList = new ArrayList<>();
                                 
                                 blockLocList.add(bloc.getLocation());
-                                blockStateList.add(bloc.getState());///
                                 
                                 blockLocMap.put(player, blockLocList);
-                                blockStateMap.put(player, blockStateList);///
-                                
-                                bloc.setType(material);
+
+                                showBlock(bloc, material);
                             }
                         }  
                     }
@@ -247,34 +242,27 @@ public class TrailsConstructor implements Listener {
 
     }
     
-    @EventHandler
-    public void onTrailBreak(BlockBreakEvent event) {
-        if (!blockLocMap.isEmpty()) {
-            for (List<Location> list : blockLocMap.values()) {/////
-                if (list.contains(event.getBlock().getLocation())) {
-                    event.setCancelled(true);
-                }
+    private void showBlock(Block block, Material material) {
+        block.getWorld().getPlayers().forEach(p -> {
+            if (chunkDistance(block.getLocation(), p.getLocation()) <= Bukkit.getViewDistance()) {
+                p.sendBlockChange(block.getLocation(), material.createBlockData());
             }
-        }
-
+        });
     }
     
-    @EventHandler
-    public void onTrailBreakExplosion(EntityExplodeEvent event) {
-        if (!blockLocMap.isEmpty()) {
-            
-            for (int i = 0; i < event.blockList().size(); i++) {
-                for (List<Location> list : blockLocMap.values()) {/////
-                    if (list.contains(event.blockList().get(i).getLocation())) {
-                        
-                        event.blockList().get(i).setType(Material.AIR);
-
-                    }
-                }
-
-            }
+    public static void hideBlock(Location location) {
+        if (location.getWorld() != null && location.getWorld().isChunkLoaded(location.getBlockX() >> 4, location.getBlockZ() >> 4)) {
+            location.getBlock().getState().update(true, false);
         }
+    }
 
+    private int chunkDistance(Location loc1, Location loc2) {
+        int cx1 = loc1.getBlockX() >> 4;
+        int cz1 = loc1.getBlockZ() >> 4;
+        int cx2 = loc2.getBlockX() >> 4;
+        int cz2 = loc2.getBlockZ() >> 4;
+        
+        return Math.max(Math.abs(cx1 - cx2), Math.abs(cz1 - cz2));
     }
     
 }
