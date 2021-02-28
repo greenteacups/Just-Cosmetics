@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cosmetics.gadgets.GadgetGui;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -54,6 +55,12 @@ public class GadgetGeneralListeners implements Listener {
     public static HashMap<Player, Entity> airturtlelist = GadgetRunnables.airturtlelist;
     public List<Entity> tntList = GadgetRunnables.tntList;
 
+    private void sendNotUnlockedMessage(Player player) {
+        player.sendMessage(ChatColor.RED + "You do not have this gadget unlocked.");
+        player.sendMessage(ChatColor.RED + "Unlock it through " + ChatColor.DARK_RED + "/cos" + ChatColor.RED + " after you donate");
+        player.chat("/donate");
+    }
+
     @EventHandler
     public void onClick(PlayerInteractEvent event) {
         
@@ -63,7 +70,7 @@ public class GadgetGeneralListeners implements Listener {
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
             if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Jump Stick") && 
                     player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
-                if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                if (plugin.dataCosmetics.exists(player.getUniqueId(), GadgetGui.JUMP_STICK)) {
                     if (player.getLocation().subtract(0, 1, 0).getBlock().getType() != Material.AIR) {
                         player.setVelocity(player.getLocation().getDirection().multiply(2).setY(2));
                         
@@ -73,6 +80,8 @@ public class GadgetGeneralListeners implements Listener {
                         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE,
                                 3.0F, 0.533F);
                     }
+                } else {
+                    sendNotUnlockedMessage(player);
                 }
 
             }   
@@ -81,8 +90,9 @@ public class GadgetGeneralListeners implements Listener {
         
         // Green shell gun
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR 
-                && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Green Shell Gun")) {
-            if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                && player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Green Shell Gun")
+                && player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+            if (plugin.dataCosmetics.exists(player.getUniqueId(), GadgetGui.GREEN_SHELLS)) {
                 
                 if (shotshell.isEmpty() == false) {
                     shotshell.get(0).remove();
@@ -114,13 +124,16 @@ public class GadgetGeneralListeners implements Listener {
                         shotshell.clear();
                     }
                 }, 30);
+            } else {
+                sendNotUnlockedMessage(player);
             }
         }
         
         // Air Strike
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Air Strike")) {
-                if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Air Strike")
+                    && player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                if (plugin.dataCosmetics.exists(player.getUniqueId(), GadgetGui.AIR_STRIKE)) {
 
                     if (airstrike.containsKey(player)) {
                         player.sendMessage(ChatColor.DARK_RED + "You have already ordered an AirStrike");
@@ -129,6 +142,8 @@ public class GadgetGeneralListeners implements Listener {
                         airstrike.put(player, System.currentTimeMillis()/50);
                     }
                     
+                } else {
+                    sendNotUnlockedMessage(player);
                 }
 
             }   
@@ -136,8 +151,9 @@ public class GadgetGeneralListeners implements Listener {
         
         // Firework Gadget
         if (player.getInventory().getItemInMainHand().getType() != Material.AIR) {
-            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Firework Gadget")) {
-                if (player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+            if (player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("Firework Gadget")
+                    && player.getInventory().getItemInMainHand().getItemMeta().hasLore()) {
+                if (plugin.dataCosmetics.exists(player.getUniqueId(), GadgetGui.FIREWORK_GADGET)) {
                     Random random = new Random();
                     
                     Color[] fwcolor = new Color[] {Color.AQUA,
@@ -168,12 +184,14 @@ public class GadgetGeneralListeners implements Listener {
                     
                     fw.setFireworkMeta(fwm);
                     //fw.detonate();
+                } else {
+                    sendNotUnlockedMessage(player);
                 }
 
             }   
         }
     }
-    
+
     @EventHandler
     public void onGadgetDamage(EntityDamageEvent event) {
         if (event.getCause() != null) {

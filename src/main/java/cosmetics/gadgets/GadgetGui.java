@@ -15,6 +15,12 @@ import cosmetics.Cosmetics;
 
 public class GadgetGui implements InventoryHolder {
     
+    public static final String JUMP_STICK = "Jump Stick";
+    public static final String GREEN_SHELLS = "Green Shells";
+    public static final String DAZED = "Dazed";
+    public static final String AIR_STRIKE = "Air Strike";
+    public static final String FIREWORK_GADGET = "Firework Gadget";
+    
     private Cosmetics plugin;
     private final Inventory inventory;
     
@@ -44,11 +50,11 @@ public class GadgetGui implements InventoryHolder {
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.STICK, 10, 200, "Jump Stick", "Equip to Jump!");
-        GuiConstructor(player, Material.TURTLE_HELMET, 11, 400, "Green Shells", "Destroy your Enemies!");
-        GuiConstructor(player, Material.NETHER_STAR, 12, 300, "Dazed", "I think you've been hit on the head?");
-        GuiConstructor(player, Material.REDSTONE_TORCH, 13, 300, "Air Strike", "Strike from above!");
-        GuiConstructor(player, Material.BLAZE_ROD, 14, 200, "Firework Gadget", "Fire that works!");
+        GuiConstructor(player, Material.STICK, 10, 200, JUMP_STICK, "Equip to Jump!");
+        GuiConstructor(player, Material.TURTLE_HELMET, 11, 400, GREEN_SHELLS, "Destroy your Enemies!");
+        GuiConstructor(player, Material.NETHER_STAR, 12, 300, DAZED, "I think you've been hit on the head?");
+        GuiConstructor(player, Material.REDSTONE_TORCH, 13, 300, AIR_STRIKE, "Strike from above!");
+        GuiConstructor(player, Material.BLAZE_ROD, 14, 200, FIREWORK_GADGET, "Fire that works!");
         
         inventory.setItem(15, createGuiItem(Material.GRASS_PATH, ChatColor.GOLD + "Trails", "Trails Selector"));
         
