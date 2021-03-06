@@ -43,13 +43,13 @@ public class PurchaseGuiListeners implements Listener {
             
             //Return to main menu & Close (stop item steal)
             player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.closeInventory());
+            plugin.getServer().getScheduler().runTask(plugin, player::closeInventory);
         }
         
         if (event.getSlot() == 24) {
             //Return to main menu & Close(stop item steal)
             player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.closeInventory());
+            plugin.getServer().getScheduler().runTask(plugin, player::closeInventory);
             
             player.sendMessage(ChatColor.RED + "Transaction Cancelled");
             
