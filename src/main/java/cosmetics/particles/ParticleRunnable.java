@@ -484,7 +484,7 @@ public class ParticleRunnable  {
             
             }
             
-            if (currentParticlePattern.get(player).equals("Heart")) {;
+            if (currentParticlePattern.get(player).equals("Heart")) {
                 for (int i = 0; i <= 180; i = i + 30) {
                     player.getLocation().getWorld().spawnParticle(currentParticleType.get(player),
                             player.getLocation().add(0.9*Math.cos(Math.toRadians(i))-1, 0, 0).getX(),
