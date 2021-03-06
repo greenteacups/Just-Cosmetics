@@ -12,9 +12,9 @@ import cosmetics.Cosmetics;
 
 public class ParticleGeneralListeners implements Listener {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public ParticleGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static HashMap<Player, Particle> currentParticleType = ParticleGuiListeners.currentParticleType;

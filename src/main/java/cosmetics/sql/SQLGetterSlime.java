@@ -11,7 +11,7 @@ import cosmetics.Cosmetics;
 
 public class SQLGetterSlime {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterSlime(Cosmetics plugin) {
         this.plugin = plugin;
     }

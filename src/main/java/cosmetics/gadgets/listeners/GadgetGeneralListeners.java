@@ -39,9 +39,9 @@ import cosmetics.gadgets.GadgetRunnables;
 
 public class GadgetGeneralListeners implements Listener {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public GadgetGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();

@@ -31,9 +31,9 @@ public class GadgetGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public GadgetGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();

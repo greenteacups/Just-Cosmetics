@@ -11,9 +11,9 @@ import cosmetics.Cosmetics;
 
 public class SlimeCommand implements CommandExecutor {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SlimeCommand(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     @Override

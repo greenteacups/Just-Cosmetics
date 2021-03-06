@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 
 public class PurchaseConstructor {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
 
     public PurchaseConstructor(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
 
     public void purchaseGui(Player player, String item, int price) {

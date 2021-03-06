@@ -8,10 +8,10 @@ import cosmetics.Cosmetics;
 
 public class MySQL {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
 
     public MySQL(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
         
         host = plugin.getConfig().getString("SQL.host");
         port = plugin.getConfig().getString("SQL.port");

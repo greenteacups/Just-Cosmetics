@@ -19,7 +19,7 @@ public class TrailsGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public TrailsGuiListeners(Cosmetics b) {
         plugin = b;
     }

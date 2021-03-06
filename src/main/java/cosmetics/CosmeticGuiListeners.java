@@ -13,9 +13,9 @@ import cosmetics.pets.PetGui;
 
 public class CosmeticGuiListeners implements Listener {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public CosmeticGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     

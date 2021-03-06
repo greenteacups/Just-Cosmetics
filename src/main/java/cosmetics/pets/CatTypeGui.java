@@ -15,7 +15,7 @@ import cosmetics.Cosmetics;
 
 public class CatTypeGui implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public CatTypeGui(Cosmetics plugin, Player player) {

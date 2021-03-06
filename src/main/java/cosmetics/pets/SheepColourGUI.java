@@ -15,7 +15,7 @@ import cosmetics.Cosmetics;
 
 public class SheepColourGUI implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public SheepColourGUI(Cosmetics plugin, Player player) {

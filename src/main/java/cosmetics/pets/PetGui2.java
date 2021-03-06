@@ -15,7 +15,7 @@ import cosmetics.Cosmetics;
 
 public class PetGui2 implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public PetGui2(Cosmetics plugin, Player player) {

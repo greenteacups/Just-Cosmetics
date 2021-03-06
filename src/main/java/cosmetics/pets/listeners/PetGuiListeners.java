@@ -28,14 +28,14 @@ import cosmetics.pets.SheepColourGUI;
 
 public class PetGuiListeners implements Listener {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
 
     public PetGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static HashMap<Player, Entity> currentPet = new HashMap<>();

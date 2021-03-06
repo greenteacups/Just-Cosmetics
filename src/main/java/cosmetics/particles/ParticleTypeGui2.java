@@ -15,7 +15,7 @@ import cosmetics.Cosmetics;
 
 public class ParticleTypeGui2 implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public ParticleTypeGui2(Cosmetics plugin, Player player) {

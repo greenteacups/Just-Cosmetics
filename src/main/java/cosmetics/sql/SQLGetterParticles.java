@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import cosmetics.Cosmetics;
 
 public class SQLGetterParticles {
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterParticles(Cosmetics plugin) {
         this.plugin = plugin;
     }

@@ -12,7 +12,7 @@ import cosmetics.Cosmetics;
 
 public class SQLGetter {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetter(Cosmetics plugin) {
         this.plugin = plugin;
     }

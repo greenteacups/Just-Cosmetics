@@ -21,7 +21,7 @@ public class GadgetGui implements InventoryHolder {
     public static final String AIR_STRIKE = "Air Strike";
     public static final String FIREWORK_GADGET = "Firework Gadget";
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public GadgetGui(Cosmetics plugin, Player player) {

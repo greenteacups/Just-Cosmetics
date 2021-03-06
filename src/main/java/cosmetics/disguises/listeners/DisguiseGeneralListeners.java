@@ -26,11 +26,8 @@ import cosmetics.RemoveEffectsOnQuit;
 
 
 public class DisguiseGeneralListeners implements Listener {
-    
-    @SuppressWarnings("unused")
-    private Cosmetics plugin;
+
     public DisguiseGeneralListeners(Cosmetics b) {
-        plugin = b;
     }
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;

@@ -26,9 +26,9 @@ import cosmetics.RemoveEffectsOnQuit;
 public class PetGeneralListeners implements Listener {
     
     @SuppressWarnings("unused")
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
         PetSpawn = new PetGuiListeners(plugin);
     }
 
