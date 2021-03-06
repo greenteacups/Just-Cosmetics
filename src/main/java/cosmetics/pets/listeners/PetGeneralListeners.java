@@ -32,8 +32,8 @@ public class PetGeneralListeners implements Listener {
         PetSpawn = new PetGuiListeners(plugin);
     }
 
-    public PetGuiListeners PetSpawn = new PetGuiListeners(plugin);
-    
+    public PetGuiListeners PetSpawn;
+
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
