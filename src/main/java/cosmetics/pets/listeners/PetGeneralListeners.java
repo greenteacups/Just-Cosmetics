@@ -100,7 +100,7 @@ public class PetGeneralListeners implements Listener {
             
             if (event.getCause() == DamageCause.FIRE_TICK) {
                 if(event.getEntity() instanceof Zombie) {
-                    event.getEntity().setFireTicks(0);;
+                    event.getEntity().setFireTicks(0);
                 }
             }
             
