@@ -84,7 +84,6 @@ public class RemoveEffects {
             TrailsGuiListeners.trailsMap.remove(player);
             TrailsGuiListeners.trailTypeMap.remove(player);
         }
-        
-        return;
+
     }
 }

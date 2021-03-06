@@ -36,8 +36,7 @@ public class SQLGetterSlime {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
