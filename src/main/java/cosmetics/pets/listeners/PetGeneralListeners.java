@@ -54,7 +54,7 @@ public class PetGeneralListeners implements Listener {
     // Add particle to mobs
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         
         for (Entity en : currentPet.values()) {
             player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
@@ -129,7 +129,7 @@ public class PetGeneralListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
 
         if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
             PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId()));

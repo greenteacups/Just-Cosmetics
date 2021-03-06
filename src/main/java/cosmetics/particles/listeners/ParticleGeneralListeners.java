@@ -23,7 +23,7 @@ public class ParticleGeneralListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
 
         if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
             currentParticleType.put(player, Particle.valueOf(plugin.dataParticles.getType(player.getUniqueId())));

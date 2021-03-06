@@ -36,7 +36,7 @@ public class DisguiseGeneralListeners implements Listener {
     
     @EventHandler
     public void onMovetest(PlayerMoveEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         
         if (currentDisguise.containsKey(player)) {
             
@@ -123,7 +123,7 @@ public class DisguiseGeneralListeners implements Listener {
     @EventHandler
     public void DrinkMilk(PlayerItemConsumeEvent event) {
         if (event.getItem().getType().equals(Material.MILK_BUCKET)) {
-            Player player = (Player) event.getPlayer();
+            Player player = event.getPlayer();
             
             if (currentDisguise.containsKey(player)) {
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
