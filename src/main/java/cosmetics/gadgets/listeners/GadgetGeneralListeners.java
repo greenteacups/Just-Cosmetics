@@ -198,14 +198,13 @@ public class GadgetGeneralListeners implements Listener {
             if (list.contains(event.getEntity())) {
                 event.setCancelled(true);
             }
+        }
             
-            for (List<Entity> list : parrotMap.values()) {
-
-                if (list.contains(event.getEntity())) {
-                    event.setCancelled(true);
-                }
+        for (List<Entity> list : parrotMap.values()) {
+            if (list.contains(event.getEntity())) {
+                event.setCancelled(true);
             }
-        }  
+        }
     }
     
     @EventHandler
