@@ -172,7 +172,7 @@ public class TrailsConstructor implements Listener {
                 exists = true;
             }
         }
-        return exists;
+        return !exists;
     }
     
     @EventHandler
@@ -191,10 +191,8 @@ public class TrailsConstructor implements Listener {
                     Material material = trailType(player);
                     
                     Block bloc = player.getLocation().add(x, -1, z).getBlock();
-                    
-                    for (int j = 0; j < exemptMaterials.length; j++) {
-                        exempt.add(exemptMaterials[j]);
-                    }
+
+                    Collections.addAll(exempt, exemptMaterials);
                     
                     if (!bloc.getLocation().add(0, 1, 0).getBlock().getType().isOccluding() && bloc.getType().isSolid() &&
                             bloc.getType().isOccluding() && bloc.getType() != Material.AIR && !exempt.contains(bloc.getType())) {
@@ -202,7 +200,7 @@ public class TrailsConstructor implements Listener {
                         
                         if (blockLocMap.containsKey(player)) {
                             
-                            if (!doesBlockExist(bloc)) {
+                            if (doesBlockExist(bloc)) {
                                 if (blockLocMap.get(player).size() >= 10) {
                                     hideBlock(blockLocMap.get(player).remove(0));
                                 }
@@ -215,7 +213,7 @@ public class TrailsConstructor implements Listener {
 
                         
                         else {
-                            if (!doesBlockExist(bloc)) {
+                            if (doesBlockExist(bloc)) {
                                 List<Location> blockLocList = new ArrayList<>();
                                 
                                 blockLocList.add(bloc.getLocation());

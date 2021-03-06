@@ -52,7 +52,7 @@ public class PetGuiListeners implements Listener {
         pet.setAI(false);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             if (entity == EntityType.ZOMBIE || entity == EntityType.HUSK) {
                 Ageable zomb = (Ageable) pet;
                 zomb.setBaby();
@@ -79,7 +79,7 @@ public class PetGuiListeners implements Listener {
     //Pet Equiper
     public void PetEquip(Player player, EntityType entity, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            if(!isSpectator(player)) return;
+            if(isSpectator(player)) return;
             PetSpawn(player, entity, isbaby);
         }
         else {
@@ -104,7 +104,7 @@ public class PetGuiListeners implements Listener {
         sheep.setColor(sheepColor);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             Animals baby = (Animals) pet;
             baby.setBaby();
             baby.setAgeLock(true);
@@ -125,7 +125,7 @@ public class PetGuiListeners implements Listener {
     //Sheep Equiper
     public void SheepEquip(Player player, DyeColor sheepColor, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            if(!isSpectator(player)) return;
+            if(isSpectator(player)) return;
             SheepSpawn(player, sheepColor, isbaby);
         }
         else {
@@ -150,7 +150,7 @@ public class PetGuiListeners implements Listener {
         cat.setCatType(catType);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             Animals baby = (Animals) pet;
             baby.setBaby();
             baby.setAgeLock(true);
@@ -171,7 +171,7 @@ public class PetGuiListeners implements Listener {
     //Cat Equiper
     public void CatEquip(Player player, Cat.Type catType, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
-            if(!isSpectator(player)) return;
+            if(isSpectator(player)) return;
             CatSpawn(player, catType, isbaby);
         }
         else {
