@@ -187,16 +187,12 @@ public class DisguiseGuiListeners implements Listener {
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Next Page
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui2(plugin, player).getInventory()));
         }
         
         // Remove Disguise Option
@@ -337,16 +333,12 @@ public class DisguiseGuiListeners implements Listener {
         
         // Previous Page
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui(plugin, player).getInventory()));
         }
         
         // Next Page
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui2(plugin, player).getInventory()));
         }
         
         // Remove Disguise Option

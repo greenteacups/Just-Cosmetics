@@ -108,9 +108,7 @@ public class TrailsGuiListeners implements Listener {
         
         // Return to Gadget window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new GadgetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new GadgetGui(plugin, player).getInventory()));
         }
         
         // Remove Effects Option
