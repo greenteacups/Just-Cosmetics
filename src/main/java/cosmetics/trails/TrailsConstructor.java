@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -184,7 +185,7 @@ public class TrailsConstructor implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         
-        if (trailsMap.containsKey(player)) {
+        if (trailsMap.containsKey(player) && player.getGameMode() != GameMode.SPECTATOR) {
 
             if (Math.abs(Math.sqrt(Math.pow(player.getLocation().getX(), 2) + Math.pow(player.getLocation().getZ(), 2))
                     - Math.sqrt(Math.pow(trailsMap.get(player).getX(), 2) + Math.pow(trailsMap.get(player).getZ(), 2))) >= 0.3) {

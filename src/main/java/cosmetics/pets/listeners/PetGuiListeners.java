@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Cat;
@@ -78,6 +79,7 @@ public class PetGuiListeners implements Listener {
     //Pet Equiper
     public void PetEquip(Player player, EntityType entity, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(!isSpectator(player)) return;
             PetSpawn(player, entity, isbaby);
         }
         else {
@@ -123,6 +125,7 @@ public class PetGuiListeners implements Listener {
     //Sheep Equiper
     public void SheepEquip(Player player, DyeColor sheepColor, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(!isSpectator(player)) return;
             SheepSpawn(player, sheepColor, isbaby);
         }
         else {
@@ -168,6 +171,7 @@ public class PetGuiListeners implements Listener {
     //Cat Equiper
     public void CatEquip(Player player, Cat.Type catType, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(!isSpectator(player)) return;
             CatSpawn(player, catType, isbaby);
         }
         else {
@@ -984,5 +988,12 @@ public class PetGuiListeners implements Listener {
         //Close Menu
         player.closeInventory();
     }
-    
+
+    private boolean isSpectator(Player player) {
+        if(player.getGameMode() != GameMode.SPECTATOR) {
+            player.sendMessage(ChatColor.DARK_RED + "You cannot equip a pet in spectator mode!");
+            return true;
+        }
+        return false;
+    }
 }

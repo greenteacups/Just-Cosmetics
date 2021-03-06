@@ -2,6 +2,7 @@ package cosmetics.pets;
 
 import java.util.HashMap;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -16,7 +17,7 @@ public class PathfinderRun {
     //Teleport pet to Cat
     public void PetTeleport(Player player) {
         
-        if (currentPet.containsKey(player)) {
+        if (currentPet.containsKey(player) && player.getGameMode() != GameMode.SPECTATOR) {
             
             Entity pet = currentPet.get(player);
             
