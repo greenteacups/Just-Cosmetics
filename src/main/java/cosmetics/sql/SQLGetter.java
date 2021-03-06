@@ -37,8 +37,7 @@ public class SQLGetter {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,7 +88,7 @@ public class SQLGetter {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT SLIME FROM CosmeticCurrency WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            int slime = 0;
+            int slime;
             if (rs.next()) {
                 slime = rs.getInt("SLIME");
                 return slime;

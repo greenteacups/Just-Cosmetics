@@ -96,7 +96,7 @@ public class SQLGetterParticles {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT TYPE FROM PlayerParticle WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String type = null;
+            String type;
  
             if (rs.next()) {
                 type = rs.getString("TYPE");
@@ -113,7 +113,7 @@ public class SQLGetterParticles {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT PATTERN FROM PlayerParticle WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String pattern = null;
+            String pattern;
             if (rs.next()) {
                 pattern = rs.getString("PATTERN");
                 return pattern;

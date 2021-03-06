@@ -95,7 +95,7 @@ public class SQLGetterPetNames {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT PETNAME FROM PETNAMES WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String petname = null;
+            String petname;
  
             if (rs.next()) {
                 petname = rs.getString("PETNAME");
