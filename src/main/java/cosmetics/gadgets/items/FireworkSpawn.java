@@ -17,7 +17,7 @@ public class FireworkSpawn {
         ItemMeta meta = fireworkSpawn.getItemMeta();
         
         meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Firework Gadget");
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Fire that works!");
         meta.setLore(lore);

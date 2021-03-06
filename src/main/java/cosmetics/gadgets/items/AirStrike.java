@@ -17,7 +17,7 @@ public class AirStrike {
         ItemMeta meta = jumpStick.getItemMeta();
         
         meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Air Strike");
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Click to call Air Strike");
         meta.setLore(lore);
