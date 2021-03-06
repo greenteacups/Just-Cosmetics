@@ -104,7 +104,7 @@ public class ParticleRunnable  {
             
             if (currentParticlePattern.get(player).equals("Cube")) {
                 
-                int arr[] = {-1, 1};
+                int[] arr = {-1, 1};
                 
                 for (int i : arr) {
                     for (double j = -1; j <= 1; j = j + 0.1) {
