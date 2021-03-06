@@ -194,12 +194,9 @@ public class GadgetGeneralListeners implements Listener {
 
     @EventHandler
     public void onGadgetDamage(EntityDamageEvent event) {
-        if (event.getCause() != null) {
-            for (List<Entity> list : shellMap.values()) {
-
-                if (list.contains(event.getEntity())) {
-                    event.setCancelled(true);  
-                }
+        for (List<Entity> list : shellMap.values()) {
+            if (list.contains(event.getEntity())) {
+                event.setCancelled(true);
             }
             
             for (List<Entity> list : parrotMap.values()) {

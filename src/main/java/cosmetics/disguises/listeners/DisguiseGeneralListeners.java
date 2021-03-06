@@ -64,7 +64,7 @@ public class DisguiseGeneralListeners implements Listener {
     public void onDisguiseDamage(EntityDamageEvent event) {
         if (currentDisguise.containsValue(event.getEntity())) {
             
-            if (event.getEntity() != null && event.getCause() == DamageCause.FIRE_TICK) {
+            if (event.getCause() == DamageCause.FIRE_TICK) {
                 if(event.getEntity() instanceof Zombie) {
                     event.getEntity().setFireTicks(0);;
                 }
