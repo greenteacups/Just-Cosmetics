@@ -463,16 +463,12 @@ public class PetGuiListeners implements Listener {
         
         //Go to Sheep Gui
         if (event.getSlot() == 16) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new SheepColourGUI(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new SheepColourGUI(plugin, player).getInventory()));
         }
         
         //Add Baby Sheep
         if (event.getSlot() == 19) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new BabySheepColourGUI(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new BabySheepColourGUI(plugin, player).getInventory()));
         }
         
         //Add Cow
@@ -537,9 +533,7 @@ public class PetGuiListeners implements Listener {
         
         //Add Cat
         if (event.getSlot() == 34) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CatTypeGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CatTypeGui(plugin, player).getInventory()));
         }
         
         
@@ -550,16 +544,12 @@ public class PetGuiListeners implements Listener {
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Pet Gui Page 2
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui2(plugin, player).getInventory()));
         }
         
         //Close Menu
@@ -654,9 +644,7 @@ public class PetGuiListeners implements Listener {
         
         // Pet Gui Page 2
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         //Close Menu
@@ -765,9 +753,7 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
@@ -882,9 +868,7 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
@@ -975,9 +959,7 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
