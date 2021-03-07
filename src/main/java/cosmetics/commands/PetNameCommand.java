@@ -1,17 +1,15 @@
 package cosmetics.commands;
 
-import java.util.HashMap;
-
+import com.google.common.collect.HashBiMap;
+import cosmetics.Cosmetics;
+import cosmetics.RemoveEffectsOnQuit;
+import cosmetics.pets.listeners.PetGuiListeners;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
-import cosmetics.Cosmetics;
-import cosmetics.RemoveEffectsOnQuit;
-import cosmetics.pets.listeners.PetGuiListeners;
 
 public class PetNameCommand implements CommandExecutor {
     
@@ -23,7 +21,7 @@ public class PetNameCommand implements CommandExecutor {
     public PetGuiListeners PetSpawn = new PetGuiListeners(plugin);
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
-    public HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
+    public HashBiMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

@@ -2,6 +2,7 @@ package cosmetics.pets.listeners;
 
 import java.util.HashMap;
 
+import com.google.common.collect.HashBiMap;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
@@ -38,7 +39,7 @@ public class PetGuiListeners implements Listener {
         this.plugin = b;
     }
     
-    public static HashMap<Player, Entity> currentPet = new HashMap<>();
+    public static HashBiMap<Player, Entity> currentPet = HashBiMap.create();
     
     
     //Pet Spawner
