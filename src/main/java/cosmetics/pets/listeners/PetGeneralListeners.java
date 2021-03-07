@@ -169,7 +169,7 @@ public class PetGeneralListeners implements Listener {
             pet.remove();
             currentPet.remove(player);
         } else {
-            if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
+            if (player.getGameMode() == GameMode.SPECTATOR && plugin.dataPets.existsPlayer(player.getUniqueId())) {
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId())), 1);
             }
         }
