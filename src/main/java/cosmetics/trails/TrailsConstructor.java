@@ -25,98 +25,114 @@ public class TrailsConstructor implements Listener {
         Material material = null;
         
         if (trailTypeMap.get(player).equals("Disco")) {
-            Material[] discoTrail = new Material[]    {Material.BLUE_CONCRETE,
-                                                            Material.CYAN_CONCRETE, 
-                                                            Material.GREEN_CONCRETE,
-                                                            Material.LIGHT_BLUE_CONCRETE, 
-                                                            Material.LIME_CONCRETE, 
-                                                            Material.MAGENTA_CONCRETE,
-                                                            Material.ORANGE_CONCRETE,
-                                                            Material.PINK_CONCRETE,
-                                                            Material.PURPLE_CONCRETE,
-                                                            Material.RED_CONCRETE,
-                                                            Material.YELLOW_CONCRETE};
+            Material[] discoTrail = new Material[]    {
+                    Material.BLUE_CONCRETE,
+                    Material.CYAN_CONCRETE,
+                    Material.GREEN_CONCRETE,
+                    Material.LIGHT_BLUE_CONCRETE,
+                    Material.LIME_CONCRETE,
+                    Material.MAGENTA_CONCRETE,
+                    Material.ORANGE_CONCRETE,
+                    Material.PINK_CONCRETE,
+                    Material.PURPLE_CONCRETE,
+                    Material.RED_CONCRETE,
+                    Material.YELLOW_CONCRETE
+            };
             
             material = discoTrail[random.nextInt(discoTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Path")) {
-            Material[] discoTrail = new Material[]    {Material.DIRT,
-                                                            Material.DIRT,
-                                                            Material.COARSE_DIRT,
-                                                            Material.COARSE_DIRT,
-                                                            Material.GRAVEL};
+            Material[] discoTrail = new Material[]    {
+                    Material.DIRT,
+                    Material.DIRT,
+                    Material.COARSE_DIRT,
+                    Material.COARSE_DIRT,
+                    Material.GRAVEL
+            };
 
             material = discoTrail[random.nextInt(discoTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Utility")) {
-            Material[] utilityTrail = new Material[]    {Material.CRAFTING_TABLE,
-                                                            Material.FLETCHING_TABLE,
-                                                            Material.CARTOGRAPHY_TABLE, 
-                                                            Material.LOOM, 
-                                                            Material.NOTE_BLOCK};
+            Material[] utilityTrail = new Material[]    {
+                    Material.CRAFTING_TABLE,
+                    Material.FLETCHING_TABLE,
+                    Material.CARTOGRAPHY_TABLE,
+                    Material.LOOM,
+                    Material.NOTE_BLOCK
+            };
             
             material = utilityTrail[random.nextInt(utilityTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Wealthy")) {
-            Material[] weathlyTrail = new Material[]    {Material.DIAMOND_BLOCK,
-                                                            Material.EMERALD_BLOCK,
-                                                            Material.GOLD_BLOCK, 
-                                                            Material.LAPIS_BLOCK,
-                                                            Material.REDSTONE_BLOCK};
+            Material[] weathlyTrail = new Material[]    {
+                    Material.DIAMOND_BLOCK,
+                    Material.EMERALD_BLOCK,
+                    Material.GOLD_BLOCK,
+                    Material.LAPIS_BLOCK,
+                    Material.REDSTONE_BLOCK
+            };
             
             material = weathlyTrail[random.nextInt(weathlyTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Wood")) {
-            Material[] woodTrail = new Material[]    {Material.ACACIA_PLANKS,
-                                                            Material.BIRCH_PLANKS,
-                                                            Material.CRIMSON_PLANKS, 
-                                                            Material.DARK_OAK_PLANKS,
-                                                            Material.JUNGLE_PLANKS,
-                                                            Material.OAK_PLANKS,
-                                                            Material.SPRUCE_PLANKS,
-                                                            Material.WARPED_PLANKS};
+            Material[] woodTrail = new Material[]    {
+                    Material.ACACIA_PLANKS,
+                    Material.BIRCH_PLANKS,
+                    Material.CRIMSON_PLANKS,
+                    Material.DARK_OAK_PLANKS,
+                    Material.JUNGLE_PLANKS,
+                    Material.OAK_PLANKS,
+                    Material.SPRUCE_PLANKS,
+                    Material.WARPED_PLANKS
+            };
             
             material = woodTrail[random.nextInt(woodTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Ore")) {
-            Material[] oreTrail = new Material[]    {Material.DIAMOND_ORE,
-                                                            Material.EMERALD_ORE,
-                                                            Material.GOLD_ORE, 
-                                                            Material.LAPIS_ORE,
-                                                            Material.REDSTONE_ORE,
-                                                            Material.COAL_ORE};
+            Material[] oreTrail = new Material[]    {
+                    Material.DIAMOND_ORE,
+                    Material.EMERALD_ORE,
+                    Material.GOLD_ORE,
+                    Material.LAPIS_ORE,
+                    Material.REDSTONE_ORE,
+                    Material.COAL_ORE
+            };
             
             material = oreTrail[random.nextInt(oreTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("Nether")) {
-            Material[] netherTrail = new Material[]    {Material.NETHERRACK,
-                                                            Material.NETHER_BRICKS,
-                                                            Material.NETHER_QUARTZ_ORE, 
-                                                            Material.CRIMSON_NYLIUM,
-                                                            Material.WARPED_NYLIUM,
-                                                            Material.BLACKSTONE,
-                                                            Material.SOUL_SOIL,
-                                                            Material.NETHER_GOLD_ORE,
-                                                            Material.CRIMSON_HYPHAE,
-                                                            Material.WARPED_HYPHAE,
-                                                            Material.NETHER_WART_BLOCK,
-                                                            Material.WARPED_WART_BLOCK};
+            Material[] netherTrail = new Material[]    {
+                    Material.NETHERRACK,
+                    Material.NETHER_BRICKS,
+                    Material.NETHER_QUARTZ_ORE,
+                    Material.CRIMSON_NYLIUM,
+                    Material.WARPED_NYLIUM,
+                    Material.BLACKSTONE,
+                    Material.SOUL_SOIL,
+                    Material.NETHER_GOLD_ORE,
+                    Material.CRIMSON_HYPHAE,
+                    Material.WARPED_HYPHAE,
+                    Material.NETHER_WART_BLOCK,
+                    Material.WARPED_WART_BLOCK
+            };
             
             material = netherTrail[random.nextInt(netherTrail.length)];
         }
         
         if (trailTypeMap.get(player).equals("End")) {
-            Material[] endTrail = new Material[]    {Material.END_STONE,
-                                                            Material.END_STONE,
-                                                            Material.END_STONE_BRICKS,
-                                                            Material.PURPUR_BLOCK, 
-                                                            Material.OBSIDIAN};
+            Material[] endTrail = new Material[]    {
+                    Material.END_STONE,
+                    Material.END_STONE,
+                    Material.END_STONE_BRICKS,
+                    Material.PURPUR_BLOCK,
+                    Material.OBSIDIAN
+            };
             
             material = endTrail[random.nextInt(endTrail.length)];
         }
@@ -126,11 +142,13 @@ public class TrailsConstructor implements Listener {
         }
         
         if (trailTypeMap.get(player).equals("Coral")) {
-            Material[] coralTrail = new Material[]    {Material.BRAIN_CORAL_BLOCK,
-                                                            Material.BUBBLE_CORAL_BLOCK,
-                                                            Material.FIRE_CORAL_BLOCK,
-                                                            Material.HORN_CORAL_BLOCK, 
-                                                            Material.TUBE_CORAL_BLOCK};
+            Material[] coralTrail = new Material[]    {
+                    Material.BRAIN_CORAL_BLOCK,
+                    Material.BUBBLE_CORAL_BLOCK,
+                    Material.FIRE_CORAL_BLOCK,
+                    Material.HORN_CORAL_BLOCK,
+                    Material.TUBE_CORAL_BLOCK
+            };
             
             material = coralTrail[random.nextInt(coralTrail.length)];
         }
@@ -141,27 +159,28 @@ public class TrailsConstructor implements Listener {
     
     List<Material> exempt = new ArrayList<>();
     
-    Material[] exemptMaterials = new Material[]    {Material.CHEST, ///ADD blockstate.update
-                                                    Material.TRAPPED_CHEST, 
-                                                    Material.FURNACE,
-                                                    Material.BLAST_FURNACE, 
-                                                    Material.COMPOSTER, 
-                                                    Material.DROPPER,
-                                                    Material.DISPENSER,
-                                                    Material.HOPPER,
-                                                    Material.BREWING_STAND,
-                                                    Material.FLOWER_POT,
-                                                    Material.ARMOR_STAND,
-                                                    Material.BARREL,
-                                                    Material.LOOM,
-                                                    Material.SMOKER,
-                                                    Material.CARTOGRAPHY_TABLE,
-                                                    Material.FLETCHING_TABLE,
-                                                    Material.GRINDSTONE,
-                                                    Material.LECTERN,
-                                                    Material.SMITHING_TABLE,
-                                                    Material.STONECUTTER,
-                                                    };
+    Material[] exemptMaterials = new Material[]    {
+            Material.CHEST, ///ADD blockstate.update
+            Material.TRAPPED_CHEST,
+            Material.FURNACE,
+            Material.BLAST_FURNACE,
+            Material.COMPOSTER,
+            Material.DROPPER,
+            Material.DISPENSER,
+            Material.HOPPER,
+            Material.BREWING_STAND,
+            Material.FLOWER_POT,
+            Material.ARMOR_STAND,
+            Material.BARREL,
+            Material.LOOM,
+            Material.SMOKER,
+            Material.CARTOGRAPHY_TABLE,
+            Material.FLETCHING_TABLE,
+            Material.GRINDSTONE,
+            Material.LECTERN,
+            Material.SMITHING_TABLE,
+            Material.STONECUTTER,
+    };
     
 
     public boolean doesBlockExist(Block bloc) {
