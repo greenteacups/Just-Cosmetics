@@ -968,10 +968,10 @@ public class PetGuiListeners implements Listener {
     }
 
     private boolean isSpectator(Player player) {
-        if(player.getGameMode() != GameMode.SPECTATOR) {
+        if(player.getGameMode() == GameMode.SPECTATOR) {
             player.sendMessage(ChatColor.DARK_RED + "You cannot equip a pet in spectator mode!");
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
