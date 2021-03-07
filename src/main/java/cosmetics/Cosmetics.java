@@ -1,13 +1,5 @@
 package cosmetics;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-
 import cosmetics.commands.CosmeticCommand;
 import cosmetics.commands.PetNameCommand;
 import cosmetics.commands.SlimeCommand;
@@ -23,17 +15,22 @@ import cosmetics.particles.listeners.ParticleGuiListeners;
 import cosmetics.pets.PathfinderRun;
 import cosmetics.pets.listeners.PetGeneralListeners;
 import cosmetics.pets.listeners.PetGuiListeners;
-import cosmetics.sql.MySQL;
-import cosmetics.sql.SQLGetterCosmetics;
-import cosmetics.sql.SQLGetterParticles;
-import cosmetics.sql.SQLGetterPetNames;
-import cosmetics.sql.SQLGetterPets;
-import cosmetics.sql.SQLGetterSlime;
-import cosmetics.sql.SQLListeners;
+import cosmetics.sql.*;
 import cosmetics.trails.TrailsConstructor;
 import cosmetics.trails.TrailsGuiListeners;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class Cosmetics extends JavaPlugin implements Listener {
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.HashMap;
+
+public class Cosmetics extends JavaPlugin {
     
     public MySQL SQL;
     public SQLGetterSlime dataSlime;
@@ -79,7 +76,6 @@ public class Cosmetics extends JavaPlugin implements Listener {
             dataParticles.createTable();
             dataPets.createTable();
             dataPetNames.createTable();
-            this.getServer().getPluginManager().registerEvents(this, this);
         }
         
         getCommand("cosmetic").setExecutor(new CosmeticCommand(this));
@@ -89,30 +85,30 @@ public class Cosmetics extends JavaPlugin implements Listener {
         PurchaseConstructor = new PurchaseConstructor(this); //Purchase Constructor*
         RemoveEffects = new RemoveEffects(this);
         
-        this.getServer().getPluginManager().registerEvents(new SQLListeners(this), this); //Enable SQL Listeners
+        registerListener(new SQLListeners(this)); //Enable SQL Listeners
         
-        this.getServer().getPluginManager().registerEvents(new CosmeticGuiListeners(this), this); //Main Cosmetic menu listeners
-        this.getServer().getPluginManager().registerEvents(new PetGeneralListeners(this), this); //General Pet listeners
-        this.getServer().getPluginManager().registerEvents(new PetGuiListeners(this), this); //Pet GUI Listeners
+        registerListener(new CosmeticGuiListeners(this)); //Main Cosmetic menu listeners
+        registerListener(new PetGeneralListeners(this)); //General Pet listeners
+        registerListener(new PetGuiListeners(this)); //Pet GUI Listeners
         
-        this.getServer().getPluginManager().registerEvents(new DisguiseGuiListeners(this), this); //Disguise GUI Listeners
-        this.getServer().getPluginManager().registerEvents(new DisguiseGeneralListeners(this), this); //General Disguise Listeners
+        registerListener(new DisguiseGuiListeners(this)); //Disguise GUI Listeners
+        registerListener(new DisguiseGeneralListeners(this)); //General Disguise Listeners
         
-        this.getServer().getPluginManager().registerEvents(new GadgetGuiListeners(this), this); //General Disguise Listeners
-        this.getServer().getPluginManager().registerEvents(new GadgetGeneralListeners(this), this); //General Disguise Listeners
+        registerListener(new GadgetGuiListeners(this)); //General Disguise Listeners
+        registerListener(new GadgetGeneralListeners(this)); //General Disguise Listeners
         
-        this.getServer().getPluginManager().registerEvents(new ParticleGuiListeners(this), this); //Particle GUI Listeners
-        this.getServer().getPluginManager().registerEvents(new ParticleGeneralListeners(this), this); //Particle General Listeners
+        registerListener(new ParticleGuiListeners(this)); //Particle GUI Listeners
+        registerListener(new ParticleGeneralListeners(this)); //Particle General Listeners
         
-        this.getServer().getPluginManager().registerEvents(new PurchaseGuiListeners(this), this); //Purchase Gui Listeners
+        registerListener(new PurchaseGuiListeners(this)); //Purchase Gui Listeners
         
-        this.getServer().getPluginManager().registerEvents(new TrailsGuiListeners(this), this); //
-        this.getServer().getPluginManager().registerEvents(new TrailsConstructor(), this); //
+        registerListener(new TrailsGuiListeners(this)); //
+        registerListener(new TrailsConstructor()); //
         
-        this.getServer().getPluginManager().registerEvents(new GuiTamper(), this); //
+        registerListener(new GuiTamper()); //
 
         try { // Paper only
-            this.getServer().getPluginManager().registerEvents(new PaperListener(this), this);
+            registerListener(new PaperListener(this));
         } catch (Exception ignored) {}
         
         getServer().getScheduler().runTaskTimer(this, () -> {
@@ -130,6 +126,35 @@ public class Cosmetics extends JavaPlugin implements Listener {
             }
         }, 1, 30);
         
+    }
+    
+    // Register a listener with the server and run any PlayerJoinEvents it has
+    private void registerListener(Listener listener) {
+        getServer().getPluginManager().registerEvents(listener, this);
+        
+        executeJoinEvent(listener);
+    }
+
+    // Execute PlayerJoinEvents for the given listener
+    private void executeJoinEvent(Listener listener) {
+        for (Method method : listener.getClass().getMethods()) {
+            if (method.getAnnotation(EventHandler.class) != null
+                    && method.getParameterCount() == 1
+                    && method.getParameterTypes()[0] == PlayerJoinEvent.class) {
+                invokeJoinEvent(method, listener);
+            }
+        }
+    }
+
+    // Call a method with a PlayerJoinEvent for each online player
+    private void invokeJoinEvent(Method method, Object listener) {
+        for (Player player : getServer().getOnlinePlayers()) {
+            try {
+                method.invoke(listener, new PlayerJoinEvent(player, null));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
