@@ -13,10 +13,16 @@ public class PathfinderRun {
     
     //Teleport pet to Cat
     public void PetTeleport(Player player) {
+
+        Entity pet = currentPet.get(player);
         
-        if (currentPet.containsKey(player)) {
+        if (pet != null) {
             
-            Entity pet = currentPet.get(player);
+            if (pet.getWorld() != player.getWorld()) {
+                // Different worlds, teleport to the player
+                pet.teleport(player);
+                return;
+            }
             
             double x_dist = player.getLocation().getX() - pet.getLocation().getX();
             double z_dist = player.getLocation().getZ() - pet.getLocation().getZ();
@@ -36,8 +42,8 @@ public class PathfinderRun {
                         
                 Location player_loc = player.getLocation();
                 player_loc.setY(pet.getLocation().getY());
-                
-                currentPet.get(player).teleport(player_loc.subtract(new_x_dist, 0, new_z_dist));
+
+                pet.teleport(player_loc.subtract(new_x_dist, 0, new_z_dist));
                              
             }
 
@@ -101,8 +107,8 @@ public class PathfinderRun {
                         
                 Location player_loc = player.getLocation();
                 player_loc.setY(pet.getLocation().getY());
-                
-                currentPet.get(player).teleport(player_loc.subtract(tp_x_dist, 0, tp_z_dist));
+
+                pet.teleport(player_loc.subtract(tp_x_dist, 0, tp_z_dist));
             }
             
             //System.out.println(pet.getLocation().getY());
