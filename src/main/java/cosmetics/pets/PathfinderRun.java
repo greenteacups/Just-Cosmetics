@@ -1,17 +1,15 @@
 package cosmetics.pets;
 
-import java.util.HashMap;
-
+import com.google.common.collect.HashBiMap;
+import cosmetics.pets.listeners.PetGuiListeners;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import cosmetics.pets.listeners.PetGuiListeners;
-
 public class PathfinderRun {
 
-    public static HashMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
+    public static HashBiMap<Player, Entity> currentPet = PetGuiListeners.currentPet;
     
     //Teleport pet to Cat
     public void PetTeleport(Player player) {
