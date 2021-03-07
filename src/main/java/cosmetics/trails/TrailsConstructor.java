@@ -163,16 +163,19 @@ public class TrailsConstructor implements Listener {
                                                     Material.STONECUTTER,
                                                     };
     
-    
+
     public boolean doesBlockExist(Block bloc) {
         boolean exists = false;
-        
+
         for (List<Location> list : blockLocMap.values()) {
             if (list.contains(bloc.getLocation())) {
                 exists = true;
             }
         }
-        return !exists;
+        return exists;
+    }
+    public boolean inverseDoesBlockExist(Block bloc) {
+        return !doesBlockExist(bloc);
     }
     
     @EventHandler
@@ -200,7 +203,7 @@ public class TrailsConstructor implements Listener {
                         
                         if (blockLocMap.containsKey(player)) {
                             
-                            if (doesBlockExist(bloc)) {
+                            if (inverseDoesBlockExist(bloc)) {
                                 if (blockLocMap.get(player).size() >= 10) {
                                     hideBlock(blockLocMap.get(player).remove(0));
                                 }
@@ -213,7 +216,7 @@ public class TrailsConstructor implements Listener {
 
                         
                         else {
-                            if (doesBlockExist(bloc)) {
+                            if (inverseDoesBlockExist(bloc)) {
                                 List<Location> blockLocList = new ArrayList<>();
                                 
                                 blockLocList.add(bloc.getLocation());
