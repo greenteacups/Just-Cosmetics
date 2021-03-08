@@ -107,8 +107,17 @@ public class PathfinderRun {
                         
                 Location player_loc = player.getLocation();
                 player_loc.setY(pet.getLocation().getY());
+                player_loc.subtract(tp_x_dist, 0, tp_z_dist);
+                        
+                if (!isChunkLoaded(player_loc)) {
+                    // Chunk not loaded, teleport to player instead
+                    player_loc = player.getLocation();
+                }
 
-                pet.teleport(player_loc.subtract(tp_x_dist, 0, tp_z_dist));
+                if (isChunkLoaded(player_loc)) {
+                    // Player chunk isn't loaded rn, it should be later
+                    pet.teleport(player_loc);
+                }
             }
             
             //System.out.println(pet.getLocation().getY());
@@ -119,5 +128,9 @@ public class PathfinderRun {
 //         
 //         currentnewpet.get(player).teleport(currentpathfindcat.get(player));
 //     }
+    }
+    
+    private boolean isChunkLoaded(Location loc) {
+        return loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4);
     }
 }
