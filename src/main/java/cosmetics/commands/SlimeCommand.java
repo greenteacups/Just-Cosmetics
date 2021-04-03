@@ -11,9 +11,9 @@ import cosmetics.Cosmetics;
 
 public class SlimeCommand implements CommandExecutor {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SlimeCommand(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     @Override
@@ -44,7 +44,7 @@ public class SlimeCommand implements CommandExecutor {
                                 player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[1]).getDisplayName() + " has " 
                                         + ChatColor.GREEN + plugin.dataSlime.getSlime(Bukkit.getPlayer(args[1]).getUniqueId()) 
                                         + ChatColor.GOLD + " Slime"); 
-                            } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[1].toString() + " is not online!"); }
+                            } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[1] + " is not online!"); }
                         } 
                     } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime balance <player>"); }
                     
@@ -69,7 +69,7 @@ public class SlimeCommand implements CommandExecutor {
                                 player.sendMessage(ChatColor.GOLD + "" + Bukkit.getPlayer(args[2]).getDisplayName() + " has " 
                                 + ChatColor.GREEN + plugin.dataSlime.getSlime(Bukkit.getPlayer(args[2]).getUniqueId()) 
                                 + ChatColor.GOLD + " Slime"); 
-                            } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[2].toString() + " is not online!"); }
+                            } catch (NullPointerException exception) { player.sendMessage(ChatColor.RED + args[2] + " is not online!"); }
                         } 
                     } catch (NumberFormatException exception) { player.sendMessage(ChatColor.RED + "/slime add <amount> <player>"); }
                     

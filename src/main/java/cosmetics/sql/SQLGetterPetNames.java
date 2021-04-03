@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import cosmetics.Cosmetics;
 
 public class SQLGetterPetNames {
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterPetNames(Cosmetics plugin) {
         this.plugin = plugin;
     }
@@ -35,8 +35,7 @@ public class SQLGetterPetNames {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +95,7 @@ public class SQLGetterPetNames {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT PETNAME FROM PETNAMES WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String petname = null;
+            String petname;
  
             if (rs.next()) {
                 petname = rs.getString("PETNAME");

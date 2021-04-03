@@ -9,10 +9,10 @@ import cosmetics.Cosmetics;
 
 public class SQLListeners implements Listener {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     
     public SQLListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     @EventHandler

@@ -12,9 +12,9 @@ import cosmetics.Cosmetics;
 
 public class ParticleGeneralListeners implements Listener {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public ParticleGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static HashMap<Player, Particle> currentParticleType = ParticleGuiListeners.currentParticleType;
@@ -23,7 +23,7 @@ public class ParticleGeneralListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
 
         if (plugin.dataParticles.existsPlayer(player.getUniqueId())) {
             currentParticleType.put(player, Particle.valueOf(plugin.dataParticles.getType(player.getUniqueId())));

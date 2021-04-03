@@ -73,7 +73,6 @@ public class RemoveEffectsOnQuit {
             TrailsGuiListeners.trailsMap.remove(player);
             TrailsGuiListeners.trailTypeMap.remove(player);
         }
-        
-        return;
+
     }
 }

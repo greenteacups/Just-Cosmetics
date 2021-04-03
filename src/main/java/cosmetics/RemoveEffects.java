@@ -11,9 +11,9 @@ import cosmetics.trails.TrailsGuiListeners;
 
 public class RemoveEffects {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public RemoveEffects(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
 
     public void ClearEffects(Player player) {
@@ -84,7 +84,6 @@ public class RemoveEffects {
             TrailsGuiListeners.trailsMap.remove(player);
             TrailsGuiListeners.trailTypeMap.remove(player);
         }
-        
-        return;
+
     }
 }

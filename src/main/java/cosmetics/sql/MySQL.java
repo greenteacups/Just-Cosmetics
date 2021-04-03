@@ -7,29 +7,26 @@ import java.sql.SQLException;
 import cosmetics.Cosmetics;
 
 public class MySQL {
-    
-    private Cosmetics plugin;
 
     public MySQL(Cosmetics b) {
-        plugin = b;
-        
-        host = plugin.getConfig().getString("SQL.host");
-        port = plugin.getConfig().getString("SQL.port");
-        database = plugin.getConfig().getString("SQL.database");
-        username = plugin.getConfig().getString("SQL.username");
-        password = plugin.getConfig().getString("SQL.password");
+
+        host = b.getConfig().getString("SQL.host");
+        port = b.getConfig().getString("SQL.port");
+        database = b.getConfig().getString("SQL.database");
+        username = b.getConfig().getString("SQL.username");
+        password = b.getConfig().getString("SQL.password");
     }
 
-    private String host;
-    private String port;
-    private String database;
-    private String username;
-    private String password;
+    private final String host;
+    private final String port;
+    private final String database;
+    private final String username;
+    private final String password;
     
     private Connection connection;
     
     public boolean isConnected() {
-        return (connection == null ? false : true);
+        return (connection != null);
     }
     
     public void connect() throws ClassNotFoundException, SQLException {

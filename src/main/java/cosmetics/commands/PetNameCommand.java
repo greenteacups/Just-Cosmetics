@@ -47,8 +47,8 @@ public class PetNameCommand implements CommandExecutor {
                         if (plugin.dataPetNames.existsPlayer(player.getUniqueId())) {
                             plugin.dataPetNames.remove(player.getUniqueId());
                         } 
-                        plugin.dataPetNames.addPetName(player, player.getUniqueId(), args[0].toString());
-                        currentPet.get(player).setCustomName(ChatColor.GOLD + args[0].toString());
+                        plugin.dataPetNames.addPetName(player, player.getUniqueId(), args[0]);
+                        currentPet.get(player).setCustomName(ChatColor.GOLD + args[0]);
                         
                         player.sendMessage(ChatColor.GOLD + "Pet name has been set!");
                         

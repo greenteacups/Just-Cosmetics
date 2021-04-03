@@ -107,7 +107,7 @@ public class GadgetRunnables {
     
          if (System.currentTimeMillis()/50 - airstrike.get(player) > 145) {
              
-             if (airturtlelist.containsKey(player) == false) {
+             if (!airturtlelist.containsKey(player)) {
                  
                  Location turtleLoc = player.getLocation().add(0, 10, -50);
                  turtleLoc.setYaw(0);
@@ -153,7 +153,5 @@ public class GadgetRunnables {
          }
          
      }
-        
-        return;
     }
 }

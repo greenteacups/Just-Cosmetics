@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class CosmeticGui implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public CosmeticGui(Cosmetics plugin, Player player) {

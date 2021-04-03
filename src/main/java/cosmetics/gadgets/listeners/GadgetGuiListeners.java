@@ -31,9 +31,9 @@ public class GadgetGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public GadgetGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
@@ -51,7 +51,6 @@ public class GadgetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -101,9 +100,7 @@ public class GadgetGuiListeners implements Listener {
                 shellList.add(shell2);
                 shellList.add(shell3);
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                shellMap.put(player, shellList);
-                }, 1);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> shellMap.put(player, shellList), 1);
                 
                 if (player.getInventory().getItem(8) == null) {
                     ShellShooter shellshooter = new ShellShooter();
@@ -138,9 +135,7 @@ public class GadgetGuiListeners implements Listener {
                 parrotList.add(parrot2);
                 parrotList.add(parrot3);
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                parrotMap.put(player, parrotList);
-                }, 1);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> parrotMap.put(player, parrotList), 1);
             }
             else {
                 purchaseItem.put(player, "Dazed"); //Input Name
@@ -190,16 +185,12 @@ public class GadgetGuiListeners implements Listener {
         
         //Open Trails Menu
         if (event.getSlot() == 15) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new TrailsGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new TrailsGui(plugin, player).getInventory()));
         }
          
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Remove Gadget Option

@@ -10,10 +10,8 @@ import cosmetics.Cosmetics;
 
 public class PaperListener implements Listener {
 
-    @SuppressWarnings("unused")////
-    private Cosmetics plugin;
     public PaperListener(Cosmetics b) {
-        plugin = b;
+        ////
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

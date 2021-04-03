@@ -13,7 +13,7 @@ import cosmetics.Cosmetics;
 
 public class CosmeticCommand implements CommandExecutor {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public CosmeticCommand(Cosmetics b) {
         plugin = b;
     }

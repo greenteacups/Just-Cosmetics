@@ -18,7 +18,7 @@ public class ShellShooter {
         ItemMeta meta = jumpStick.getItemMeta();
         
         meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Green Shell Gun");
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Click to shoot Green Shells");
         meta.setLore(lore);

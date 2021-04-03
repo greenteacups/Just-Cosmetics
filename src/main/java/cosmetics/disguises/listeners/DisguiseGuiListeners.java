@@ -26,10 +26,10 @@ public class DisguiseGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
 
     public DisguiseGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
@@ -69,7 +69,6 @@ public class DisguiseGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -188,16 +187,12 @@ public class DisguiseGuiListeners implements Listener {
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Next Page
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui2(plugin, player).getInventory()));
         }
         
         // Remove Disguise Option
@@ -218,7 +213,6 @@ public class DisguiseGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -339,16 +333,12 @@ public class DisguiseGuiListeners implements Listener {
         
         // Previous Page
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui(plugin, player).getInventory()));
         }
         
         // Next Page
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui2(plugin, player).getInventory()));
         }
         
         // Remove Disguise Option

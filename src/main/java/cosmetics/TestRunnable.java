@@ -27,8 +27,7 @@ public class TestRunnable {
                 player.getLocation().add(0.5*Math.cos(thetanew), 0, 0).getX(),
                 player.getLocation().add(0, 2, 0).getY(),
                 player.getLocation().add(0, 0, 0.5*Math.sin(thetanew)).getZ(), 0);
-        
-        return;
+
     }
     
     public void EntityWiggle(Player player) {
@@ -44,8 +43,7 @@ public class TestRunnable {
          }
    
      }
-        
-        return;
+
     }
     
 

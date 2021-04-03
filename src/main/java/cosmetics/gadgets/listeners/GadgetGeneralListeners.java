@@ -39,9 +39,9 @@ import cosmetics.gadgets.GadgetRunnables;
 
 public class GadgetGeneralListeners implements Listener {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public GadgetGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
@@ -194,21 +194,17 @@ public class GadgetGeneralListeners implements Listener {
 
     @EventHandler
     public void onGadgetDamage(EntityDamageEvent event) {
-        if (event.getCause() != null) {
-            for (List<Entity> list : shellMap.values()) {
-
-                if (list.contains(event.getEntity())) {
-                    event.setCancelled(true);  
-                }
+        for (List<Entity> list : shellMap.values()) {
+            if (list.contains(event.getEntity())) {
+                event.setCancelled(true);
             }
+        }
             
-            for (List<Entity> list : parrotMap.values()) {
-
-                if (list.contains(event.getEntity())) {
-                    event.setCancelled(true);
-                }
+        for (List<Entity> list : parrotMap.values()) {
+            if (list.contains(event.getEntity())) {
+                event.setCancelled(true);
             }
-        }  
+        }
     }
     
     @EventHandler

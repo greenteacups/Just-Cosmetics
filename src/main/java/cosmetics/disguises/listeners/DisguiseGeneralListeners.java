@@ -2,6 +2,8 @@ package cosmetics.disguises.listeners;
 
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,10 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerItemConsumeEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.potion.PotionEffectType;
 
 import cosmetics.Cosmetics;
@@ -26,11 +25,11 @@ import cosmetics.RemoveEffectsOnQuit;
 
 
 public class DisguiseGeneralListeners implements Listener {
-    
-    @SuppressWarnings("unused")
-    private Cosmetics plugin;
+
+    private final Cosmetics plugin;
+
     public DisguiseGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
 
     public HashMap<Player, Entity> currentDisguise = DisguiseGuiListeners.currentDisguise;
@@ -39,7 +38,7 @@ public class DisguiseGeneralListeners implements Listener {
     
     @EventHandler
     public void onMovetest(PlayerMoveEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         
         if (currentDisguise.containsKey(player)) {
             
@@ -67,15 +66,15 @@ public class DisguiseGeneralListeners implements Listener {
     public void onDisguiseDamage(EntityDamageEvent event) {
         if (currentDisguise.containsValue(event.getEntity())) {
             
-            if (event.getEntity() != null && event.getCause() == DamageCause.FIRE_TICK) {
+            if (event.getCause() == DamageCause.FIRE_TICK) {
                 if(event.getEntity() instanceof Zombie) {
-                    event.getEntity().setFireTicks(0);;
+                    event.getEntity().setFireTicks(0);
                 }
                 if(event.getEntity() instanceof Skeleton) {
-                    event.getEntity().setFireTicks(0);;
+                    event.getEntity().setFireTicks(0);
                 }
                 if(event.getEntity() instanceof Stray) {
-                    event.getEntity().setFireTicks(0);;
+                    event.getEntity().setFireTicks(0);
                 }
             }
             
@@ -126,7 +125,7 @@ public class DisguiseGeneralListeners implements Listener {
     @EventHandler
     public void DrinkMilk(PlayerItemConsumeEvent event) {
         if (event.getItem().getType().equals(Material.MILK_BUCKET)) {
-            Player player = (Player) event.getPlayer();
+            Player player = event.getPlayer();
             
             if (currentDisguise.containsKey(player)) {
                 player.removePotionEffect(PotionEffectType.INVISIBILITY);
@@ -142,7 +141,17 @@ public class DisguiseGeneralListeners implements Listener {
         Player player = event.getPlayer();
         RemoveEffectsOnQuit.ClearEffects(player);
     }
-    
 
+    @EventHandler
+    public void onGamemodeChange(PlayerGameModeChangeEvent e) {
+        Player player = e.getPlayer();
+        Entity disguise = currentDisguise.get(player);
+        if(disguise != null && e.getNewGameMode() == GameMode.SPECTATOR) {
+            disguise.remove();
+            currentDisguise.remove(player);
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+            player.sendMessage(ChatColor.DARK_RED + "Your disguise was removed because you went into spectator mode!");
+        }
+    }
     
 }

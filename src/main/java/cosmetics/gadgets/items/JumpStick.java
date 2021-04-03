@@ -18,7 +18,7 @@ public class JumpStick {
         ItemMeta meta = jumpStick.getItemMeta();
         
         meta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Jump Stick");
-        List<String> lore = new ArrayList<String>();
+        List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Click to Jump");
         meta.setLore(lore);

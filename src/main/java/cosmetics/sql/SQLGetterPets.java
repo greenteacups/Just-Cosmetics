@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import cosmetics.Cosmetics;
 
 public class SQLGetterPets {
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterPets(Cosmetics plugin) {
         this.plugin = plugin;
     }
@@ -35,8 +35,7 @@ public class SQLGetterPets {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

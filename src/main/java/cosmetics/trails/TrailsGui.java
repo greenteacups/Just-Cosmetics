@@ -15,7 +15,7 @@ import cosmetics.Cosmetics;
 
 public class TrailsGui implements InventoryHolder {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     private final Inventory inventory;
     
     public TrailsGui(Cosmetics plugin, Player player) {

@@ -1,14 +1,12 @@
 package cosmetics;
 
-import java.util.HashMap;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import cosmetics.PurchaseConstructor;
+import java.util.HashMap;
 
 public class PurchaseGuiListeners implements Listener {
 
@@ -16,10 +14,10 @@ public class PurchaseGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
 
     public PurchaseGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     //////
@@ -30,7 +28,6 @@ public class PurchaseGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -46,17 +43,13 @@ public class PurchaseGuiListeners implements Listener {
             
             //Return to main menu & Close (stop item steal)
             player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.closeInventory();
-            });
+            plugin.getServer().getScheduler().runTask(plugin, player::closeInventory);
         }
         
         if (event.getSlot() == 24) {
             //Return to main menu & Close(stop item steal)
             player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.closeInventory();
-            });
+            plugin.getServer().getScheduler().runTask(plugin, player::closeInventory);
             
             player.sendMessage(ChatColor.RED + "Transaction Cancelled");
             

@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 
 public class PurchaseConstructor {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
 
     public PurchaseConstructor(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
 
     public void purchaseGui(Player player, String item, int price) {
@@ -20,9 +20,7 @@ public class PurchaseConstructor {
 //        System.out.println("GUI = " + purchasegui);
         
         if (plugin.dataSlime.getSlime(player.getUniqueId()) >= price) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PurchaseGui(item).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PurchaseGui(item).getInventory()));
         }
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to buy this item!");

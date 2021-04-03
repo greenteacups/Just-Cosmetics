@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.google.common.collect.HashBiMap;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Ageable;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Cat;
@@ -28,14 +29,14 @@ import cosmetics.pets.SheepColourGUI;
 
 public class PetGuiListeners implements Listener {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     
     public PurchaseConstructor PurchaseConstructor = Cosmetics.PurchaseConstructor;
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
 
     public PetGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     public static HashBiMap<Player, Entity> currentPet = HashBiMap.create();
@@ -52,7 +53,7 @@ public class PetGuiListeners implements Listener {
         pet.setAI(false);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             if (entity == EntityType.ZOMBIE || entity == EntityType.HUSK) {
                 Ageable zomb = (Ageable) pet;
                 zomb.setBaby();
@@ -79,6 +80,7 @@ public class PetGuiListeners implements Listener {
     //Pet Equiper
     public void PetEquip(Player player, EntityType entity, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(isSpectator(player)) return;
             PetSpawn(player, entity, isbaby);
         }
         else {
@@ -103,7 +105,7 @@ public class PetGuiListeners implements Listener {
         sheep.setColor(sheepColor);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             Animals baby = (Animals) pet;
             baby.setBaby();
             baby.setAgeLock(true);
@@ -124,6 +126,7 @@ public class PetGuiListeners implements Listener {
     //Sheep Equiper
     public void SheepEquip(Player player, DyeColor sheepColor, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(isSpectator(player)) return;
             SheepSpawn(player, sheepColor, isbaby);
         }
         else {
@@ -148,7 +151,7 @@ public class PetGuiListeners implements Listener {
         cat.setCatType(catType);
         
         //Code for baby pets
-        if (isbaby == true) {
+        if (isbaby) {
             Animals baby = (Animals) pet;
             baby.setBaby();
             baby.setAgeLock(true);
@@ -169,6 +172,7 @@ public class PetGuiListeners implements Listener {
     //Cat Equiper
     public void CatEquip(Player player, Cat.Type catType, Boolean isbaby, int price, String name) {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
+            if(isSpectator(player)) return;
             CatSpawn(player, catType, isbaby);
         }
         else {
@@ -416,7 +420,6 @@ public class PetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -460,16 +463,12 @@ public class PetGuiListeners implements Listener {
         
         //Go to Sheep Gui
         if (event.getSlot() == 16) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new SheepColourGUI(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new SheepColourGUI(plugin, player).getInventory()));
         }
         
         //Add Baby Sheep
         if (event.getSlot() == 19) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new BabySheepColourGUI(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new BabySheepColourGUI(plugin, player).getInventory()));
         }
         
         //Add Cow
@@ -534,29 +533,23 @@ public class PetGuiListeners implements Listener {
         
         //Add Cat
         if (event.getSlot() == 34) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CatTypeGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CatTypeGui(plugin, player).getInventory()));
         }
         
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new CosmeticGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Pet Gui Page 2
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui2(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui2(plugin, player).getInventory()));
         }
         
         //Close Menu
@@ -571,7 +564,6 @@ public class PetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -580,7 +572,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         //Add Turtle
@@ -646,14 +638,12 @@ public class PetGuiListeners implements Listener {
     
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         // Pet Gui Page 2
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         //Close Menu
@@ -668,7 +658,6 @@ public class PetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -677,7 +666,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         //Add Red Sheep
@@ -762,14 +751,12 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         //Close Menu
@@ -784,7 +771,6 @@ public class PetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -793,7 +779,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
 
         
@@ -879,14 +865,12 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         //Close Menu
@@ -902,7 +886,6 @@ public class PetGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -911,7 +894,7 @@ public class PetGuiListeners implements Listener {
         
         // Remove Active Cosmetics when selecting new pet
         if (event.getSlot() < 35) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         
@@ -972,18 +955,23 @@ public class PetGuiListeners implements Listener {
         
         //Back Arrow
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         // Remove Pet Option
         if (event.getSlot() == 40) {
-            plugin.RemoveEffects.ClearEffects(player);;
+            plugin.RemoveEffects.ClearEffects(player);
         }
         
         //Close Menu
         player.closeInventory();
     }
-    
+
+    private boolean isSpectator(Player player) {
+        if(player.getGameMode() == GameMode.SPECTATOR) {
+            player.sendMessage(ChatColor.DARK_RED + "You cannot equip a pet in spectator mode!");
+            return true;
+        }
+        return false;
+    }
 }

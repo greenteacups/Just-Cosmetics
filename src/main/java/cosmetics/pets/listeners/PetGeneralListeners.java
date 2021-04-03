@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffectsOnQuit;
+import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
@@ -17,23 +18,20 @@ import org.bukkit.event.block.EntityBlockFormEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 public class PetGeneralListeners implements Listener {
     
     @SuppressWarnings("unused")
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public PetGeneralListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
         PetSpawn = new PetGuiListeners(plugin);
     }
 
-    public PetGuiListeners PetSpawn = new PetGuiListeners(plugin);
-    
+    public PetGuiListeners PetSpawn;
+
     public static RemoveEffectsOnQuit RemoveEffectsOnQuit = new RemoveEffectsOnQuit();
     
     // Two way map. Player's own entities and entities belong to players.
@@ -41,13 +39,10 @@ public class PetGeneralListeners implements Listener {
     
     // Set Pets invunerable bc setinvun on spawn no work?
     @EventHandler
-    public void onDamage(EntityDamageEvent event) {        
-        if (event.getCause() != null) {
-            for (Entity entity : currentPet.values()) {
-
-                if (entity == event.getEntity()) {
-                    event.setCancelled(true);  
-                }
+    public void onDamage(EntityDamageEvent event) {
+        for (Entity entity : currentPet.values()) {
+            if (entity == event.getEntity()) {
+                event.setCancelled(true);
             }
         }
     }
@@ -55,7 +50,7 @@ public class PetGeneralListeners implements Listener {
     // Add particle to mobs
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
         
         for (Entity en : currentPet.values()) {
             player.getLocation().getWorld().spawnParticle(Particle.COMPOSTER,
@@ -102,9 +97,9 @@ public class PetGeneralListeners implements Listener {
     public void onDisguiseDamage(EntityDamageEvent event) {
         if (currentPet.containsValue(event.getEntity())) {
             
-            if (event.getEntity() != null && event.getCause() == DamageCause.FIRE_TICK) {
+            if (event.getCause() == DamageCause.FIRE_TICK) {
                 if(event.getEntity() instanceof Zombie) {
-                    event.getEntity().setFireTicks(0);;
+                    event.getEntity().setFireTicks(0);
                 }
             }
             
@@ -130,7 +125,7 @@ public class PetGeneralListeners implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         
-        Player player = (Player) event.getPlayer();
+        Player player = event.getPlayer();
 
         if (plugin.dataPets.existsPlayer(player.getUniqueId())) {
             PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId()));
@@ -162,6 +157,20 @@ public class PetGeneralListeners implements Listener {
             
             if (player != null) {
                 entity.teleport(player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onGamemodeChange(PlayerGameModeChangeEvent e) {
+        Player player = e.getPlayer();
+        Entity pet = currentPet.get(player);
+        if(pet != null && e.getNewGameMode() == GameMode.SPECTATOR) {
+            pet.remove();
+            currentPet.remove(player);
+        } else {
+            if (player.getGameMode() == GameMode.SPECTATOR && plugin.dataPets.existsPlayer(player.getUniqueId())) {
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId())), 1);
             }
         }
     }

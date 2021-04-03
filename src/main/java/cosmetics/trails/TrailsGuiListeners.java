@@ -19,7 +19,7 @@ public class TrailsGuiListeners implements Listener {
     public HashMap<Player, String> purchaseItem = Cosmetics.purchaseItem;
     public HashMap<Player, Integer> purchasePrice = Cosmetics.purchasePrice;
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public TrailsGuiListeners(Cosmetics b) {
         plugin = b;
     }
@@ -52,7 +52,6 @@ public class TrailsGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -109,9 +108,7 @@ public class TrailsGuiListeners implements Listener {
         
         // Return to Gadget window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new GadgetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new GadgetGui(plugin, player).getInventory()));
         }
         
         // Remove Effects Option

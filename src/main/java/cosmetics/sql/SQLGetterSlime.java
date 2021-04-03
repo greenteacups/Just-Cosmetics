@@ -11,7 +11,7 @@ import cosmetics.Cosmetics;
 
 public class SQLGetterSlime {
 
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterSlime(Cosmetics plugin) {
         this.plugin = plugin;
     }
@@ -36,8 +36,7 @@ public class SQLGetterSlime {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import cosmetics.Cosmetics;
 
 public class SQLGetterParticles {
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public SQLGetterParticles(Cosmetics plugin) {
         this.plugin = plugin;
     }
@@ -35,8 +35,7 @@ public class SQLGetterParticles {
                 ps2.setString(1,  player.getName());
                 ps2.setString(2, uuid.toString());
                 ps2.executeUpdate();
-                
-                return;
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +96,7 @@ public class SQLGetterParticles {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT TYPE FROM PlayerParticle WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String type = null;
+            String type;
  
             if (rs.next()) {
                 type = rs.getString("TYPE");
@@ -114,7 +113,7 @@ public class SQLGetterParticles {
             PreparedStatement ps = plugin.SQL.getConnection().prepareStatement("SELECT PATTERN FROM PlayerParticle WHERE UUID=?");
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            String pattern = null;
+            String pattern;
             if (rs.next()) {
                 pattern = rs.getString("PATTERN");
                 return pattern;

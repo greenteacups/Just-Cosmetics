@@ -13,9 +13,9 @@ import cosmetics.pets.PetGui;
 
 public class CosmeticGuiListeners implements Listener {
     
-    private Cosmetics plugin;
+    private final Cosmetics plugin;
     public CosmeticGuiListeners(Cosmetics b) {
-        plugin = b;
+        this.plugin = b;
     }
     
     
@@ -27,7 +27,6 @@ public class CosmeticGuiListeners implements Listener {
             return;
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
-        if (event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if (event.getRawSlot() > 53) return;
         
         event.setCancelled(true);
@@ -35,27 +34,19 @@ public class CosmeticGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new PetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 12) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new DisguiseGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 14) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new GadgetGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new GadgetGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 16) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                player.openInventory(new ParticleTypeGui(plugin, player).getInventory());
-            });
+            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 31) {
