@@ -20,7 +20,9 @@ public class PathfinderRun {
             
             if (pet.getWorld() != player.getWorld()) {
                 // Different worlds, teleport to the player
-                pet.teleport(player);
+                if (isChunkLoaded(player.getLocation())) {
+                    pet.teleport(player);
+                }
                 return;
             }
             
@@ -29,6 +31,24 @@ public class PathfinderRun {
             
             double dist = Math.sqrt(x_dist*x_dist + z_dist*z_dist);
             double theta = Math.atan2(z_dist, x_dist);
+
+            // Teleport pet if far away
+            if (dist > 25) {
+                double tp_dist = 25;
+                double tp_x_dist = tp_dist*Math.cos(theta);
+                double tp_z_dist = tp_dist*Math.sin(theta);
+
+                Location player_loc = player.getLocation();
+                player_loc.setY(pet.getLocation().getY());
+                player_loc.subtract(tp_x_dist, 0, tp_z_dist);
+
+                if (isChunkLoaded(player_loc)) {
+                    // Don't teleport if the location isn't loaded
+                    pet.teleport(player_loc);
+                }
+
+                return;
+            }
             
             double new_dist = dist - 0.2;
             double new_x_dist = new_dist*Math.cos(theta);
@@ -43,7 +63,14 @@ public class PathfinderRun {
                 Location player_loc = player.getLocation();
                 player_loc.setY(pet.getLocation().getY());
 
-                pet.teleport(player_loc.subtract(new_x_dist, 0, new_z_dist));
+                player_loc = player_loc.subtract(new_x_dist, 0, new_z_dist);
+
+                if (!isChunkLoaded(player_loc)) {
+                    // Wait until the chunk is loaded
+                    return;
+                }
+
+                pet.teleport(player_loc);
                              
             }
 
@@ -57,6 +84,11 @@ public class PathfinderRun {
 //            else if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR) {
 //                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
 //            }
+
+            if (!isChunkLoaded(pet.getLocation())) {
+                // Wait until the chunk is loaded
+                return;
+            }
             
             
             if (pet.getLocation().getBlock().getType() != Material.AIR && pet.getLocation().getBlock().getType().isSolid() ) {
@@ -98,27 +130,6 @@ public class PathfinderRun {
             }
             
             pet.teleport(pet_loc);
-            
-            // Teleport pet if far away
-            if (dist > 25) {
-                double tp_dist = dist - 22;
-                double tp_x_dist = tp_dist*Math.cos(theta);
-                double tp_z_dist = tp_dist*Math.sin(theta);
-                        
-                Location player_loc = player.getLocation();
-                player_loc.setY(pet.getLocation().getY());
-                player_loc.subtract(tp_x_dist, 0, tp_z_dist);
-                        
-                if (!isChunkLoaded(player_loc)) {
-                    // Chunk not loaded, teleport to player instead
-                    player_loc = player.getLocation();
-                }
-
-                if (isChunkLoaded(player_loc)) {
-                    // Player chunk isn't loaded rn, it should be later
-                    pet.teleport(player_loc);
-                }
-            }
             
             //System.out.println(pet.getLocation().getY());
         }
