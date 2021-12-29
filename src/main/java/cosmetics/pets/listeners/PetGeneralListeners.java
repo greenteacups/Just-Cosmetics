@@ -170,6 +170,10 @@ public class PetGeneralListeners implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Entity pet = currentPet.get(event.getPlayer());
 
+        if (pet == null) {
+            return;
+        }
+
         if (event.getPlayer().getWorld() != pet.getWorld()) {
             pet.teleport(event.getPlayer());
             return;
