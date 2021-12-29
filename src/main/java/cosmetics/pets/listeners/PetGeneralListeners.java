@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.ChunkUnloadEvent;
+import org.bukkit.event.world.EntitiesUnloadEvent;
 
 public class PetGeneralListeners implements Listener {
     
@@ -148,16 +149,37 @@ public class PetGeneralListeners implements Listener {
     
     // Stop pets getting stuck in unloaded chunks by teleporting them to their
     // player when the chunk unloads
-    @EventHandler
-    public void onChunkUnload(ChunkUnloadEvent event) {
-        BiMap<Entity, Player> currentOwner = currentPet.inverse();
-        
-        for (Entity entity : event.getChunk().getEntities()) {
-            Player player = currentOwner.get(entity);
-            
-            if (player != null) {
-                entity.teleport(player);
-            }
+    //
+    // Can't modify the entities in the EntitiesUnloadEvent - rude spigot
+    // Replaced with onPlayerTeleport
+    //
+//    @EventHandler
+//    public void onEntitiesUnload(EntitiesUnloadEvent event) {
+//        BiMap<Entity, Player> currentOwner = currentPet.inverse();
+//
+//        for (Entity entity : event.getEntities()) {
+//            Player player = currentOwner.get(entity);
+//
+//            if (player != null) {
+//                entity.teleport(player);
+//            }
+//        }
+//    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        Entity pet = currentPet.get(event.getPlayer());
+
+        if (event.getPlayer().getWorld() != pet.getWorld()) {
+            pet.teleport(event.getPlayer());
+            return;
+        }
+
+        int dx = event.getPlayer().getLocation().getBlockX() - pet.getLocation().getBlockX();
+        int dz = event.getPlayer().getLocation().getBlockZ() - pet.getLocation().getBlockZ();
+
+        if (Math.abs(dx) > 40 || Math.abs(dz) > 40) {
+            pet.teleport(event.getPlayer());
         }
     }
 

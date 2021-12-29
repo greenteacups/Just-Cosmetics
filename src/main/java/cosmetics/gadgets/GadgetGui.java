@@ -56,7 +56,7 @@ public class GadgetGui implements InventoryHolder {
         GuiConstructor(player, Material.REDSTONE_TORCH, 13, 300, AIR_STRIKE, "Strike from above!");
         GuiConstructor(player, Material.BLAZE_ROD, 14, 200, FIREWORK_GADGET, "Fire that works!");
         
-        inventory.setItem(15, createGuiItem(Material.GRASS_PATH, ChatColor.GOLD + "Trails", "Trails Selector"));
+        inventory.setItem(15, createGuiItem(Material.DIRT_PATH, ChatColor.GOLD + "Trails", "Trails Selector"));
         
         
         
