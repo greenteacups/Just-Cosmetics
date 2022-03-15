@@ -32,7 +32,7 @@ public class MySQL {
     public void connect() throws ClassNotFoundException, SQLException {
         if (!isConnected()) {
             connection = DriverManager.getConnection("jdbc:mysql://" +
-                    host + ":" + port + "/" + database + "?useSSL=false",
+                    host + ":" + port + "/" + database + "?useSSL=false&autoReconnect=true",
                     username, password);
         }
     }
