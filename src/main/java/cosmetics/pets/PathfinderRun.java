@@ -58,81 +58,81 @@ public class PathfinderRun {
             // Find block infront of entity
             Location blc_infront = player.getLocation().subtract(0.7*new_x_dist, 0, 0.7*new_z_dist);
             blc_infront.setY(pet.getLocation().getY());
+
+            Location petLocation = pet.getLocation();
             
             if (dist > 3) {
-                        
-                Location player_loc = player.getLocation();
-                player_loc.setY(pet.getLocation().getY());
 
-                player_loc = player_loc.subtract(new_x_dist, 0, new_z_dist);
+                petLocation = player.getLocation();
+                petLocation.setY(pet.getLocation().getY());
 
-                if (!isChunkLoaded(player_loc)) {
+                petLocation = petLocation.subtract(new_x_dist, 0, new_z_dist);
+
+                if (!isChunkLoaded(petLocation)) {
                     // Wait until the chunk is loaded
                     return;
                 }
 
-                MultiLib.teleportAsync(pet, player_loc);
+                // MultiLib.teleportAsync(pet, petLocation);
                              
             }
 
             
 //            System.out.println(blc_infront.getBlock().getType());
-//            //System.out.println(pet.getLocation().add(0, -0.5, 0).getBlock().getType());
+//            //System.out.println(petLocation.add(0, -0.5, 0).getBlock().getType());
 //            // Move pet up if block infront exists
 //            if (blc_infront.getBlock().getType() != Material.AIR) {
-//                MultiLib.teleportAsync(pet, pet.getLocation().add(0, 0.5, 0));
+//                petLocation = petLocation.add(0, 0.5, 0);
 //            }
-//            else if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR) {
-//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0)); 
+//            else if (petLocation.add(0, -0.5, 0).getBlock().getType() == Material.AIR) {
+//                petLocation = petLocation.subtract(0, 0.5, 0);
 //            }
 
-            if (!isChunkLoaded(pet.getLocation())) {
+            if (!isChunkLoaded(petLocation)) {
                 // Wait until the chunk is loaded
                 return;
             }
             
             
-            if (pet.getLocation().getBlock().getType() != Material.AIR && pet.getLocation().getBlock().getType().isSolid() ) {
-                MultiLib.teleportAsync(pet, pet.getLocation().add(0, 0.5, 0));
+            
+            if (petLocation.getBlock().getType() != Material.AIR && petLocation.getBlock().getType().isSolid() ) {
+                petLocation = petLocation.add(0, 0.5, 0);
             }
 //            else {
-//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0)); 
+//                petLocation = petLocation.subtract(0, 0.5, 0);
 //            }
             
             
             // Move pet down if standing on air
-            if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
-                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0));
+            if (petLocation.clone().add(0, -0.5, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
+                petLocation = petLocation.subtract(0, 0.5, 0);
             }
 
-            if (pet.getLocation().getY()%0.5 != 0) {
-                Location pet_loc = pet.getLocation();
-                pet_loc.setY(Math.round(pet.getLocation().getY()));
-                MultiLib.teleportAsync(pet, pet_loc);
+            if (petLocation.getY()%0.5 != 0) {
+                petLocation.setY(Math.round(petLocation.getY()));
             }
             
             
-//            if (pet.getLocation().add(0, -0.45, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
-//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.45, 0));
+//            if (petLocation.add(0, -0.45, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
+//                petLocation = petLocation.subtract(0, 0.45, 0));
 //            }   
-            
-            
+
+
             // Set yaw to face pet owner
             float yaw = (float) Math.toDegrees(Math.atan2(pet.getLocation().getX() - player.getLocation().getX(), 
-                    pet.getLocation().getZ() - player.getLocation().getZ()) + Math.PI);
-            Location pet_loc = pet.getLocation();
-            pet_loc.setYaw(-yaw);
+                    petLocation.getZ() - player.getLocation().getZ()) + Math.PI);
+            petLocation.setYaw(-yaw);
             
             if ((System.currentTimeMillis()/10)%600 > 200) {
-                pet_loc.setPitch(-10);
+                petLocation.setPitch(-10);
             }
             else {
-                pet_loc.setPitch(-1);
+                petLocation.setPitch(-1);
             }
             
-            MultiLib.teleportAsync(pet, pet_loc);
+            MultiLib.teleportAsync(pet, petLocation);
             
-            //System.out.println(pet.getLocation().getY());
+            // System.out.println(petLocation.getY());
         }
         
 //     if (currentpathfindcat.containsKey(player)) {

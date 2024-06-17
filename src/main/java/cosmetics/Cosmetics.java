@@ -166,11 +166,13 @@ public class Cosmetics extends JavaPlugin {
     // Call a method with a PlayerJoinEvent for each online player
     private void invokeJoinEvent(Method method, Object listener) {
         for (Player player : getServer().getOnlinePlayers()) {
-            try {
-                method.invoke(listener, new PlayerJoinEvent(player, null));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            this.runTask(player, () -> {
+                try {
+                    method.invoke(listener, new PlayerJoinEvent(player, null));
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
