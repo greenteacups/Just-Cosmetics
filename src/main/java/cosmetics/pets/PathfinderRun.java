@@ -1,5 +1,6 @@
 package cosmetics.pets;
 
+import com.github.puregero.multilib.MultiLib;
 import com.google.common.collect.HashBiMap;
 import cosmetics.pets.listeners.PetGuiListeners;
 import org.bukkit.Location;
@@ -21,7 +22,7 @@ public class PathfinderRun {
             if (pet.getWorld() != player.getWorld()) {
                 // Different worlds, teleport to the player
                 if (isChunkLoaded(player.getLocation())) {
-                    pet.teleport(player);
+                    MultiLib.teleportAsync(pet, player.getLocation());
                 }
                 return;
             }
@@ -44,7 +45,7 @@ public class PathfinderRun {
 
                 if (isChunkLoaded(player_loc)) {
                     // Don't teleport if the location isn't loaded
-                    pet.teleport(player_loc);
+                    MultiLib.teleportAsync(pet, player_loc);
                 }
 
                 return;
@@ -70,7 +71,7 @@ public class PathfinderRun {
                     return;
                 }
 
-                pet.teleport(player_loc);
+                MultiLib.teleportAsync(pet, player_loc);
                              
             }
 
@@ -79,10 +80,10 @@ public class PathfinderRun {
 //            //System.out.println(pet.getLocation().add(0, -0.5, 0).getBlock().getType());
 //            // Move pet up if block infront exists
 //            if (blc_infront.getBlock().getType() != Material.AIR) {
-//                pet.teleport(pet.getLocation().add(0, 0.5, 0));
+//                MultiLib.teleportAsync(pet, pet.getLocation().add(0, 0.5, 0));
 //            }
 //            else if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR) {
-//                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
+//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0)); 
 //            }
 
             if (!isChunkLoaded(pet.getLocation())) {
@@ -92,27 +93,27 @@ public class PathfinderRun {
             
             
             if (pet.getLocation().getBlock().getType() != Material.AIR && pet.getLocation().getBlock().getType().isSolid() ) {
-                pet.teleport(pet.getLocation().add(0, 0.5, 0));
+                MultiLib.teleportAsync(pet, pet.getLocation().add(0, 0.5, 0));
             }
 //            else {
-//                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
+//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0)); 
 //            }
             
             
             // Move pet down if standing on air
             if (pet.getLocation().add(0, -0.5, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
-                pet.teleport(pet.getLocation().subtract(0, 0.5, 0)); 
+                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.5, 0));
             }
 
             if (pet.getLocation().getY()%0.5 != 0) {
                 Location pet_loc = pet.getLocation();
                 pet_loc.setY(Math.round(pet.getLocation().getY()));
-                pet.teleport(pet_loc);
+                MultiLib.teleportAsync(pet, pet_loc);
             }
             
             
 //            if (pet.getLocation().add(0, -0.45, 0).getBlock().getType() == Material.AIR && blc_infront.getBlock().getType() == Material.AIR) {
-//                pet.teleport(pet.getLocation().subtract(0, 0.45, 0));
+//                MultiLib.teleportAsync(pet, pet.getLocation().subtract(0, 0.45, 0));
 //            }   
             
             
@@ -129,7 +130,7 @@ public class PathfinderRun {
                 pet_loc.setPitch(-1);
             }
             
-            pet.teleport(pet_loc);
+            MultiLib.teleportAsync(pet, pet_loc);
             
             //System.out.println(pet.getLocation().getY());
         }

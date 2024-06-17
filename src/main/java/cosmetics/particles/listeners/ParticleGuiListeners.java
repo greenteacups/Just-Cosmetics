@@ -34,7 +34,7 @@ public class ParticleGuiListeners implements Listener {
         if (plugin.dataCosmetics.exists(player.getUniqueId(), name)) {
             currentParticleType.put(player, particle);
             
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticlePatternGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new ParticlePatternGui(plugin, player).getInventory()));
         }
         else {
             purchaseItem.put(player, name); //Input Name
@@ -170,7 +170,7 @@ public class ParticleGuiListeners implements Listener {
         
         // Next Particle Type Gui
         if (event.getSlot() == 41) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticleTypeGui2(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new ParticleTypeGui2(plugin, player).getInventory()));
         }
         
         // Remove Particle Effect
@@ -184,7 +184,7 @@ public class ParticleGuiListeners implements Listener {
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         
@@ -285,7 +285,7 @@ public class ParticleGuiListeners implements Listener {
         
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
         }
         
         // Remove Particle Effect
@@ -411,7 +411,7 @@ public class ParticleGuiListeners implements Listener {
         
         // Return to Particle Types window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
         }
         
         // Remove Particle Effect

@@ -1,6 +1,6 @@
 package cosmetics.pets.listeners;
 
-import com.google.common.collect.BiMap;
+import com.github.puregero.multilib.MultiLib;
 import com.google.common.collect.HashBiMap;
 import cosmetics.Cosmetics;
 import cosmetics.RemoveEffectsOnQuit;
@@ -19,8 +19,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.event.world.EntitiesUnloadEvent;
 
 public class PetGeneralListeners implements Listener {
     
@@ -175,7 +173,7 @@ public class PetGeneralListeners implements Listener {
         }
 
         if (event.getPlayer().getWorld() != pet.getWorld()) {
-            pet.teleport(event.getPlayer());
+            MultiLib.teleportAsync(pet, event.getTo());
             return;
         }
 
@@ -183,7 +181,7 @@ public class PetGeneralListeners implements Listener {
         int dz = event.getPlayer().getLocation().getBlockZ() - pet.getLocation().getBlockZ();
 
         if (Math.abs(dx) > 40 || Math.abs(dz) > 40) {
-            pet.teleport(event.getPlayer());
+            MultiLib.teleportAsync(pet, event.getTo());
         }
     }
 
@@ -196,7 +194,7 @@ public class PetGeneralListeners implements Listener {
             currentPet.remove(player);
         } else {
             if (player.getGameMode() == GameMode.SPECTATOR && plugin.dataPets.existsPlayer(player.getUniqueId())) {
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId())), 1);
+                plugin.runTaskLater(player, () -> PetSpawn.Pet(player, plugin.dataPets.getPet(player.getUniqueId())), 1);
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.github.puregero.multilib.MultiLib;
 import cosmetics.gadgets.GadgetGui;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -113,7 +114,7 @@ public class GadgetGeneralListeners implements Listener {
                 
                 shotshell.add(shootshell);
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                plugin.runTaskLater(player, () -> {
                     if (shotshell.size() > 0) {
                         shotshell.get(0).remove();
                       

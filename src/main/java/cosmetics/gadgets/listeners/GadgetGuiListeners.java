@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -100,7 +101,7 @@ public class GadgetGuiListeners implements Listener {
                 shellList.add(shell2);
                 shellList.add(shell3);
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> shellMap.put(player, shellList), 1);
+                plugin.runTaskLater(player, () -> shellMap.put(player, shellList), 1);
                 
                 if (player.getInventory().getItem(8) == null) {
                     ShellShooter shellshooter = new ShellShooter();
@@ -135,7 +136,7 @@ public class GadgetGuiListeners implements Listener {
                 parrotList.add(parrot2);
                 parrotList.add(parrot3);
                 
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> parrotMap.put(player, parrotList), 1);
+                plugin.runTaskLater(player, () -> parrotMap.put(player, parrotList), 1);
             }
             else {
                 purchaseItem.put(player, "Dazed"); //Input Name
@@ -185,12 +186,12 @@ public class GadgetGuiListeners implements Listener {
         
         //Open Trails Menu
         if (event.getSlot() == 15) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new TrailsGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new TrailsGui(plugin, player).getInventory()));
         }
          
         // Return to cosmetic window
         if (event.getSlot() == 39) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new CosmeticGui(plugin, player).getInventory()));
         }
         
         // Remove Gadget Option

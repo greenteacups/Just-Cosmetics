@@ -1,5 +1,6 @@
 package cosmetics;
 
+import com.github.puregero.multilib.MultiLib;
 import cosmetics.commands.CosmeticCommand;
 import cosmetics.commands.PetNameCommand;
 import cosmetics.commands.SlimeCommand;
@@ -19,6 +20,7 @@ import cosmetics.sql.*;
 import cosmetics.trails.TrailsConstructor;
 import cosmetics.trails.TrailsGuiListeners;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -110,22 +112,37 @@ public class Cosmetics extends JavaPlugin {
         try { // Paper only
             registerListener(new PaperListener(this));
         } catch (Exception ignored) {}
-        
-        getServer().getScheduler().runTaskTimer(this, () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                //test.TestRun(p);
-                ParticleRunnable.RunParticle(p);
-                shellspin.SpinRunnable(p);
-                PetTeleport.PetTeleport(p);
+
+        registerListener(new Listener() {
+            @EventHandler
+            public void onJoin(PlayerJoinEvent event) {
+                setupPlayerTicker(event.getPlayer());
+                setupPlayerTickerSlow(event.getPlayer());
             }
-        }, 1, 1);
-        
-        getServer().getScheduler().runTaskTimer(this, () -> {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                ParticleRunnable.RunParticleSlow(p);
-            }
-        }, 1, 30);
-        
+        });
+    }
+
+    private void setupPlayerTicker(Player player) {
+        MultiLib.getEntityScheduler(player).runAtFixedRate(this, t -> {
+            //test.TestRun(p);
+            ParticleRunnable.RunParticle(player);
+            shellspin.SpinRunnable(player);
+            PetTeleport.PetTeleport(player);
+        }, null, 1, 1);
+    }
+
+    private void setupPlayerTickerSlow(Player player) {
+        MultiLib.getEntityScheduler(player).runAtFixedRate(this, t -> {
+            ParticleRunnable.RunParticleSlow(player);
+        }, null, 30, 30);
+    }
+
+    public void runTask(Entity entity, Runnable runnable) {
+        MultiLib.getEntityScheduler(entity).run(this, t -> runnable.run(), null);
+    }
+
+    public void runTaskLater(Entity entity, Runnable runnable, long delay) {
+        MultiLib.getEntityScheduler(entity).runDelayed(this, t -> runnable.run(), null, delay);
     }
     
     // Register a listener with the server and run any PlayerJoinEvents it has

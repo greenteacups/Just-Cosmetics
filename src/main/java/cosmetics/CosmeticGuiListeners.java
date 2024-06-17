@@ -34,19 +34,19 @@ public class CosmeticGuiListeners implements Listener {
         Player player = (Player) event.getWhoClicked();
         
         if (event.getSlot() == 10) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new PetGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 12) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new DisguiseGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new DisguiseGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 14) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new GadgetGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new GadgetGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 16) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new ParticleTypeGui(plugin, player).getInventory()));
         }
         
         if (event.getSlot() == 31) {

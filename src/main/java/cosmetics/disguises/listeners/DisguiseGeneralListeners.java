@@ -2,6 +2,7 @@ package cosmetics.disguises.listeners;
 
 import java.util.HashMap;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -47,13 +48,13 @@ public class DisguiseGeneralListeners implements Listener {
             
             if (currentDisguise.get(player) instanceof Slime) {
                 // Put the pet behind the player
-                currentDisguise.get(player).teleport(player.getLocation()
+                MultiLib.teleportAsync(currentDisguise.get(player), player.getLocation()
                         .add(2*Math.sin(Math.toRadians(player.getLocation().getYaw())),
                                 0, -2*Math.cos(Math.toRadians(player.getLocation().getYaw()))));
             }
             else {
                 // Put the pet behind the player
-                currentDisguise.get(player).teleport(player.getLocation()
+                MultiLib.teleportAsync(currentDisguise.get(player), player.getLocation()
                         .add(Math.sin(Math.toRadians(player.getLocation().getYaw())),
                                 0, -Math.cos(Math.toRadians(player.getLocation().getYaw()))));
             }

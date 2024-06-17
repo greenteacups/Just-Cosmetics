@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -38,7 +39,7 @@ public class GadgetRunnables {
              
              double thetanew = System.currentTimeMillis()/1000.0 + i * Math.PI * 2 / 3;
              
-             shell.teleport(player.getLocation().add(2.0*Math.cos(thetanew), 0, 2.0*Math.sin(thetanew)));
+             MultiLib.teleportAsync(shell, player.getLocation().add(2.0*Math.cos(thetanew), 0, 2.0*Math.sin(thetanew)));
          }
    
      }
@@ -51,8 +52,8 @@ public class GadgetRunnables {
                  Entity parrot = parrotMap.get(player).get(i);
                  
                  double thetanew = System.currentTimeMillis()/500.0 + i * Math.PI * 2 / 3;
-                 
-                 parrot.teleport(player.getLocation().add(0.8*Math.cos(thetanew), 1.7, 0.8*Math.sin(thetanew)));
+
+                 MultiLib.teleportAsync(parrot, player.getLocation().add(0.8*Math.cos(thetanew), 1.7, 0.8*Math.sin(thetanew)));
              }
              
              for (int i = 0; i <= 1; i++) {
@@ -67,7 +68,7 @@ public class GadgetRunnables {
                  
                  double thetanew = System.currentTimeMillis()/500.0 + i * Math.PI * 2 / 3;
                  
-                 parrot.teleport(player.getLocation().add(0.8*Math.cos(thetanew), 1.3, 0.8*Math.sin(thetanew)));
+                 MultiLib.teleportAsync(parrot, player.getLocation().add(0.8*Math.cos(thetanew), 1.3, 0.8*Math.sin(thetanew)));
              }
              
              for (int i = 0; i <= 1; i++) {
@@ -119,7 +120,7 @@ public class GadgetRunnables {
                  airturtlelist.put(player, airturtle);
              }
              
-             airturtlelist.get(player).teleport(airturtlelist.get(player).getLocation().add(0, 0, 1.5));
+             MultiLib.teleportAsync(airturtlelist.get(player), airturtlelist.get(player).getLocation().add(0, 0, 1.5));
              
              for (int i = 0; i <= 4; i++ ) {
                  airturtlelist.get(player).getLocation().getWorld().spawnParticle(Particle.LAVA,

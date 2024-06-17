@@ -1,5 +1,6 @@
 package cosmetics;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class PurchaseConstructor {
 //        System.out.println("GUI = " + purchasegui);
         
         if (plugin.dataSlime.getSlime(player.getUniqueId()) >= price) {
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.openInventory(new PurchaseGui(item).getInventory()));
+            plugin.runTask(player, () -> player.openInventory(new PurchaseGui(item).getInventory()));
         }
         else {
             player.sendMessage(ChatColor.RED + "You do not have enough Slime to buy this item!");

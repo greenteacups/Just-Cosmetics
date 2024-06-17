@@ -3,6 +3,7 @@ package cosmetics;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.puregero.multilib.MultiLib;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ public class TestRunnable {
              
              double thetanew = System.currentTimeMillis()/1000.0 + i * Math.PI * 2 / 3;
              
-             shell.teleport(player.getLocation().add(2.0*Math.cos(thetanew), 0, 2.0*Math.sin(thetanew)));
+             MultiLib.teleportAsync(shell, player.getLocation().add(2.0*Math.cos(thetanew), 0, 2.0*Math.sin(thetanew)));
          }
    
      }
