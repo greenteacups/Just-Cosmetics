@@ -111,7 +111,7 @@ public class Cosmetics extends JavaPlugin {
 
         try { // Paper only
             registerListener(new PaperListener(this));
-        } catch (Exception ignored) {}
+        } catch (Throwable ignored) {}
 
         registerListener(new Listener() {
             @EventHandler
