@@ -72,7 +72,7 @@ public enum ParticleType {
         this.particle = getParticle(particles);
         this.data = data;
 
-        if (this.particle.getDataType() != Void.class && this.data.length == 0) {
+        if (this.particle != null && this.particle.getDataType() != Void.class && this.data.length == 0) {
             Cosmetics.cosmetics.getLogger().severe("Particle " + title + " requires data of type " + this.particle.getDataType().getSimpleName() + " but none was provided.");
         }
     }
