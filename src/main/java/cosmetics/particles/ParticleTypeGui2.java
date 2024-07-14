@@ -2,6 +2,7 @@ package cosmetics.particles;
 
 import java.util.Arrays;
 
+import cosmetics.ParticleType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,22 +45,15 @@ public class ParticleTypeGui2 implements InventoryHolder {
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.ENCHANTING_TABLE, 10, 30, "Enchant Glyph Particle");
-        GuiConstructor(player, Material.END_ROD, 11, 30, "End Rod Particle");
-        GuiConstructor(player, Material.TOTEM_OF_UNDYING, 12, 30, "Totem Particle");
-        //GuiConstructor(player, Material.TNT, 12, 20, "Explosion Particle");///
-        GuiConstructor(player, Material.SOUL_TORCH, 13, 30, "Soul Fire Particle");
-        GuiConstructor(player, Material.DANDELION, 14, 30, "Nectar Particle");
-        GuiConstructor(player, Material.FISHING_ROD, 15, 30, "Water Wake Particle");
-        GuiConstructor(player, Material.CAKE, 16, 30, "Heart Particle");
-        GuiConstructor(player, Material.SLIME_BALL, 19, 30, "Slime Particle");
-        GuiConstructor(player, Material.SNOWBALL, 20, 30, "Snowball Particle");
-        GuiConstructor(player, Material.NAUTILUS_SHELL, 21, 30, "Nautilus Particle");
-        GuiConstructor(player, Material.NOTE_BLOCK, 22, 30, "Music Note Particle");
-        GuiConstructor(player, Material.BAMBOO, 23, 30, "Contagious Particle");
-        GuiConstructor(player, Material.INK_SAC, 24, 30, "Ink Particle");
-        GuiConstructor(player, Material.TORCH, 25, 30, "Flame Particle");
-        //GuiConstructor(player, Material.MAGMA_CREAM, 28, 20, "Lava Burst Particle");
+        for (int i = 0; i < 21; i++) {
+            int particleIndex = i + 21;
+            if (particleIndex >= ParticleType.values().length) continue;
+
+            int slot = 10 + (i % 7) + (i / 7) * 9;
+            ParticleType particleType = ParticleType.values()[particleIndex];
+
+            GuiConstructor(player, particleType.material(), slot, particleType.price(), particleType.title());
+        }
 
         
         inventory.setItem(39, createGuiItem(Material.ARROW, "Back"));

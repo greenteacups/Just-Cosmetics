@@ -2,6 +2,7 @@ package cosmetics.particles;
 
 import java.util.Arrays;
 
+import cosmetics.ParticleType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -44,27 +45,15 @@ public class ParticleTypeGui implements InventoryHolder {
 
     // You can call this whenever you want to put the items in
     public void initializeItems(Player player) {
-        GuiConstructor(player, Material.VINE, 10, 30, "Composter Particle");
-        GuiConstructor(player, Material.FIREWORK_STAR, 11, 30, "Angry Villager Particle");
-        GuiConstructor(player, Material.BASALT, 12, 30, "Ash Particle");
-        GuiConstructor(player, Material.TUBE_CORAL_FAN, 13, 30, "Water Bubble Particle");
-        GuiConstructor(player, Material.TUBE_CORAL, 14, 30, "Bubble Pop Particle");
-        GuiConstructor(player, Material.FIRE_CHARGE, 15, 30, "Smoulder Particle");
-        GuiConstructor(player, Material.MAGMA_CREAM, 16, 30, "Smoke Particle");
-        GuiConstructor(player, Material.CAMPFIRE, 19, 30, "Campfire Smoke Particle");
-        GuiConstructor(player, Material.COBWEB, 20, 30, "Cloud Particle");
-        GuiConstructor(player, Material.CRIMSON_FUNGUS, 21, 30, "Crimson Spore Particle");
-        GuiConstructor(player, Material.WARPED_FUNGUS, 22, 30, "Warped Spore Particle");
-        GuiConstructor(player, Material.TIPPED_ARROW, 23, 30, "Critical Hit Particle");
-        GuiConstructor(player, Material.POPPY, 24, 30, "Damage Particle");
-        GuiConstructor(player, Material.DRAGON_HEAD, 25, 30, "Dragon Breath Particle");
-        GuiConstructor(player, Material.BEE_NEST, 28, 30, "Honey Drops Particle");
-        GuiConstructor(player, Material.WATER_BUCKET, 29, 30, "Water Drops Particle");
-        GuiConstructor(player, Material.LAVA_BUCKET, 30, 30, "Lava Drops Particle");
-        GuiConstructor(player, Material.CRYING_OBSIDIAN, 31, 30, "Obsidian Tears Particle");
-        GuiConstructor(player, Material.WHITE_DYE, 32, 30, "White Spell Particle");
-        GuiConstructor(player, Material.BLACK_DYE, 33, 30, "Black Spell Particle");
-        GuiConstructor(player, Material.PURPLE_DYE, 34, 30, "Purple Spell Particle");
+        for (int i = 0; i < 21; i++) {
+            int particleIndex = i;
+            if (particleIndex >= ParticleType.values().length) continue;
+
+            int slot = 10 + (i % 7) + (i / 7) * 9;
+            ParticleType particleType = ParticleType.values()[particleIndex];
+
+            GuiConstructor(player, particleType.material(), slot, particleType.price(), particleType.title());
+        }
 
         
         

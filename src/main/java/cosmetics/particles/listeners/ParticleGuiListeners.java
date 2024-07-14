@@ -2,6 +2,8 @@ package cosmetics.particles.listeners;
 
 import java.util.HashMap;
 
+import cosmetics.ParticleType;
+import org.bukkit.ChatColor;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -69,89 +71,22 @@ public class ParticleGuiListeners implements Listener {
         event.setCancelled(true);
         
         Player player = (Player) event.getWhoClicked();
-        
-        if (event.getSlot() == 10) {
-            ParticleEquip1(player, Particle.COMPOSTER, 30, "Composter Particle");
-        }
-        
-        if (event.getSlot() == 11) {
-            ParticleEquip1(player, Particle.VILLAGER_ANGRY, 30, "Angry Villager Particle");
-        }
-        
-        if (event.getSlot() == 12) {
-            ParticleEquip1(player, Particle.ASH, 30, "Ash Particle");
-        }
-        
-        if (event.getSlot() == 13) {
-            ParticleEquip1(player, Particle.WATER_BUBBLE, 30, "Water Bubble Particle");
-        }
-        
-        if (event.getSlot() == 14) {
-            ParticleEquip1(player, Particle.BUBBLE_POP, 30, "Bubble Pop Particle");
-        }
-        
-        if (event.getSlot() == 15) {
-            ParticleEquip1(player, Particle.SMOKE_NORMAL, 30, "Smoulder Particle");
-        }
-        
-        if (event.getSlot() == 16) {
-            ParticleEquip1(player, Particle.SMOKE_LARGE, 30, "Smoke Particle");
-        }
-        
-        if (event.getSlot() == 19) {
-            ParticleEquip1(player, Particle.CAMPFIRE_COSY_SMOKE, 30, "Campfire Smoke Particle");
-        }
-        
-        if (event.getSlot() == 20) {
-            ParticleEquip1(player, Particle.CLOUD, 30, "Cloud Particle");
-        }
-        
-        if (event.getSlot() == 21) {
-            ParticleEquip1(player, Particle.CRIMSON_SPORE, 30, "Crimson Spore Particle");
-        }
-        
-        if (event.getSlot() == 22) {
-            ParticleEquip1(player, Particle.WARPED_SPORE, 30, "Warped Spore Particle");
-        }
-        
-        if (event.getSlot() == 23) {
-            ParticleEquip1(player, Particle.CRIT, 30, "Critical Hit Particle");
-        }
-        
-        if (event.getSlot() == 24) {
-            ParticleEquip1(player, Particle.DAMAGE_INDICATOR, 30, "Damage Particle");
-        }
-        
-        if (event.getSlot() == 25) {
-            ParticleEquip1(player, Particle.DRAGON_BREATH, 30, "Dragon Breath Particle");
-        }
-        
-        if (event.getSlot() == 28) {
-            ParticleEquip1(player, Particle.FALLING_HONEY, 30, "Honey Drops Particle");
-        }
-        
-        if (event.getSlot() == 29) {
-            ParticleEquip1(player, Particle.DRIP_WATER, 30, "Water Drops Particle");
-        }
-        
-        if (event.getSlot() == 30) {
-            ParticleEquip1(player, Particle.DRIP_LAVA, 30, "Lava Drops Particle");
-        }
-        
-        if (event.getSlot() == 31) {
-            ParticleEquip1(player, Particle.FALLING_OBSIDIAN_TEAR, 30, "Obsidian Tears Particle");
-        }
-        
-        if (event.getSlot() == 32) {
-            ParticleEquip1(player, Particle.SPELL, 30, "White Spell Particle");
-        }
-        
-        if (event.getSlot() == 33) {
-            ParticleEquip1(player, Particle.SPELL_MOB, 30, "Black Spell Particle");
-        }
-        
-        if (event.getSlot() == 34) {
-            ParticleEquip1(player, Particle.SPELL_WITCH, 30, "Purple Spell Particle");
+
+        for (int i = 0; i < 21; i ++) {
+            int particleIndex = i;
+            if (particleIndex >= ParticleType.values().length) continue;
+
+            int slot = 10 + (i % 7) + (i / 7) * 9;
+            ParticleType particleType = ParticleType.values()[particleIndex];
+
+            if (event.getSlot() == slot) {
+                if (particleType.particle() == null) {
+                    player.sendMessage(ChatColor.RED + particleType.title() + " is not available on this server!");
+                    break;
+                }
+
+                ParticleEquip1(player, particleType.particle(), particleType.price(), particleType.title());
+            }
         }
         
         // Auto equip Normal
@@ -204,70 +139,24 @@ public class ParticleGuiListeners implements Listener {
         event.setCancelled(true);
         
         Player player = (Player) event.getWhoClicked();
-        
-        if (event.getSlot() == 10) {
-            ParticleEquip1(player, Particle.ENCHANTMENT_TABLE, 30, "Enchant Glyph Particle");
+
+        for (int i = 0; i < 21; i ++) {
+            int particleIndex = i + 21;
+            if (particleIndex >= ParticleType.values().length) continue;
+
+            int slot = 10 + (i % 7) + (i / 7) * 9;
+            ParticleType particleType = ParticleType.values()[particleIndex];
+
+            if (event.getSlot() == slot) {
+                if (particleType.particle() == null) {
+                    player.sendMessage(ChatColor.RED + particleType.title() + " is not available on this server!");
+                    break;
+                }
+
+                ParticleEquip1(player, particleType.particle(), particleType.price(), particleType.title());
+                break;
+            }
         }
-        
-        if (event.getSlot() == 11) {
-            ParticleEquip1(player, Particle.END_ROD, 30, "End Rod Particle");
-        }
-        
-        if (event.getSlot() == 12) {
-            ParticleEquip1(player, Particle.TOTEM, 30, "Totem Particle");
-        }
-        
-//        if (event.getSlot() == 12) {
-//            ParticleEquip1(player, Particle.EXPLOSION_LARGE, 20, "Explosion Particle");
-//        }
-        
-        if (event.getSlot() == 13) {
-            ParticleEquip1(player, Particle.SOUL_FIRE_FLAME, 30, "Soul Fire Particle");
-        }
-        
-        if (event.getSlot() == 14) {
-            ParticleEquip1(player, Particle.FALLING_NECTAR, 30, "Nectar Particle");
-        }
-        
-        if (event.getSlot() == 15) {
-            ParticleEquip1(player, Particle.WATER_WAKE, 30, "Water Wake Particle");
-        }
-        
-        if (event.getSlot() == 16) {
-            ParticleEquip1(player, Particle.HEART, 30, "Heart Particle");
-        }
-        
-        if (event.getSlot() == 19) {
-            ParticleEquip1(player, Particle.SLIME, 30, "Slime Particle");
-        }
-        
-        if (event.getSlot() == 20) {
-            ParticleEquip1(player, Particle.SNOWBALL, 30, "Snowball Particle");
-        }
-        
-        if (event.getSlot() == 21) {
-            ParticleEquip1(player, Particle.NAUTILUS, 30, "Nautilus Particle");
-        }
-        
-        if (event.getSlot() == 22) {
-            ParticleEquip1(player, Particle.NOTE, 30, "Music Note Particle");
-        }
-        
-        if (event.getSlot() == 23) {
-            ParticleEquip1(player, Particle.SNEEZE, 30, "Contagious Particle");
-        }
-        
-        if (event.getSlot() == 24) {
-            ParticleEquip1(player, Particle.SQUID_INK, 30, "Ink Particle");
-        }
-        
-        if (event.getSlot() == 25) {
-            ParticleEquip1(player, Particle.FLAME, 30, "Flame Particle");
-        }
-        
-//        if (event.getSlot() == 28) {
-//            ParticleEquip1(player, Particle.LAVA, 20, "Lava Burst Particle");
-//        }
         
         // Auto equip Normal
         if (event.getSlot() <= 34 && currentParticleType.get(player) != null && currentParticlePattern.get(player) == null) {

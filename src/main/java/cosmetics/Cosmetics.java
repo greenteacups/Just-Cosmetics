@@ -51,9 +51,11 @@ public class Cosmetics extends JavaPlugin {
     public static GadgetRunnables shellspin = new GadgetRunnables();
     public static ParticleRunnable PlayerRunnable = new ParticleRunnable();
     public static PathfinderRun PetTeleport = new PathfinderRun();
+    public static Cosmetics cosmetics;
     
     @Override
     public void onEnable() {
+        Cosmetics.cosmetics = this;
         
         this.saveDefaultConfig();
         this.SQL = new MySQL(this);
