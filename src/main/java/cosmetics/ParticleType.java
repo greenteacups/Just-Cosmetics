@@ -45,6 +45,7 @@ public enum ParticleType {
     FLAME("Flame Particle", "TORCH", 30, "FLAME"),
     GLOW_SQUID("Glow Squid Particle", "GLOW_INK_SAC", 30, "GLOW"),
     CHERRY_LEAVES("Cherry Leaves Particle", "CHERRY_LEAVES", 30, "CHERRY_LEAVES"),
+    TRIAL_OMEN("Trial Omen Particle", "OMINOUS_TRIAL_KEY", 30, "TRIAL_OMEN"),
     ;
 
     private final String title;
